@@ -1,0 +1,50 @@
+<h2>Drag And Drop</h2>
+
+<div class="row">
+    <div class="col-sm-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Calculator (synchronous example)</h3>
+            </div>
+            <div class="panel-body">
+
+                Number1: <input type="number" class="form-control" [(ngModel)]="number1" (ngModelChange)="recalc()"><br>
+                Number2: <input type="number" class="form-control" [(ngModel)]="number2" (ngModelChange)="recalc()"><br>
+
+                <p>
+                    Result of Number1 + Number2 is: {{ sum }}<br>
+                    <small>(the
+                        result is computed in pure Java via a synchronous call)
+                    </small>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Fruits (asynchronous example)</h3>
+            </div>
+            <div class="panel-body">
+                Fruits:
+                <small>(data is generated in pure Java via an
+                    asynchronous call)
+                </small>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="#fruit of fruits">
+                        <td>{{fruit}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <button class="btn btn-lg btn-success" (click)="updateFruits()">Update
+                    fruits
+                </button>
+            </div>
+        </div>
+    </div>
