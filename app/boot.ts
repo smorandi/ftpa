@@ -1,3 +1,10 @@
-/**
- * Created by Stefano on 20.03.2016.
- */
+System.config({
+    packages: {
+        app: {
+            format: 'register',
+            defaultExtension: 'js'
+        }
+    }
+});
+
+System.import("app/main").then(null, console.error.bind(console));
