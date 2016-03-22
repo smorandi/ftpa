@@ -3,8 +3,7 @@ import {ACalculatorService, AFruitsService} from '../../core/java.services';
 
 @Component({
     selector: 'javabridge',
-    moduleId: __moduleName,
-    templateUrl: 'javabridge.component.html'
+    templateUrl: 'app/components/javabridge/javabridge.component.html'
 })
 export class JavaBridgeComponent {
     fruits:string[] = ["t1", "t2"];

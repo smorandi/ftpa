@@ -8,8 +8,7 @@ import {Autofocus} from '../../directives/Autofocus';
 
 @Component({
   selector: 'contact-form',
-  moduleId: __moduleName,
-  templateUrl: 'contact-form.component.html',
+  templateUrl: 'app/components/contact/contact-form.component.html',
   directives: [Autofocus, COMMON_DIRECTIVES],
   pipes: [COMMON_PIPES],
   providers: []

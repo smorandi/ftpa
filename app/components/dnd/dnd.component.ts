@@ -2,8 +2,7 @@ import {Component} from 'angular2/core';
 
 @Component({
     selector: 'dnd',
-    moduleId: __moduleName,
-    templateUrl: 'dnd.component.html'
+    templateUrl: 'app/components/dnd/dnd.component.html'
 })
 
 export class DragAndDropComponent {

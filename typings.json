@@ -11,6 +11,7 @@
     "gulp-sourcemaps": "github:DefinitelyTyped/DefinitelyTyped/gulp-sourcemaps/gulp-sourcemaps.d.ts#a6ff9f6e195a334afd89e4b721d05e9520eee4c0",
     "gulp-uglify": "github:DefinitelyTyped/DefinitelyTyped/gulp-uglify/gulp-uglify.d.ts#ba956a3e6e8ebb82d33548209f793234efac44a2",
     "jasmine": "github:DefinitelyTyped/DefinitelyTyped/jasmine/jasmine.d.ts#a6ff9f6e195a334afd89e4b721d05e9520eee4c0",
+    "jquery": "registry:dt/jquery#1.10.0+20160316155526",
     "karma": "github:DefinitelyTyped/DefinitelyTyped/karma/karma.d.ts#02dd2f323e1bcb8a823269f89e0909ec9e5e38b5",
     "log4js": "github:DefinitelyTyped/DefinitelyTyped/log4js/log4js.d.ts#7554cff7c4dd34decc2f3dc0d711a6c288174eee",
     "mime": "github:DefinitelyTyped/DefinitelyTyped/mime/mime.d.ts#cb5206a8ac1c9a3ddfd126f5ecea6729b2361452",

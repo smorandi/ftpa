@@ -10,24 +10,24 @@ import {HttpUtil} from '../../core/http.util';
 import {Notification} from '../../core/dto';
 import {DragAndDropComponent} from "../dnd/dnd.component";
 import {JavaBridgeComponent} from "../javabridge/javabridge.component";
+import {MegaMenu} from 'primeng/primeng';
+import {GridComponent} from "../grid/grid.component";
 
 @Component({
     selector: 'app',
-    moduleId: __moduleName,
-    templateUrl: 'app.component.html',
-    styleUrls: ['app.component.css'],
-    directives: [ROUTER_DIRECTIVES],
-    encapsulation: ViewEncapsulation.None
+    templateUrl: 'app/components/app/app.component.html',
+    styleUrls: ['app/components/app/app.component.css'],
+    directives: [MegaMenu, ROUTER_DIRECTIVES]
 })
 @RouteConfig([
     {path: '/', component: HomeComponent, as: 'Home', useAsDefault:true},
     {path: '/contact', component: ContactComponent, as: 'Contact'},
     {path: '/dnd', component: DragAndDropComponent, as: 'DragAndDrop'},
-    {path: '/javabridge', component: JavaBridgeComponent, as: 'JavaBridge'}
+    {path: '/javabridge', component: JavaBridgeComponent, as: 'JavaBridge'},
+    {path: '/grid', component: GridComponent, as: 'Grid'}
 ])
 
 export class AppComponent {
-
     loading:boolean;
 
     constructor(private httpUtil:HttpUtil) {
