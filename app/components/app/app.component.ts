@@ -15,8 +15,9 @@ import {GridComponent} from "../grid/grid.component";
 
 @Component({
     selector: 'app',
-    templateUrl: 'app/components/app/app.component.html',
-    styleUrls: ['app/components/app/app.component.css'],
+    moduleId: __moduleName,
+    templateUrl: 'app.component.html',
+    styleUrls: ['app.component.css'],
     directives: [MegaMenu, ROUTER_DIRECTIVES]
 })
 @RouteConfig([

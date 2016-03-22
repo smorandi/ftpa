@@ -27,6 +27,6 @@ export interface ICar {
 }
 
 export class Car implements ICar {
-    constructor(public id:string, public vin:string, public year:string, public brand:string, public color:string) {
+    constructor(public id?:string, public vin?:string, public year?:string, public brand?:string, public color?:string) {
     }
 }

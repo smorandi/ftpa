@@ -1,34 +1,71 @@
-import {Component} from 'angular2/core';
-import {DataTable, Column} from 'primeng/primeng';
-import {Observable} from "rxjs/Observable";
-import {Car, ICar} from "../../core/dto";
+import {Component} from "angular2/core";
+import {DataTable, Column, Menubar, Header, Footer, Dialog, Button, InputText} from "primeng/primeng";
+import {ICar, Car} from "../../core/dto";
 import {CarsService} from "./cars.service";
-
 @Component({
     selector: 'grid',
     moduleId: __moduleName,
     templateUrl: 'grid.component.html',
-    directives: [DataTable, Column],
+    directives: [DataTable, Column, Header, Footer, Dialog, Button, InputText, Menubar],
 })
 export class GridComponent {
+    displayDialog: boolean;
+
+    car: ICar = new Car();
+
+    selectedCar: ICar;
+
+    newCar: boolean;
+
     cars:ICar[];
 
-    constructor(private _carsService:CarsService) {
-        console.log(_carsService);
+    constructor(private carsService:CarsService) {
     }
 
     ngOnInit() {
-        this._carsService.cars$.subscribe(cars => {
+        this.carsService.getCars().subscribe(cars => {
             this.cars = cars;
         });
-        this._carsService.loadCars();
     }
 
-    // onSubmit() {
-    //     this._carsService.createCar(new Car("xxx", "asd", "asd", "asd", "55"));
-    // }
-    //
-    // deleteTodo(todoId:string) {
-    //     this._carsService.deleteCar(todoId);
-    // }
+    showDialogToAdd() {
+        this.newCar = true;
+        this.car = new Car();
+        this.displayDialog = true;
+    }
+
+    save() {
+        if(this.newCar) {
+            this.carsService.addCar(this.car);
+        }
+        // else
+        //     this.carsService.updateCar(this.car);
+
+        this.car = null;
+        this.displayDialog = false;
+    }
+
+    delete() {
+        this.cars.splice(this.findSelectedCarIndex(), 1);
+        this.car = null;
+        this.displayDialog = false;
+    }
+
+    onRowSelect(event) {
+        this.newCar = false;
+        this.car = this.cloneCar(event.data);
+        this.displayDialog = true;
+    }
+
+    cloneCar(c: Car): Car {
+        let car = new Car();
+        for(let prop in c) {
+            car[prop] = c[prop];
+        }
+        return car;
+    }
+
+    findSelectedCarIndex(): number {
+        return this.cars.indexOf(this.selectedCar);
+    }
 }

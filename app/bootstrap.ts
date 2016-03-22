@@ -8,9 +8,6 @@ import {ContactService} from './components/contact/contact.service';
 import * as JS from './core/java.services';
 import {CarsService} from "./components/grid/cars.service";
 
-// import 'rxjs/add/operator/map';
-// import 'rxjs/add/operator/do';
-
 bootstrap(AppComponent, [
     ROUTER_PROVIDERS,
     HTTP_PROVIDERS,
