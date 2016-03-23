@@ -1,0 +1,16 @@
+ /*html, body {*/
+     /*!*color: #5D5F63;*!*/
+     /*!*background: dimgrey;*!*/
+     /*font-family: 'Open Sans', sans-serif;*/
+     /*padding: 0;*/
+     /*margin: 0;*/
+     /*text-rendering: optimizeLegibility;*/
+     /*-webkit-font-smoothing: antialiased;*/
+ /*}*/
+
+ body {
+      position: relative;
+      overflow-x: hidden;
+ }
+ body,
+ html { height: 100%;}

@@ -1,4 +1,4 @@
-import {Component, ViewEncapsulation, AfterViewInit} from 'angular2/core';
+import {Component, AfterViewInit} from 'angular2/core';
 import {
     RouteConfig,
     ROUTER_DIRECTIVES
@@ -8,8 +8,9 @@ import {HomeComponent} from '../home/home.component';
 import {ContactComponent} from '../contact/contact.component';
 import {DragAndDropComponent} from "../dnd/dnd.component";
 import {JavaBridgeComponent} from "../javabridge/javabridge.component";
-import {MegaMenu, PanelMenu} from 'primeng/primeng';
+import {PanelMenu} from 'primeng/primeng';
 import {GridComponent} from "../grid/grid.component";
+import {PageHeader} from "../page-header/page-header.component";
 
 @Component({
     selector: 'app',
@@ -28,10 +29,38 @@ import {GridComponent} from "../grid/grid.component";
 
 export class AppComponent implements AfterViewInit {
 
+    onClick() {
+        $('.hamburger').click();
+    }
+
+    private hamburgerCross() {
+        var trigger = $('.hamburger'),
+            overlay = $('.overlay');
+
+        var isClosed = trigger.hasClass("is-open");
+
+        if (isClosed == true) {
+            overlay.hide();
+            trigger.removeClass('is-open');
+            trigger.addClass('is-closed');
+        } else {
+            overlay.show();
+            trigger.removeClass('is-closed');
+            trigger.addClass('is-open');
+        }
+    }
+
     ngAfterViewInit() {
-        $("#leftside-navigation .sub-menu > a").click(function (e) {
-            $("#leftside-navigation ul ul").slideUp(), $(this).next().is(":visible") || $(this).next().slideDown(),
-                e.stopPropagation()
-        })
+        var trigger = $('.hamburger'),
+            overlay = $('.overlay'),
+            isClosed = false;
+
+        trigger.click(() => {
+            this.hamburgerCross();
+        });
+
+        $('[data-toggle="offcanvas"]').click(() => {
+            $('#wrapper').toggleClass('toggled');
+        });
     }
 }
