@@ -1,4 +1,4 @@
-import {Component, ViewEncapsulation} from 'angular2/core';
+import {Component, ViewEncapsulation, AfterViewInit} from 'angular2/core';
 import {
     RouteConfig,
     ROUTER_DIRECTIVES
@@ -6,11 +6,9 @@ import {
 
 import {HomeComponent} from '../home/home.component';
 import {ContactComponent} from '../contact/contact.component';
-import {HttpUtil} from '../../core/http.util';
-import {Notification} from '../../core/dto';
 import {DragAndDropComponent} from "../dnd/dnd.component";
 import {JavaBridgeComponent} from "../javabridge/javabridge.component";
-import {MegaMenu} from 'primeng/primeng';
+import {MegaMenu, PanelMenu} from 'primeng/primeng';
 import {GridComponent} from "../grid/grid.component";
 
 @Component({
@@ -18,33 +16,22 @@ import {GridComponent} from "../grid/grid.component";
     moduleId: __moduleName,
     templateUrl: 'app.component.html',
     styleUrls: ['app.component.css'],
-    directives: [MegaMenu, ROUTER_DIRECTIVES]
+    directives: [ROUTER_DIRECTIVES]
 })
 @RouteConfig([
-    {path: '/', component: HomeComponent, as: 'Home', useAsDefault:true},
+    {path: '/', component: HomeComponent, as: 'Home', useAsDefault: true},
     {path: '/contact', component: ContactComponent, as: 'Contact'},
     {path: '/dnd', component: DragAndDropComponent, as: 'DragAndDrop'},
     {path: '/javabridge', component: JavaBridgeComponent, as: 'JavaBridge'},
     {path: '/grid', component: GridComponent, as: 'Grid'}
 ])
 
-export class AppComponent {
-    loading:boolean;
+export class AppComponent implements AfterViewInit {
 
-    constructor(private httpUtil:HttpUtil) {
-
-        let numReqStarted = 0;
-        let numReqCompleted = numReqStarted;
-
-        this.httpUtil.requestNotifier.subscribe((notification:Notification) => {
-
-            if (notification.type === 'start') {
-                ++numReqStarted;
-            } else if (notification.type === 'complete') {
-                ++numReqCompleted;
-            }
-
-            this.loading = numReqStarted > numReqCompleted;
-        });
+    ngAfterViewInit() {
+        $("#leftside-navigation .sub-menu > a").click(function (e) {
+            $("#leftside-navigation ul ul").slideUp(), $(this).next().is(":visible") || $(this).next().slideDown(),
+                e.stopPropagation()
+        })
     }
 }
