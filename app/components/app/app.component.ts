@@ -8,9 +8,9 @@ import {HomeComponent} from '../home/home.component';
 import {ContactComponent} from '../contact/contact.component';
 import {DragAndDropComponent} from "../dnd/dnd.component";
 import {JavaBridgeComponent} from "../javabridge/javabridge.component";
-import {PanelMenu} from 'primeng/primeng';
 import {GridComponent} from "../grid/grid.component";
-import {PageHeader} from "../page-header/page-header.component";
+import {AgGridComponent} from "../ag-grid/ag-grid.component";
+import {CarsTable} from "../slickgrid/slick-grid.component";
 
 @Component({
     selector: 'app',
@@ -24,7 +24,9 @@ import {PageHeader} from "../page-header/page-header.component";
     {path: '/contact', component: ContactComponent, as: 'Contact'},
     {path: '/dnd', component: DragAndDropComponent, as: 'DragAndDrop'},
     {path: '/javabridge', component: JavaBridgeComponent, as: 'JavaBridge'},
-    {path: '/grid', component: GridComponent, as: 'Grid'}
+    {path: '/grid', component: GridComponent, as: 'Grid'},
+    {path: '/agGrid', component: AgGridComponent, as: 'AgGrid'},
+    {path: '/slickGrid', component: CarsTable, as: 'SlickGrid'}
 ])
 
 export class AppComponent implements AfterViewInit {

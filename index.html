@@ -13,13 +13,12 @@
     <link rel="stylesheet" type="text/css" href="node_modules/primeui/themes/cruze/theme.css"/>
     <link rel="stylesheet" type="text/css" href="node_modules/primeui/primeui-ng-all.css"/>
     <link rel="stylesheet" type="text/css" href="app/assets/css/app.css"/>
+    <!--<link href="node_modules/ag-grid/dist/styles/ag-grid.css" rel="stylesheet"/>-->
+    <!--<link href="node_modules/ag-grid/dist/styles/theme-fresh.css" rel="stylesheet"/>-->
 </head>
 
 <body>
 <app>Loading...</app>
-
-<script src="bower_components/jquery/dist/jquery.min.js"></script>
-<script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
 
 <script src="node_modules/es6-shim/es6-shim.min.js"></script>
 <script src="node_modules/systemjs/dist/system-polyfills.js"></script>
@@ -33,7 +32,30 @@
 <script src="node_modules/angular2/bundles/router.dev.js"></script>
 <script src="node_modules/angular2/bundles/http.dev.js"></script>
 
-<script src="node_modules/primeui/primeui-ng.js"></script>
+<!--<script src="node_modules/primeui/primeui-ng.js"></script>-->
+
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
+
+<!-- slick grid -->
+<link rel="stylesheet" href="app/assets/libs/slickgrid/slick.grid.css" type="text/css"/>
+<link rel="stylesheet" href="app/assets/libs/slickgrid/plugins/slick.headermenu.css" type="text/css"/>
+<link rel="stylesheet" href="app/assets/libs/slickgrid/controls/slick.pager.css" type="text/css"/>
+<link rel="stylesheet" href="app/assets/libs/slickgrid/controls/slick.columnpicker.css" type="text/css"/>
+<script src="app/assets/libs/slickgrid/lib/jquery.event.drag-2.2.js"></script>
+<script src="app/assets/libs/slickgrid/slick.core.js"></script>
+<script src="app/assets/libs/slickgrid/plugins/slick.cellrangeselector.js"></script>
+<script src="app/assets/libs/slickgrid/plugins/slick.cellselectionmodel.js"></script>
+<script src="app/assets/libs/slickgrid/plugins/slick.rowselectionmodel.js"></script>
+<script src="app/assets/libs/slickgrid/plugins/slick.checkboxselectcolumn.js"></script>
+<script src="app/assets/libs/slickgrid/plugins/slick.headermenu.js"></script>
+<script src="app/assets/libs/slickgrid/controls/slick.columnpicker.js"></script>
+<script src="app/assets/libs/slickgrid/controls/slick.pager.js"></script>
+<script src="app/assets/libs/slickgrid/slick.dataview.js"></script>
+<script src="app/assets/libs/slickgrid/slick.groupitemmetadataprovider.js"></script>
+<script src="app/assets/libs/slickgrid/slick.formatters.js"></script>
+<script src="app/assets/libs/slickgrid/slick.editors.js"></script>
+<script src="app/assets/libs/slickgrid/slick.grid.js"></script>
 
 <script>
     System.config({
@@ -44,10 +66,22 @@
             },
             "primeng": {
                 defaultExtension: "js"
+            },
+            'ag-grid-ng2': {
+                defaultExtension: "js"
+            },
+            'ag-grid': {
+                defaultExtension: "js"
+            },
+            'ag-grid-enterprise': {
+                defaultExtension: "js"
             }
         },
         map: {
-            "primeng": "node_modules/primeng"
+            "primeng": "node_modules/primeng",
+            'ag-grid-ng2': 'node_modules/ag-grid-ng2',
+            'ag-grid-enterprise': 'node_modules/ag-grid-enterprise',
+            'ag-grid': 'node_modules/ag-grid'
         }
     });
     System.import('app/bootstrap')

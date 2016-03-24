@@ -1,0 +1,9 @@
+<div class="page-header">
+    <h2>Slick Grid
+        <small>Showcase for a grid component using SlickGrid</small>
+    </h2>
+</div>
+<div id="leDiv" style="height: 200px; background: lightgreen">
+    <SlickGrid [id]="'leTable'" [outerDiv]="'leDiv'" [data]="cars" [columnData]="dataColumns" [options]="options"
+               [offsetCalc]="-75" (selectionChanged)="handleSelectionChange()"></SlickGrid>
+</div>

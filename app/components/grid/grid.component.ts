@@ -2,6 +2,9 @@ import {Component} from "angular2/core";
 import {DataTable, Column, Menubar, Header, Footer, Dialog, Button, InputText} from "primeng/primeng";
 import {ICar, Car} from "../../core/dto";
 import {CarsService} from "./cars.service";
+import {AgGridNg2} from 'ag-grid-ng2/main';
+import {GridOptions} from 'ag-grid/main';
+
 @Component({
     selector: 'grid',
     moduleId: __moduleName,
