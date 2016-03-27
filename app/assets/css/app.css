@@ -1,16 +1,18 @@
- /*html, body {*/
-     /*!*color: #5D5F63;*!*/
-     /*!*background: dimgrey;*!*/
-     /*font-family: 'Open Sans', sans-serif;*/
-     /*padding: 0;*/
-     /*margin: 0;*/
-     /*text-rendering: optimizeLegibility;*/
-     /*-webkit-font-smoothing: antialiased;*/
- /*}*/
+body {
+}
 
- body {
-      position: relative;
-      overflow-x: hidden;
- }
- body,
- html { height: 100%;}
+body,
+html {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+app {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+
+    display: -webkit-flex;
+    display: flex;
+}

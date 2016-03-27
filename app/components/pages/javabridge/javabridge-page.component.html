@@ -1,10 +1,8 @@
-<div class="page-header">
-    <h2>Java
-        <small><span class="glyphicon glyphicon-transfer"></span></small>
-        JS Bridge
-        <small>Showcase for cross java-javascript communication</small>
-    </h2>
-</div>
+<page-header
+        [title]="'Java-Js Bridge'"
+        [subtitle]="'Showcase for cross java-javascript communication'">
+</page-header>
+
 <div class="row">
     <div class="col-sm-6">
         <div class="panel panel-default">
@@ -31,7 +29,7 @@
                 <h3 class="panel-title">List (asynchronous example)</h3>
             </div>
             <div class="panel-body">
-                Fruits:
+                List:
                 <small>(data is generated in pure Java via an
                     asynchronous call)
                 </small>
@@ -42,13 +40,13 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="#fruit of fruits">
-                        <td>{{fruit}}</td>
+                    <tr *ngFor="#item of list">
+                        <td>{{item}}</td>
                     </tr>
                     </tbody>
                 </table>
-                <button class="btn btn-lg btn-success" (click)="updateFruits()">Update
-                    fruits
+                <button class="btn btn-lg btn-success" (click)="updateList()">Update
+                    List
                 </button>
             </div>
         </div>

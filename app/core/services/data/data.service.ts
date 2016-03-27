@@ -1,27 +1,27 @@
 import {Injectable} from 'angular2/core';
 import {Observable} from "rxjs/Observable";
 import {Http} from "angular2/http";
-import {ICar, Car} from "../../core/dto";
-import {ReplaySubject, BehaviorSubject} from "rxjs/Rx";
+import {BehaviorSubject} from "rxjs/Rx";
+import {IUser, User} from "../../dto";
 
 @Injectable()
-export class CarsService {
-    private cars:BehaviorSubject<ICar[]> = new BehaviorSubject([]);
+export class DataService {
+    private data:BehaviorSubject<IUser[]> = new BehaviorSubject([]);
 
     constructor(private http:Http) {
-        this.cars.getValue().push(
-            new Car("1", "asd", "asd", "asd", "55"),
-            new Car("2", "asd", "asd", "asd", "55"),
-            new Car("3", "asd", "asd", "asd", "55"));
+        for (var i = 0; i < 1000; i++) {
+            var user:User = new User(""+i, "der", "fisch", "der_fisch", "xxx");
+            this.data.getValue().push(user);
+        }
     }
 
-    getCars():Observable<ICar[]> {
-        return this.cars.asObservable();
+    getData():Observable<IUser[]> {
+        return this.data.asObservable();
     }
 
-    addCar(car:ICar) {
-        this.cars.getValue().push(car);
-        this.cars.next(this.cars.getValue());
+    addData(data:IUser) {
+        this.data.getValue().push(data);
+        this.data.next(this.data.getValue());
     }
 
     //

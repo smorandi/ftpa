@@ -34,7 +34,7 @@ export class SlickGrid<T> implements OnInit, AfterViewInit, AfterContentInit {
     offsetCalc:number = 0;
 
     @Output('selectionChanged')
-    selectionChanged:EventEmitter<T[]> = new EventEmitter();
+    selectionChanged:EventEmitter<T[]> = new EventEmitter<T[]>();
 
     private wrapperId:string;
     private toolbarId:string;
@@ -45,6 +45,10 @@ export class SlickGrid<T> implements OnInit, AfterViewInit, AfterContentInit {
 
     ngAfterViewInit() {
         this.loadGrid();
+        $(window).resize(() => {
+            console.log("resize canvas");
+            this.grid.resizeCanvas();
+        });
     }
 
     ngAfterContentInit() {
@@ -79,6 +83,7 @@ export class SlickGrid<T> implements OnInit, AfterViewInit, AfterContentInit {
             inlineFilters: true,
             groupItemMetadataProvider: groupItemMetadataProvider
         });
+
         this.grid = new Slick.Grid("#" + this.tableId, this.dataView, this.columnData, this.options);
         this.grid.registerPlugin(groupItemMetadataProvider);
         this.grid.setSelectionModel(new Slick.RowSelectionModel());
@@ -99,14 +104,13 @@ export class SlickGrid<T> implements OnInit, AfterViewInit, AfterContentInit {
             this.grid.updateRowCount();
             this.grid.render();
         });
+
         this.dataView.onRowsChanged.subscribe((e, args) => {
             this.grid.invalidateRows(args.rows);
             this.grid.render();
         });
 
         this.dataView.syncGridSelection(this.grid, true);
-
-        this.redraw();
     }
 
     reloadData() {
@@ -119,16 +123,15 @@ export class SlickGrid<T> implements OnInit, AfterViewInit, AfterContentInit {
         this.dataView.endUpdate();
     }
 
-
     redraw() {
-        // not sure why 75, just is
+        // // not sure why 75, just is
         var v = $("#" + this.outerDiv).height() + this.offsetCalc;
-        // console.log("redrawing, height: " + jQuery("#"+this.outerDiv).height());
-
+        // // console.log("redrawing, height: " + jQuery("#"+this.outerDiv).height());
+        //
         var wrapper:any = $("#" + this.wrapperId);
         wrapper.height(v);
         wrapper.parent().height(v);
-
+        //
         this.grid.resizeCanvas();
     }
 

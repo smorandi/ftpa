@@ -1,31 +1,30 @@
 import {Component, ViewChild} from "angular2/core";
 import {OnInit} from "angular2/core";
 import {Subject} from "rxjs/Subject";
-import {ICar} from "../../core/dto";
-import {CarsService} from "../grid/cars.service";
-import {SlickGrid} from "./slickgrid";
-
-declare var jQuery:any;
-declare var $:any;
-declare var Slick:any;
+import {SlickGrid} from "./../../slickgrid/slickgrid";
+import {ICar} from "../../../core/dto";
+import {CarsService} from "../../../core/cars.service";
+import {PageHeader} from "../../page-header/page-header.component";
 
 @Component({
-    selector: 'cars-table',
+    selector: 'slick-grid-page',
     moduleId: __moduleName,
-    templateUrl: "slick-grid.component.html",
-    directives: [SlickGrid]
+    templateUrl: "slick-grid-page.component.html",
+    styleUrls: ['slick-grid-page.component.css'],
+    directives: [PageHeader, SlickGrid]
 })
-export class CarsTable implements OnInit {
+export class SlickGridPageComponent implements OnInit {
 
     @ViewChild(SlickGrid)
     grid:SlickGrid<ICar>;
 
     dataColumns = [
-        {id: 'id', name: 'LE.ID', field: 'id', sortable: true},
+        {id: 'id', name: 'LE.ID', field: 'id', sortable: true, resizable: false},
         {id: 'vin', name: 'Abbrev. Name', field: 'vin', sortable: true},
         {id: 'year', name: 'Short Name', field: 'year', sortable: true},
         {id: 'brand', name: 'Role', field: 'brand', sortable: true},
         {id: 'color', name: 'Environment', field: 'color', sortable: true},
+
         // { id: 'status', name: 'Status', field: 'STATUS', sortable: true },
         // { id: 'condition', name: 'Condition', field: 'CONDITION', sortable: true },
         // { id: 'country', name: 'Country', field: 'COUNTRY_CODE', sortable: true },
@@ -39,14 +38,15 @@ export class CarsTable implements OnInit {
         forceFitColumns: false,
         enableCellNavigation: true,
         enableColumnReorder: true,
+        autoHeight: false,
         dataItemColumnValueExtractor: this.getItemColumnValue,
-        rowHeight: 40
     }
 
     cars:Subject<ICar[]> = Subject.create();
     hasLegalEntities:boolean = false;
 
     constructor(private carsService:CarsService) {
+        console.log("blah");
     }
 
     getItemColumnValue(item, column) {
@@ -61,7 +61,7 @@ export class CarsTable implements OnInit {
     ngOnInit() {
         this.carsService.getCars().subscribe(cars => {
             this.populateSearchResults(cars);
-            setTimeout(() => this.grid.loadData(cars), 1000);
+            setTimeout(() => this.grid.loadData(cars), 500);
         });
     }
 
@@ -76,9 +76,7 @@ export class CarsTable implements OnInit {
     }
 
     populateSearchResults(result:any) {
-        var toSet:ICar[] = [];
-        this.hasLegalEntities = toSet.length > 0;
-        console.log("Loaded " + toSet.length + " Legal Entities From Server");
+        console.log("Loaded " + result.length + " cars");
 
         // this.grid.loadData(this.legalEntities);
         this.cars.next(result);

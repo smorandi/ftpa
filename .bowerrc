@@ -1,4 +1,0 @@
-{
-  "proxy": "http://vip-proxy-no-auth-swx.telekurs.com:8080",
-  "https-proxy": "http://vip-proxy-no-auth-swx.telekurs.com:8080"
-}

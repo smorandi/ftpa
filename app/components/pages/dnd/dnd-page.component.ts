@@ -1,11 +1,14 @@
 import {Component} from 'angular2/core';
+import {PageHeader} from "../../page-header/page-header.component";
 
 @Component({
-    selector: 'dnd',
-    templateUrl: 'app/components/dnd/dnd.component.html'
+    selector: 'ftpa-dnd-page',
+    moduleId: __moduleName,
+    templateUrl: 'dnd-page.component.html',
+    styleUrls: ['dnd-page.component.css'],
+    directives: [PageHeader]
 })
-
-export class DragAndDropComponent {
+export class DragAndDropPageComponent {
     list:string[] = [];
 
     constructor() {

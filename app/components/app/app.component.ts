@@ -4,13 +4,11 @@ import {
     ROUTER_DIRECTIVES
 } from 'angular2/router';
 
-import {HomeComponent} from '../home/home.component';
-import {ContactComponent} from '../contact/contact.component';
-import {DragAndDropComponent} from "../dnd/dnd.component";
-import {JavaBridgeComponent} from "../javabridge/javabridge.component";
-import {GridComponent} from "../grid/grid.component";
-import {AgGridComponent} from "../ag-grid/ag-grid.component";
-import {CarsTable} from "../slickgrid/slick-grid.component";
+import {HomePageComponent} from "../pages/home/home-page.component";
+import {DragAndDropPageComponent} from "../pages/dnd/dnd-page.component";
+import {AgGridPageComponent} from "../pages/ag-grid/ag-grid-page.component";
+import {SlickGridPageComponent} from "../pages/slick-grid/slick-grid-page.component";
+import {JavaBridgePageComponent} from "../pages/javabridge/javabridge-page.component";
 
 @Component({
     selector: 'app',
@@ -20,13 +18,11 @@ import {CarsTable} from "../slickgrid/slick-grid.component";
     directives: [ROUTER_DIRECTIVES]
 })
 @RouteConfig([
-    {path: '/', component: HomeComponent, as: 'Home', useAsDefault: true},
-    {path: '/contact', component: ContactComponent, as: 'Contact'},
-    {path: '/dnd', component: DragAndDropComponent, as: 'DragAndDrop'},
-    {path: '/javabridge', component: JavaBridgeComponent, as: 'JavaBridge'},
-    {path: '/grid', component: GridComponent, as: 'Grid'},
-    {path: '/agGrid', component: AgGridComponent, as: 'AgGrid'},
-    {path: '/slickGrid', component: CarsTable, as: 'SlickGrid'}
+    {path: '/', component: HomePageComponent, as: 'HomePage', useAsDefault: true},
+    {path: '/dnd', component: DragAndDropPageComponent, as: 'DragAndDropPage'},
+    {path: '/javabridge', component: JavaBridgePageComponent, as: 'JavaBridgePage'},
+    {path: '/agGrid', component: AgGridPageComponent, as: 'AgGridPage'},
+    {path: '/slickGrid', component: SlickGridPageComponent, as: 'SlickGridPage'},
 ])
 
 export class AppComponent implements AfterViewInit {

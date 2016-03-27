@@ -1,0 +1,50 @@
+<page-header
+        [title]="'Ag-Grid'"
+        [subtitle]="'Showcase for a grid component using Ag-Grid'">
+</page-header>
+
+<div style="-webkit-flex: 1; position: relative;">
+    <ag-grid-ng2 class="ag-fresh"
+                 style="position: absolute; top: 0; bottom: 0; left: 0; right: 0;"
+
+                 [gridOptions]="gridOptions"
+                 [columnDefs]="columnDefs"
+                 [showToolPanel]="showToolPanel"
+                 [rowData]="rowData"
+
+                 enableColResize
+                 enableSorting
+                 enableFilter
+                 groupHeaders
+                 toolPanelSuppressGroups
+                 toolPanelSuppressValues
+                 debug
+                 rowHeight="22"
+
+                 (modelUpdated)="onModelUpdated()"
+                 (cellClicked)="onCellClicked($event)"
+                 (cellDoubleClicked)="onCellDoubleClicked($event)"
+                 (cellContextMenu)="onCellContextMenu($event)"
+                 (cellValueChanged)="onCellValueChanged($event)"
+                 (cellFocused)="onCellFocused($event)"
+                 (rowSelected)="onRowSelected($event)"
+                 (selectionChanged)="onSelectionChanged()"
+                 (beforeFilterChanged)="onBeforeFilterChanged()"
+                 (afterFilterChanged)="onAfterFilterChanged()"
+                 (filterModified)="onFilterModified()"
+                 (beforeSortChanged)="onBeforeSortChanged()"
+                 (afterSortChanged)="onAfterSortChanged()"
+                 (virtualRowRemoved)="onVirtualRowRemoved($event)"
+                 (rowClicked)="onRowClicked($event)"
+                 (ready)="onReady($event)"
+
+                 (columnEverythingChanged)="onColumnEvent($event)"
+                 (columnRowGroupChanged)="onColumnEvent($event)"
+                 (columnValueChanged)="onColumnEvent($event)"
+                 (columnMoved)="onColumnEvent($event)"
+                 (columnVisible)="onColumnEvent($event)"
+                 (columnGroupOpened)="onColumnEvent($event)"
+                 (columnResized)="onColumnEvent($event)"
+                 (columnPinnedCountChanged)="onColumnEvent($event)">
+    </ag-grid-ng2>
+</div>

@@ -1,0 +1,18 @@
+<page-header
+        [title]="'Drag-And-Drop'"
+        [subTitle]="'Showcase for the Drag-And-Drop functionality'">
+</page-header>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Drop Here</h3>
+    </div>
+    <div class="panel-body">
+        <div style="min-height: 200px;" (drop)="onDrop($event)" (dragover)="onDragOver($event)">
+            <label class="label-info" style="padding: 5px; margin: 2px;" *ngFor="#item of list"
+                   (dragstart)="onDragStart($event, item)" draggable="true">
+                {{item}}
+            </label>
+        </div>
+    </div>
+</div>

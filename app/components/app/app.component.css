@@ -1,3 +1,11 @@
+:host {
+    display: -webkit-flex;
+    -webkit-flex: 1;
+
+    display: flex;
+    flex: 1;
+}
+
 .nav .open > a,
 .nav .open > a:hover,
 .nav .open > a:focus {background-color: transparent;}
@@ -12,6 +20,13 @@
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
+    border: solid thick greenyellow;
+
+    display: -webkit-flex;
+    -webkit-flex: 1;
+
+    display: flex;
+    flex: 1;
 }
 
 #wrapper.toggled {
@@ -42,12 +57,20 @@
 }
 
 #page-content-wrapper {
-    width: 100%;
-    padding-top: 0px;
+    display: -webkit-flex;
+    -webkit-flex: 1;
+
+    display: flex;
+    flex: 1;
+
+    background-color: lightcoral;
+    border: solid thick yellow;
+    overflow: auto;
+    padding: 20px;
 }
 
 #wrapper.toggled #page-content-wrapper {
-    position: absolute;
+    /*position: absolute;*/
     margin-right: -220px;
 }
 
@@ -56,7 +79,7 @@
 /*-------------------------------*/
 
 .sidebar-nav {
-    position: absolute;
+    /*position: absolute;*/
     top: 0;
     width: 220px;
     margin: 0;

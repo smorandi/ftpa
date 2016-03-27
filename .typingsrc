@@ -1,4 +1,0 @@
-proxy=http://vip-proxy-no-auth-swx.telekurs.com:8080
-httpProxy=http://vip-proxy-no-auth-swx.telekurs.com:8080
-httpsProxy=http://vip-proxy-no-auth-swx.telekurs.com:8080
-rejectUnauthorized=false
