@@ -1,0 +1,10 @@
+Issues:
+
+x-functionality
+===============
+
+- dialogs are only visible in the webpane -> alternative: show dialog in gui //somehow useless then to have just a web rendering but interactions handled by the gui
+
+performance
+===========
+- webkit performance issues with AG-Grid

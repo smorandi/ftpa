@@ -5,7 +5,7 @@ import {BehaviorSubject} from "rxjs/Rx";
 import {IUser, User} from "../../dto";
 
 @Injectable()
-export class DataService {
+export class UserService {
     private data:BehaviorSubject<IUser[]> = new BehaviorSubject([]);
 
     constructor(private http:Http) {
