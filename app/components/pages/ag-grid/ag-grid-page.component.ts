@@ -6,6 +6,8 @@ import {GridOptions, Utils, SvgFactory} from 'ag-grid/main';
 import 'ag-grid-enterprise/main';
 import {PageHeader} from "../../page-header/page-header.component";
 import {UserService} from "../../../core/services/data/user.service";
+import {IUser, User} from "../../../core/dto";
+import * as _ from 'lodash';
 
 @Component({
     selector: 'ftpa-ag-grid-page',
@@ -17,9 +19,11 @@ import {UserService} from "../../../core/services/data/user.service";
 
 export class AgGridPageComponent implements AfterViewInit {
     private gridOptions:GridOptions;
-    private rowData:any[];
+    private rowData:any[] = [];
+    private rawData:any[] = [];
     private columnDefs:any[];
     private rowCount:string;
+    private dataSource:any;
 
     constructor(private userService:UserService) {
         // this.gridOptions = <GridOptions>{
@@ -39,44 +43,48 @@ export class AgGridPageComponent implements AfterViewInit {
             // note - we do not set 'virtualPaging' here, so the grid knows we are doing standard paging
             enableSorting: true,
             enableFilter: true,
+            suppressLoadingOverlay: true,
             debug: true,
             rowSelection: 'multiple',
             enableColResize: true,
             rowModelType: 'pagination'
         };
 
-
         this.createColumnDefs();
+    }
+
+
+    getRows(params) {
+        console.log('asking for ' + params.startRow + ' to ' + params.endRow);
+        // At this point in your code, you would call the server, using $http if in AngularJS.
+        // To make the demo look real, wait for 500ms before returning
+        setTimeout(() => {
+            // take a slice of the total rows
+            var rowsThisPage = this.rawData.slice(params.startRow, params.endRow);
+            // if on or after the last page, work out the last row.
+            var lastRow = -1;
+            if (this.rawData.length <= params.endRow) {
+                lastRow = this.rawData.length;
+            }
+            // call the success callback
+            params.successCallback(rowsThisPage, lastRow);
+        }, 5);
     }
 
     ngAfterViewInit() {
         console.log("after-view-init");
+
+        this.dataSource = {
+            pageSize: 10000,
+            getRows: (params) => {
+                this.getRows(params);
+            }
+        };
+        this.gridOptions.api.setDatasource(this.dataSource);
+
         this.userService.getData().subscribe(data => {
-            // this.rowData = data;
-            var dataSource = {
-                // rowCount: null, // behave as infinite scroll
-                pageSize: 10000,
-                // overflowSize: 10000,
-                // maxConcurrentRequests: 1,
-                // maxPagesInCache: 2,
-                getRows: function (params) {
-                    console.log('asking for ' + params.startRow + ' to ' + params.endRow);
-                    // At this point in your code, you would call the server, using $http if in AngularJS.
-                    // To make the demo look real, wait for 500ms before returning
-                    setTimeout( function() {
-                        // take a slice of the total rows
-                        var rowsThisPage = data.slice(params.startRow, params.endRow);
-                        // if on or after the last page, work out the last row.
-                        var lastRow = -1;
-                        if (data.length <= params.endRow) {
-                            lastRow = data.length;
-                        }
-                        // call the success callback
-                        params.successCallback(rowsThisPage, lastRow);
-                    }, 500);
-                }
-            };
-            this.gridOptions.api.setDatasource(dataSource);
+            this.rawData = data;
+            this.gridOptions.api.setDatasource(this.dataSource);
         });
     }
 
@@ -85,6 +93,7 @@ export class AgGridPageComponent implements AfterViewInit {
             {headerName: "ID", field: "id", width: 150, filter: 'text'},
             {headerName: "First Name", field: "firstName", width: 150, filter: 'text'},
             {headerName: "Last Name", field: "lastName", width: 150, filter: 'text'},
+            {headerName: "Age", field: "age", width: 50, filter: 'text'},
             {headerName: "Login Name", field: "loginName", width: 150, filter: 'text'},
             {headerName: "Password", field: "password", width: 150, filter: 'text'}
         ];
@@ -99,8 +108,24 @@ export class AgGridPageComponent implements AfterViewInit {
         }
     }
 
-    changeData() {
-        this.rowData;
+    changeRow(ev:Event) {
+        var selectedNodes:any[] = this.gridOptions.api.getSelectedNodes();
+        if (selectedNodes && selectedNodes.length > 0) {
+            var users:IUser[] = _.map(selectedNodes, "data");
+            var clone = Object.assign(new User(), users[0]);
+            clone.firstName = "derFisch";
+            this.userService.updateData(clone);
+        }
+    }
+
+    addRow(ev:Event) {
+        this.userService.addData(this.userService.createRandomUser());
+    }
+
+    deleteRow(ev:Event) {
+        var selectedNodes:any[] = this.gridOptions.api.getSelectedNodes();
+        var ids:any[] = _.map(selectedNodes, "data.id");
+        this.userService.deleteData(ids);
     }
 
     private onContextMenu() {
@@ -172,7 +197,7 @@ export class AgGridPageComponent implements AfterViewInit {
     }
 
     private onRowClicked($event) {
-        console.log('onRowClicked: ' + $event.node.data.name);
+        console.log('onRowClicked: ' + $event.node);
     }
 
     private onQuickFilterChanged($event) {

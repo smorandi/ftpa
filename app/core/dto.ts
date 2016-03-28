@@ -10,6 +10,7 @@ export interface IUser extends IBaseDto {
     lastName?:string;
     loginName?:string;
     password?:string;
+    age?:number;
 }
 
 export interface ICar extends IBaseDto {
@@ -23,6 +24,7 @@ export class User implements IUser {
     constructor(public id?:string,
                 public firstName?:string,
                 public lastName?:string,
+                public age?:number,
                 public loginName?:string,
                 public password?:string) {
     }

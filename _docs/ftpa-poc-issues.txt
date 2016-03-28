@@ -1,9 +1,20 @@
 Issues:
 
+
+comparison with WebKit vs OpenFin vs IR COM Bridge
+==================================================
+
+openfin:
+- deployment ist a problem and is not under our control (same applies to IE COM Bridge)
+
+
+
 x-functionality
 ===============
 
-- dialogs are only visible in the webpane -> alternative: show dialog in gui //somehow useless then to have just a web rendering but interactions handled by the gui
+-   dialogs are only visible in the webpane -> alternative: show dialog in gui (using popup-callback)
+    //somehow useless then to have just a web rendering but interactions handled by the gui
+
 
 performance
 ===========
