@@ -1,7 +1,7 @@
 import {Component, NgZone, OnInit} from 'angular2/core';
 import {PageHeader} from "../../page-header/page-header.component";
 import {CalculatorService, ListService} from "../../../core/java.services";
-import {SelectionService} from "../../../core/services/global/global.service";
+import {SelectionService} from "../../../core/services/global/selection.service";
 
 @Component({
     selector: 'ftpa-javabridge-page',
@@ -34,6 +34,9 @@ export class JavaBridgePageComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.selectionService.getSelections().subscribe(selection => this.selection = selection);
+        this.selectionService.getSelections().subscribe(selection => {
+            console.log("selection: " + selection);
+            this.selection = selection;
+        });
     }
 }

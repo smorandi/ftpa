@@ -9,21 +9,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" type="text/css" href="node_modules/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
-
-    <link rel="stylesheet" type="text/css" href="app/assets/css/app.css"/>
+    <link rel="stylesheet" type="text/css" href="node_modules/bootstrap-css-only/css/bootstrap.min.css">
 
     <link rel="stylesheet" href="app/assets/libs/slickgrid/slick.grid.css" type="text/css"/>
     <link rel="stylesheet" href="app/assets/libs/slickgrid/slick-default-theme.css" type="text/css"/>
+    <link rel="stylesheet" href="app/assets/css/slick.grid.css" type="text/css"/>
     <link rel="stylesheet" href="app/assets/libs/slickgrid/plugins/slick.headermenu.css" type="text/css"/>
     <link rel="stylesheet" href="app/assets/libs/slickgrid/controls/slick.pager.css" type="text/css"/>
     <link rel="stylesheet" href="app/assets/libs/slickgrid/controls/slick.columnpicker.css" type="text/css"/>
 
-    <link rel="stylesheet" type="text/css" href="app/assets/css/slickgrid.css"/>
+    <!--<link rel="stylesheet" type="text/css" href="node_modules/primeui/themes/cruze/theme.css"/>-->
+    <!--<link rel="stylesheet" type="text/css" href="node_modules/primeui/primeui-ng-all.css"/>-->
 
-    <link href="node_modules/ag-grid/dist/styles/ag-grid.css" rel="stylesheet"/>
-    <link href="node_modules/ag-grid/dist/styles/theme-fresh.css" rel="stylesheet"/>
-
+    <link rel="stylesheet" type="text/css" href="app/assets/css/app.css"/>
+    <!--<link href="node_modules/ag-grid/dist/styles/ag-grid.css" rel="stylesheet"/>-->
+    <!--<link href="node_modules/ag-grid/dist/styles/theme-fresh.css" rel="stylesheet"/>-->
 </head>
 
 <body>
@@ -43,9 +43,8 @@
 
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
 <script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
-<script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 
-<!--<script src="node_modules/primeui/primeui-ng.js"></script>-->
+<script src="node_modules/primeui/primeui-ng.js"></script>
 
 <!-- slick grid -->
 <script src="app/assets/libs/slickgrid/lib/jquery.event.drag-2.2.js"></script>
@@ -87,12 +86,11 @@
             "primeng": "node_modules/primeng",
             'ag-grid-ng2': 'node_modules/ag-grid-ng2',
             'ag-grid-enterprise': 'node_modules/ag-grid-enterprise',
-            'ag-grid': 'node_modules/ag-grid',
-            'lodash': 'node_modules/lodash/lodash.js',
-            'node-uuid': 'node_modules/node-uuid/uuid.js'
+            'ag-grid': 'node_modules/ag-grid'
         }
     });
-    System.import('app/bootstrap').then(null, console.error.bind(console));
+    System.import('app/bootstrap')
+            .then(null, console.error.bind(console));
 </script>
 
 </body>

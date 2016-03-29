@@ -9,7 +9,6 @@ interface ICalculatorService extends IJavaService {
     sum(number1:number, number2:number):number;
 }
 
-
 export abstract class ServiceBase<T> implements IJavaService {
     public windowService:T;
     public hasWindowService:boolean;
@@ -17,7 +16,7 @@ export abstract class ServiceBase<T> implements IJavaService {
     constructor(private serviceName:string) {
         this.windowService = window[serviceName];
         this.hasWindowService = this.windowService ? true : false;
-        console.log("hasWindowService for "+this.serviceName + " : " + this.hasWindowService);
+        console.log("hasWindowService for " + this.serviceName + " : " + this.hasWindowService);
     }
 }
 
@@ -58,9 +57,7 @@ export class ListService extends ServiceBase<IListService> implements IListServi
         if (this.hasWindowService) {
             var wrap:any = {
                 cb: json => {
-                    this.zone.run(() => {
-                        cb.call(this, JSON.parse(json));
-                    });
+                    this.zone.run(() => cb.call(this, JSON.parse(json)));
                 }
             }
 

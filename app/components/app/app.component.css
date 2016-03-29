@@ -141,4 +141,5 @@
 
     display: -webkit-flex;
     -webkit-flex: 1;
+    overflow: auto;
 }
