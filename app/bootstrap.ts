@@ -13,10 +13,6 @@ bootstrap(AppComponent, [
     CarsService,
     UserService,
     provide(LocationStrategy, {useClass: HashLocationStrategy}),
-    // provide(JS.ACalculatorService, {useClass: JS.CalculatorService}),
-    // provide(JS.AFruitsService, {useClass: JS.FruitsService}),
-
-    // mock-services when used to run in ws
-    provide(JS.ACalculatorService, {useClass: JS.CalculatorServiceMock}),
-    provide(JS.AFruitsService, {useClass: JS.FruitsServiceMock}),
+    provide(JS.CalculatorService, {useClass: JS.CalculatorService}),
+    provide(JS.ListService, {useClass: JS.ListService}),
 ]);

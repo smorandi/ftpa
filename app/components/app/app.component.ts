@@ -25,40 +25,5 @@ import {JavaBridgePageComponent} from "../pages/javabridge/javabridge-page.compo
     {path: '/slickGrid', component: SlickGridPageComponent, as: 'SlickGridPage'},
 ])
 
-export class AppComponent implements AfterViewInit {
-
-    onClick() {
-        $('.hamburger').click();
-    }
-
-    private hamburgerCross() {
-        var trigger = $('.hamburger'),
-            overlay = $('.overlay');
-
-        var isClosed = trigger.hasClass("is-open");
-
-        if (isClosed == true) {
-            overlay.hide();
-            trigger.removeClass('is-open');
-            trigger.addClass('is-closed');
-        } else {
-            overlay.show();
-            trigger.removeClass('is-closed');
-            trigger.addClass('is-open');
-        }
-    }
-
-    ngAfterViewInit() {
-        var trigger = $('.hamburger'),
-            overlay = $('.overlay'),
-            isClosed = false;
-
-        trigger.click(() => {
-            this.hamburgerCross();
-        });
-
-        $('[data-toggle="offcanvas"]').click(() => {
-            $('#wrapper').toggleClass('toggled');
-        });
-    }
+export class AppComponent {
 }

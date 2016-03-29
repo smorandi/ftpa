@@ -1,34 +1,23 @@
-<div id="wrapper">
-    <div class="overlay"></div>
+<div id="snav">
+    <ul>
+        <li>
+            <a [routerLink]="['/HomePage']"><i class="fa fa-home"></i><span>Home</span></a>
+        </li>
+        <li>
+            <a [routerLink]="['/DragAndDropPage']"><i class="fa fa-dropbox"></i><span>Drag & Drop</span></a>
+        </li>
+        <li>
+            <a [routerLink]="['/JavaBridgePage']"><i class="fa fa-exchange"></i><span>Java Bridge</span></a>
+        </li>
+        <li>
+            <a [routerLink]="['/AgGridPage']"><i class="fa fa-th"></i><span>Ag Grid</span></a>
+        </li>
+        <li>
+            <a [routerLink]="['/SlickGridPage']"><i class="fa fa-th"></i><span>Slick Grid</span></a>
+        </li>
+    </ul>
+</div>
 
-    <nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
-        <ul class="nav sidebar-nav">
-            <li class="sidebar-brand">
-                <a (click)="onClick()" [routerLink]="['/HomePage']">Home</a>
-            </li>
-            <li>
-                <a (click)="onClick()" [routerLink]="['/DragAndDropPage']">Drag and Drop</a>
-            </li>
-            <li>
-                <a (click)="onClick()" [routerLink]="['/JavaBridgePage']">JavaBridge</a>
-            </li>
-            <li>
-                <a (click)="onClick()" [routerLink]="['/AgGridPage']">AgGrid</a>
-            </li>
-            <li>
-                <a (click)="onClick()" [routerLink]="['/SlickGridPage']">SlickGrid</a>
-            </li>
-        </ul>
-    </nav>
-
-    <button type="button" class="hamburger is-closed" data-toggle="offcanvas">
-        <span class="hamb-top"></span>
-        <span class="hamb-middle"></span>
-        <span class="hamb-bottom"></span>
-    </button>
-
-    <div id="page-content-wrapper">
-        <router-outlet></router-outlet>
-    </div>
-
+<div id="page-wrapper">
+    <router-outlet></router-outlet>
 </div>

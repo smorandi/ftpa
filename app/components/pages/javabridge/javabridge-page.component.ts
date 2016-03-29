@@ -1,6 +1,6 @@
 import {Component, NgZone, OnInit} from 'angular2/core';
 import {PageHeader} from "../../page-header/page-header.component";
-import {ACalculatorService, AFruitsService} from "../../../core/java.services";
+import {CalculatorService, ListService} from "../../../core/java.services";
 
 @Component({
     selector: 'ftpa-javabridge-page',
@@ -15,7 +15,7 @@ export class JavaBridgePageComponent {
     number2:number = 2;
     sum:number = 0;
 
-    constructor(private calculatorService:ACalculatorService, private fruitsService:AFruitsService, private ngZone:NgZone) {
+    constructor(private calculatorService:CalculatorService, private listService:ListService) {
     }
 
     recalc() {
@@ -23,9 +23,9 @@ export class JavaBridgePageComponent {
     }
 
     updateList() {
-        console.log("updateFruits()");
+        console.log("updateList()");
         this.list = ["loading..."];
-        this.fruitsService.loadFruits(data => {
+        this.listService.loadList(data => {
             console.log(JSON.stringify(data));
             this.list = data;
         });
