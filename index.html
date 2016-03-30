@@ -10,16 +10,7 @@
 
     <link rel="stylesheet" type="text/css" href="node_modules/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
-
     <link rel="stylesheet" type="text/css" href="app/assets/css/app.css"/>
-
-    <link rel="stylesheet" href="app/assets/libs/slickgrid/slick.grid.css" type="text/css"/>
-    <link rel="stylesheet" href="app/assets/libs/slickgrid/slick-default-theme.css" type="text/css"/>
-    <link rel="stylesheet" href="app/assets/libs/slickgrid/plugins/slick.headermenu.css" type="text/css"/>
-    <link rel="stylesheet" href="app/assets/libs/slickgrid/controls/slick.pager.css" type="text/css"/>
-    <link rel="stylesheet" href="app/assets/libs/slickgrid/controls/slick.columnpicker.css" type="text/css"/>
-
-    <link rel="stylesheet" type="text/css" href="app/assets/css/slickgrid.css"/>
 
     <link href="node_modules/ag-grid/dist/styles/ag-grid.css" rel="stylesheet"/>
     <link href="node_modules/ag-grid/dist/styles/theme-fresh.css" rel="stylesheet"/>
@@ -41,27 +32,11 @@
 <script src="node_modules/angular2/bundles/router.dev.js"></script>
 <script src="node_modules/angular2/bundles/http.dev.js"></script>
 
-<script src="bower_components/jquery/dist/jquery.min.js"></script>
-<script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
+<script src="app/assets/js/jquery.min.js"></script>
+<script src="app/assets/js/jquery-ui.min.js"></script>
 <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 
 <!--<script src="node_modules/primeui/primeui-ng.js"></script>-->
-
-<!-- slick grid -->
-<script src="app/assets/libs/slickgrid/lib/jquery.event.drag-2.2.js"></script>
-<script src="app/assets/libs/slickgrid/slick.core.js"></script>
-<script src="app/assets/libs/slickgrid/plugins/slick.cellrangeselector.js"></script>
-<script src="app/assets/libs/slickgrid/plugins/slick.cellselectionmodel.js"></script>
-<script src="app/assets/libs/slickgrid/plugins/slick.rowselectionmodel.js"></script>
-<script src="app/assets/libs/slickgrid/plugins/slick.checkboxselectcolumn.js"></script>
-<script src="app/assets/libs/slickgrid/plugins/slick.headermenu.js"></script>
-<script src="app/assets/libs/slickgrid/controls/slick.columnpicker.js"></script>
-<script src="app/assets/libs/slickgrid/controls/slick.pager.js"></script>
-<script src="app/assets/libs/slickgrid/slick.dataview.js"></script>
-<script src="app/assets/libs/slickgrid/slick.groupitemmetadataprovider.js"></script>
-<script src="app/assets/libs/slickgrid/slick.formatters.js"></script>
-<script src="app/assets/libs/slickgrid/slick.editors.js"></script>
-<script src="app/assets/libs/slickgrid/slick.grid.js"></script>
 
 <script>
     System.config({
@@ -81,6 +56,9 @@
             },
             'ag-grid-enterprise': {
                 defaultExtension: "js"
+            },
+            "angular2-websocket": {
+                defaultExtension: "js"
             }
         },
         map: {
@@ -89,7 +67,8 @@
             'ag-grid-enterprise': 'node_modules/ag-grid-enterprise',
             'ag-grid': 'node_modules/ag-grid',
             'lodash': 'node_modules/lodash/lodash.js',
-            'node-uuid': 'node_modules/node-uuid/uuid.js'
+            'node-uuid': 'node_modules/node-uuid/uuid.js',
+            "angular2-websocket": "node_modules/angular2-websocket"
         }
     });
     System.import('app/bootstrap').then(null, console.error.bind(console));

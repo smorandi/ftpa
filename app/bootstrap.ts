@@ -8,7 +8,6 @@ import {CarsService} from "./core/cars.service";
 import {UserService} from "./core/services/data/user.service";
 import {SelectionService} from "./core/services/global/selection.service";
 
-
 // bootstrap angular 2 app now!
 bootstrap(AppComponent, [
     ROUTER_PROVIDERS,

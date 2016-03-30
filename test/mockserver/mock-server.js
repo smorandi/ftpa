@@ -1,13 +1,19 @@
 "use strict";
 
-var PORT = 3000;
+var config = require("./config");
 
-var express = require("express");
 var cookieParser = require("cookie-parser");
 var bodyParser = require("body-parser");
 var cors = require("cors");
 var morgan = require('morgan');
+
+var express = require("express");
+var http = require("http");
+var ws = require("ws");
+var WebSocketServer = ws.Server;
 var app = express();
+var server = http.createServer(app);
+var wss = new WebSocketServer({ server: server });
 
 // common body parser as json..
 app.use(bodyParser.json());
@@ -34,16 +40,7 @@ app.use(function (req, res, next) {
 
 // morgan access logging...
 app.use(morgan('common'));
-
-// the actual route...
-app.get('/ftpa', function (req, res) {
-    var obj = {
-        name: "der fisch",
-        age: 22
-    };
-
-    res.json(obj);
-});
+app.use(express.static(config.publicDir));
 
 // end of line...analyse what error we got and return any infos to the client...
 app.use(function (err, req, res, next) {
@@ -52,8 +49,32 @@ app.use(function (err, req, res, next) {
     res.status(status).json(err);
 });
 
+
+// the actual route...
+app.get('/api/demo', function (req, res) {
+    var obj = {
+        name: "der fisch",
+        age: 22
+    };
+
+    res.json(obj);
+});
+
+wss.on('connection', function connection(ws) {
+    ws.on('message', function incoming(message) {
+        console.log('received: %s', message);
+    });
+    console.log("client connected...")
+});
+
+wss.broadcast = function broadcast(data) {
+    wss.clients.forEach(function (client) {
+        client.send(data);
+    });
+};
+
 // start up the server and listen on the port...
-app.listen(PORT, function () {
+server.listen(config.port, function () {
     console.log("                                                        _");
     console.log("                                                       (_)");
     console.log("  ___  ___ _ ____   _____ _ __   _ __ _   _ _ __  _ __  _ _ __   __ _");
@@ -62,5 +83,10 @@ app.listen(PORT, function () {
     console.log(" |___/\\___|_|    \\_/ \\___|_|    |_|   \\__,_|_| |_|_| |_|_|_| |_|\\__, |");
     console.log("                                                                 __/ |");
     console.log("                                                                |___/ ");
-    console.log("port: " + PORT);
+    console.log("port: " + config.port);
 });
+
+setInterval(function () {
+    console.log("emitting on channel ws-global");
+    wss.broadcast("der fisch");
+}, 1000);
