@@ -8,12 +8,11 @@ var cors = require("cors");
 var morgan = require('morgan');
 
 var express = require("express");
-var http = require("http");
-var ws = require("ws");
-var WebSocketServer = ws.Server;
+var http = require('http');
+
 var app = express();
 var server = http.createServer(app);
-var wss = new WebSocketServer({ server: server });
+var io = require('socket.io')(server);
 
 // common body parser as json..
 app.use(bodyParser.json());
@@ -60,18 +59,13 @@ app.get('/api/demo', function (req, res) {
     res.json(obj);
 });
 
-wss.on('connection', function connection(ws) {
-    ws.on('message', function incoming(message) {
-        console.log('received: %s', message);
+io.on('connection', function (socket) {
+    socket.on('echo', function (data, ack) {
+        console.log("received: " + data);
+        ack('suppi!');
     });
-    console.log("client connected...")
 });
 
-wss.broadcast = function broadcast(data) {
-    wss.clients.forEach(function (client) {
-        client.send(data);
-    });
-};
 
 // start up the server and listen on the port...
 server.listen(config.port, function () {
@@ -87,6 +81,6 @@ server.listen(config.port, function () {
 });
 
 setInterval(function () {
-    console.log("emitting on channel ws-global");
-    wss.broadcast("der fisch");
+    console.log("broadcast")
+    io.sockets.emit(config.ws_channel_global, "der fisch");
 }, 1000);

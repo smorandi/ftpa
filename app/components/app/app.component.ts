@@ -22,35 +22,10 @@ import {Subject, Observable} from "rxjs/Rx"
 ])
 
 export class AppComponent {
-    private ws:$WebSocket;
+    private socket:any;
 
     constructor() {
-        this.ws = new $WebSocket("ws://localhost:3000", null, {
-            initialTimeout: 500,
-            maxTimeout: 300000,
-            reconnectIfNotNormalClose: true
-        });
-
-        var dataStream:Subject<any> = this.ws.getDataStream();
-        this.ws.send("blah blah");
-
-        dataStream.error = (err) => {
-            console.log("Error:" + err);
-        };
-        dataStream.complete = () => {
-            console.log('Completed');
-        };
-
-        dataStream.subscribe(
-            data => {
-                console.log('Got: ' + data.data);
-            },
-            err => {
-                console.log('Error: ' + err);
-            },
-            () => {
-                console.log('Completed');
-            }
-        );
+        this.socket = io('http://localhost:3000');
+        this.socket.on('ws-global', data => console.log(data));
     }
 }

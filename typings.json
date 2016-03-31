@@ -23,6 +23,7 @@
     "q": "github:DefinitelyTyped/DefinitelyTyped/q/Q.d.ts#4de74cb527395c13ba20b438c3a7a419ad931f1c",
     "run-sequence": "github:DefinitelyTyped/DefinitelyTyped/run-sequence/run-sequence.d.ts#a6ff9f6e195a334afd89e4b721d05e9520eee4c0",
     "serve-static": "github:DefinitelyTyped/DefinitelyTyped/serve-static/serve-static.d.ts#a6ff9f6e195a334afd89e4b721d05e9520eee4c0",
+    "sockjs": "registry:dt/sockjs#0.3.0+20160316155526",
     "source-map": "github:DefinitelyTyped/DefinitelyTyped/source-map/source-map.d.ts#1c572762b93d4b059d89339867edf54946176361",
     "systemjs": "github:DefinitelyTyped/DefinitelyTyped/systemjs/systemjs.d.ts#a6ff9f6e195a334afd89e4b721d05e9520eee4c0",
     "through2": "github:DefinitelyTyped/DefinitelyTyped/through2/through2.d.ts#48f20e97bfaf70fc1a9537b38aed98e9749be0ae",

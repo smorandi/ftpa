@@ -32,9 +32,11 @@
 <script src="node_modules/angular2/bundles/router.dev.js"></script>
 <script src="node_modules/angular2/bundles/http.dev.js"></script>
 
-<script src="app/assets/js/jquery.min.js"></script>
-<script src="app/assets/js/jquery-ui.min.js"></script>
+<script src="app/assets/js/jquery-2.2.2.min.js"></script>
+<script src="app/assets/js/jquery-ui-1.11.4.min.js"></script>
+<script src="app/assets/js/socket.io-1.4.5.min.js"></script>
 <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+
 
 <!--<script src="node_modules/primeui/primeui-ng.js"></script>-->
 
@@ -57,9 +59,6 @@
             'ag-grid-enterprise': {
                 defaultExtension: "js"
             },
-            "angular2-websocket": {
-                defaultExtension: "js"
-            }
         },
         map: {
             "primeng": "node_modules/primeng",
@@ -68,7 +67,6 @@
             'ag-grid': 'node_modules/ag-grid',
             'lodash': 'node_modules/lodash/lodash.js',
             'node-uuid': 'node_modules/node-uuid/uuid.js',
-            "angular2-websocket": "node_modules/angular2-websocket"
         }
     });
     System.import('app/bootstrap').then(null, console.error.bind(console));
