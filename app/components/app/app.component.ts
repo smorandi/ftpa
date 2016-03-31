@@ -4,7 +4,6 @@ import {HomePageComponent} from "../pages/home/home-page.component";
 import {DragAndDropPageComponent} from "../pages/dnd/dnd-page.component";
 import {AgGridPageComponent} from "../pages/ag-grid/ag-grid-page.component";
 import {JavaBridgePageComponent} from "../pages/javabridge/javabridge-page.component";
-import {$WebSocket} from "angular2-websocket/angular2-websocket";
 import {Subject, Observable} from "rxjs/Rx"
 
 @Component({
@@ -25,7 +24,7 @@ export class AppComponent {
     private socket:any;
 
     constructor() {
-        this.socket = io('http://localhost:3000');
-        this.socket.on('ws-global', data => console.log(data));
+        // this.socket = io('http://localhost:3000');
+        // this.socket.on('ws-global', data => console.log(data));
     }
 }

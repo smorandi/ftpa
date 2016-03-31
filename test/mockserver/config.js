@@ -4,7 +4,7 @@ var path = require("path");
 // General configurations...
 //-----------------------------------------------------------------------------
 exports.port = 3000;
-exports.publicDir = path.join(__dirname + "/../../../");
+exports.publicDir = path.join(__dirname + "/../../");
 
 //=============================================================================
 // WebSocket configurations...
