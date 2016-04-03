@@ -13,13 +13,6 @@ export interface IUser extends IBaseDto {
     age?:number;
 }
 
-export interface ICar extends IBaseDto {
-    vin?:string;
-    year?:string;
-    brand?:string;
-    color?:string;
-}
-
 export class User implements IUser {
     constructor(public id?:string,
                 public firstName?:string,
@@ -30,12 +23,13 @@ export class User implements IUser {
     }
 }
 
+export interface IEventDto {
+    type:string;
+    payload:Object;
+}
 
-export class Car implements ICar {
-    constructor(public id?:string,
-                public vin?:string,
-                public year?:string,
-                public brand?:string,
-                public color?:string) {
+export class EventDto implements IEventDto {
+    constructor(public type?:string,
+                public payload?:Object) {
     }
 }

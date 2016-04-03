@@ -5,6 +5,8 @@ import {DragAndDropPageComponent} from "../pages/dnd/dnd-page.component";
 import {AgGridPageComponent} from "../pages/ag-grid/ag-grid-page.component";
 import {JavaBridgePageComponent} from "../pages/javabridge/javabridge-page.component";
 import {Subject, Observable} from "rxjs/Rx"
+import {JSEventHandlerService} from "../../core/services/events/js-event-handler.service";
+import {WebsocketEventHandlerService} from "../../core/services/websockets/websocket-event-handler.service";
 
 @Component({
     selector: 'app',
@@ -23,8 +25,7 @@ import {Subject, Observable} from "rxjs/Rx"
 export class AppComponent {
     private socket:any;
 
-    constructor() {
-        // this.socket = io('http://localhost:3000');
-        // this.socket.on('ws-global', data => console.log(data));
+    constructor(private jsEventHandlerService:JSEventHandlerService,
+                private websocketEventHandlerService:WebsocketEventHandlerService) {
     }
 }

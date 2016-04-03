@@ -1,7 +1,9 @@
 import {Component, NgZone, OnInit} from 'angular2/core';
 import {PageHeader} from "../../page-header/page-header.component";
 import {CalculatorService, ListService} from "../../../core/java.services";
-import {SelectionService} from "../../../core/services/global/selection.service";
+import {JSEventHandlerService} from "../../../core/services/events/js-event-handler.service";
+import {EventDto} from "../../../core/dto";
+import {WebsocketEventHandlerService} from "../../../core/services/websockets/websocket-event-handler.service";
 
 @Component({
     selector: 'ftpa-javabridge-page',
@@ -15,9 +17,13 @@ export class JavaBridgePageComponent implements OnInit {
     number1:number = 0;
     number2:number = 2;
     sum:number = 0;
-    selection:string = "nothing selected yet...";
+    javaEvents:EventDto[] = null;
+    webSocketEvents:EventDto[] = null;
 
-    constructor(private calculatorService:CalculatorService, private listService:ListService, private selectionService:SelectionService) {
+    constructor(private calculatorService:CalculatorService,
+                private listService:ListService,
+                private eventHandlerService:JSEventHandlerService,
+                private webSocketEventHandlerService:WebsocketEventHandlerService) {
     }
 
     recalc() {
@@ -33,10 +39,16 @@ export class JavaBridgePageComponent implements OnInit {
         });
     }
 
+    asString(object:Object):string {
+        return JSON.stringify(object, 2);
+    }
+
     ngOnInit() {
-        this.selectionService.getSelections().subscribe(selection => {
-            console.log("selection: " + selection);
-            this.selection = selection;
+        this.eventHandlerService.getEvents().subscribe(events => {
+            this.javaEvents = events;
+        });
+        this.webSocketEventHandlerService.getEvents().subscribe(events => {
+            this.webSocketEvents = events;
         });
     }
 }

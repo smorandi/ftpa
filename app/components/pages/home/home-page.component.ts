@@ -10,6 +10,5 @@ import {PageHeader} from "../../page-header/page-header.component";
 })
 export class HomePageComponent {
     constructor() {
-        console.log("home-page instantiated");
     }
 }

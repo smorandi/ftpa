@@ -60,12 +60,23 @@ app.get('/api/demo', function (req, res) {
 });
 
 io.on('connection', function (socket) {
-    socket.on('echo', function (data, ack) {
-        console.log("received: " + data);
-        ack('suppi!');
+    socket.on(config.ws_channel_java_event, function (data, ack) {
+        console.log(config.ws_channel_java_event + " - received: " + data);
+        if (ack) {
+            ack('suppi - java!');
+        }
+
+        io.emit(config.ws_channel_java_event, data);
+    });
+    socket.on(config.ws_channel_js_event, function (data, ack) {
+        console.log(config.ws_channel_js_event + " - received: " + data);
+        if (ack) {
+            ack('suppi - js!');
+        }
+
+        io.emit(config.ws_channel_js_event, data);
     });
 });
-
 
 // start up the server and listen on the port...
 server.listen(config.port, function () {
@@ -80,7 +91,8 @@ server.listen(config.port, function () {
     console.log("port: " + config.port);
 });
 
-setInterval(function () {
-    console.log("broadcast")
-    io.sockets.emit(config.ws_channel_global, "der fisch");
-}, 1000);
+
+// setInterval(function () {
+//     console.log("broadcast")
+//     io.emit(config.ws_channel_global, "global broadcast");
+// }, 1000);

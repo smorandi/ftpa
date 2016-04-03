@@ -4,66 +4,84 @@
             [subtitle]="'Showcase for cross java-javascript communication'">
     </page-header>
 </div>
-<div style="-webkit-flex-grow: 1; -webkit-flex-shrink: 1;">
-    <div class="row">
-        <div class="col-sm-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Calculator (synchronous example)</h3>
-                </div>
-                <div class="panel-body">
-
-                    Number1: <input type="number" class="form-control" [(ngModel)]="number1" (ngModelChange)="recalc()"><br>
-                    Number2: <input type="number" class="form-control" [(ngModel)]="number2" (ngModelChange)="recalc()"><br>
-
-                    <p>
-                        Result of Number1 + Number2 is: {{ sum }}<br>
-                        <small>(the
-                            result is computed in pure Java via a synchronous call)
-                        </small>
-                    </p>
-                </div>
+<div style="display: -webkit-flex; -webkit-flex-direction:column; -webkit-flex-grow: 1; -webkit-flex-shrink: 1;">
+    <div style="display: -webkit-flex; -webkit-flex: 1;">
+        <div class="panel panel-default" style="-webkit-flex: 1;margin: 4px;overflow-y: auto;">
+            <div class="panel-heading">
+                <h3 class="panel-title">Calculator (synchronous example)</h3>
             </div>
-        </div>
-        <div class="col-sm-6">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">List (asynchronous example)</h3>
-                </div>
-                <div class="panel-body">
-                    List:
-                    <small>(data is generated in pure Java via an
-                        asynchronous call)
+            <div class="panel-body">
+                Number1: <input type="number" class="form-control" [(ngModel)]="number1"
+                                (ngModelChange)="recalc()"><br>
+                Number2: <input type="number" class="form-control" [(ngModel)]="number2"
+                                (ngModelChange)="recalc()"><br>
+                <p>
+                    Result of Number1 + Number2 is: {{ sum }}<br>
+                    <small>(the
+                        result is computed in pure Java via a synchronous call)
                     </small>
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>Name</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr *ngFor="#item of list">
-                            <td>{{item}}</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <button class="btn btn-lg btn-success" (click)="updateList()">Update
-                        List
-                    </button>
+                </p>
+            </div>
+        </div>
+        <div class="panel panel-default" style="-webkit-flex: 1;margin: 4px;overflow-y: auto;">
+            <div class="panel-heading">
+                <h3 class="panel-title">List (asynchronous example)</h3>
+            </div>
+            <div class="panel-body">
+                List:
+                <small>(data is generated in pure Java via an
+                    asynchronous call)
+                </small>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="#item of list">
+                        <td>{{item}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <button class="btn btn-lg btn-success" (click)="updateList()">Update
+                    List
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div style="display: -webkit-flex;-webkit-flex: 1;">
+        <div class="panel panel-default" style="-webkit-flex: 1;margin: 4px;overflow-y: auto;">
+            <div class="panel-heading">
+                <h3 class="panel-title">Java Events</h3>
+            </div>
+            <div class="panel-body">
+                <div [ngSwitch]="javaEvents === null || javaEvents.length === 0">
+                    <div *ngSwitchDefault>No events received yet...</div>
+                    <div class="list-group" *ngSwitchWhen="false">
+                        <div class="list-group-item" *ngFor="#event of javaEvents">
+                            <h4 class="list-group-item-heading">{{event.type}}</h4>
+                            <p class="list-group-item-text" style="white-space: normal;word-wrap: break-word;"
+                               [textContent]="asString(event.payload)"></p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-
-        <div class="col-sm-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Selections</h3>
-                </div>
-                <div class="panel-body">
-                    <div>
-                        <label class="label label-info">
-                            {{selection}}
-                        </label>
+        <div class="panel panel-default" style="-webkit-flex: 1;margin: 4px;overflow-y: auto;">
+            <div class="panel-heading">
+                <h3 class="panel-title">WebSocket Events</h3>
+            </div>
+            <div class="panel-body">
+                <div [ngSwitch]="webSocketEvents === null || webSocketEvents.length === 0">
+                    <div *ngSwitchDefault>No events received yet...</div>
+                    <div class="list-group" *ngSwitchWhen="false">
+                        <div class="list-group-item" *ngFor="#event of webSocketEvents">
+                            <h4 class="list-group-item-heading">{{event.type}}</h4>
+                            <p class="list-group-item-text" style="white-space: normal;word-wrap: break-word;"
+                               [textContent]="asString(event.payload)"></p>
+                        </div>
                     </div>
                 </div>
             </div>
