@@ -12,3 +12,4 @@ node_modules
 
 #we don't want to ignore js resources under this folder...
 !/test/**/*.js
+!/app/assets/**/*.js
