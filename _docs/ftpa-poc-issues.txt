@@ -1,21 +1,46 @@
 Issues:
 
 
-comparison with WebKit vs OpenFin vs IR COM Bridge
-==================================================
+comparison with WebKit vs OpenFin vs IE-COM Bridge vs JXBrowser
+===============================================================
 
 openfin:
 - deployment ist a problem and is not under our control (same applies to IE COM Bridge)
+- not embeddable since it uses Heavyweight AWT pane which is not possible to integrate in JavaFX
+- shitty and complex API
+- no direct DOM/JS-engine access
 
+jxbrowser:
+- great implementation and works well with javafx
+- embeds chrome webengine
+- makes deployment 70MB larger
+- offmap rendering...slower compared to webview
+- very fast java-script engine
+- 520 out of 555 points in html5 test
+- direct access to DOM and to JS-engine
+
+IR Com Bridge:
+- not embeddable
+
+WebView
+- pretty fast 2D rendering (faster than JXBrowser)
+- very slow js-engine (compared to jxbrowser), may make things complicatd if complex js-logic is used
 
 
 x-functionality
 ===============
 
--   dialogs are only visible in the webpane -> alternative: show dialog in gui (using popup-callback)
-    //somehow useless then to have just a web rendering but interactions handled by the gui
+- dialogs are only visible in the webpane -> alternative: show dialog in gui (using popup-callback)
+  //somehow useless then to have just a web rendering but interactions handled by java
+- same applies to context-menues. either implement this compeltely in web-part or handding in java.
+  issues when handling in web-part are that popups are confined to the space the web-part is being displayed. so in
+  small areas it will be difficlt to show complete context-menues. alternative is to handle that by java.
+- styling is an issue since webview and jx-browser stlye things different. webview for instance mixes current css styling
+  for scroll-bars, input fields and such from the underlaying user-stylesheet. jx-browser needs a completely own css
+  styling.
 
 
 performance
 ===========
-- webkit performance issues with AG-Grid
+- webkit performance issues with AG-Grid, especially whn sorting, i.e. intensive js-engine usage
+- jx-browser's js engine is very fast in comparison, but lacks the speed of rendering as in the webview.
