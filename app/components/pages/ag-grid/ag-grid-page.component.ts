@@ -1,4 +1,4 @@
-import {Component, AfterViewInit} from "angular2/core";
+import {Component, AfterViewInit, OnInit, OnDestroy} from "angular2/core";
 import {AgGridNg2} from 'ag-grid-ng2/main';
 import {GridOptions, Utils, SvgFactory} from 'ag-grid/main';
 
@@ -8,6 +8,7 @@ import {PageHeader} from "../../page-header/page-header.component";
 import {UserService} from "../../../core/services/data/user.service";
 import {IUser, User} from "../../../core/dto";
 import * as _ from 'lodash';
+import {Subscription} from "rxjs/Rx";
 
 @Component({
     selector: 'ftpa-ag-grid-page',
@@ -17,13 +18,14 @@ import * as _ from 'lodash';
     directives: [PageHeader, AgGridNg2],
 })
 
-export class AgGridPageComponent implements AfterViewInit {
+export class AgGridPageComponent implements AfterViewInit, OnInit, OnDestroy {
     private gridOptions:GridOptions;
     private rowData:any[] = [];
     private rawData:any[] = [];
     private columnDefs:any[];
     private rowCount:string;
     private dataSource:any;
+    private subscription:Subscription;
 
     constructor(private userService:UserService) {
         // this.gridOptions = <GridOptions>{
@@ -71,6 +73,10 @@ export class AgGridPageComponent implements AfterViewInit {
         }, 5);
     }
 
+    ngOnInit() {
+        this.userService.setUsers(this.userService.createRandomUsers(10000));
+    }
+
     ngAfterViewInit() {
         console.log("after-view-init");
 
@@ -82,19 +88,23 @@ export class AgGridPageComponent implements AfterViewInit {
         };
         this.gridOptions.api.setDatasource(this.dataSource);
 
-        this.userService.getData().subscribe(data => {
+        this.subscription = this.userService.getData().subscribe(data => {
             this.rawData = data;
             this.gridOptions.api.setDatasource(this.dataSource);
         });
     }
 
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
+    }
+
     private createColumnDefs() {
         this.columnDefs = [
             {headerName: "ID", field: "id", width: 150, filter: 'text'},
-            {headerName: "First Name", field: "firstName", width: 150, filter: 'text'},
-            {headerName: "Last Name", field: "lastName", width: 150, filter: 'text'},
+            {headerName: "First Name", field: "firstname", width: 150, filter: 'text'},
+            {headerName: "Last Name", field: "lastname", width: 150, filter: 'text'},
             {headerName: "Age", field: "age", width: 50, filter: 'text'},
-            {headerName: "Login Name", field: "loginName", width: 150, filter: 'text'},
+            {headerName: "Login Name", field: "loginname", width: 150, filter: 'text'},
             {headerName: "Password", field: "password", width: 150, filter: 'text'}
         ];
     }

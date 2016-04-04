@@ -7,6 +7,7 @@ import {JavaBridgePageComponent} from "../pages/javabridge/javabridge-page.compo
 import {Subject, Observable} from "rxjs/Rx"
 import {JSEventHandlerService} from "../../core/services/events/js-event-handler.service";
 import {WebsocketEventHandlerService} from "../../core/services/websockets/websocket-event-handler.service";
+import {JavabridgeGridPageComponent} from "../pages/javabridge-grid/javabridge-grid-page.component";
 
 @Component({
     selector: 'app',
@@ -20,6 +21,7 @@ import {WebsocketEventHandlerService} from "../../core/services/websockets/webso
     {path: '/dnd', component: DragAndDropPageComponent, as: 'DragAndDropPage'},
     {path: '/javabridge', component: JavaBridgePageComponent, as: 'JavaBridgePage'},
     {path: '/agGrid', component: AgGridPageComponent, as: 'AgGridPage'},
+    {path: '/javabridgeGrid', component: JavabridgeGridPageComponent, as: 'JavabridgeGridPage'},
 ])
 
 export class AppComponent {

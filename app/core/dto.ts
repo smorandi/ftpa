@@ -6,19 +6,19 @@ export interface IBaseDto {
 }
 
 export interface IUser extends IBaseDto {
-    firstName?:string;
-    lastName?:string;
-    loginName?:string;
+    firstname?:string;
+    lastname?:string;
+    loginname?:string;
     password?:string;
     age?:number;
 }
 
 export class User implements IUser {
     constructor(public id?:string,
-                public firstName?:string,
-                public lastName?:string,
+                public firstname?:string,
+                public lastname?:string,
                 public age?:number,
-                public loginName?:string,
+                public loginname?:string,
                 public password?:string) {
     }
 }

@@ -12,23 +12,36 @@ export class UserService {
     private dataBehaviorSubject:BehaviorSubject<IUser[]> = new BehaviorSubject([]);
 
     constructor(private http:Http) {
-        for (var i = 0; i < 10000; i++) {
+        this.setUsers(this.createRandomUsers(10000));
+    }
+
+    createRandomUsers(nb:number):IUser[] {
+        var users:IUser[] = [];
+        for (var i = 0; i < nb; i++) {
             var user:IUser = this.createRandomUser();
-            this.dataBehaviorSubject.getValue().push(user);
+            users.push(user);
         }
+        return users;
     }
 
     createRandomUser():IUser {
         var user:User = new User();
 
         user.id = uuid.v4().toString();
-        user.firstName = _.sample(RefData.firstNames);
-        user.lastName = _.sample(RefData.lastNames);
-        user.loginName = user.firstName + "_" + user.lastName;
-        user.password = window.btoa(user.loginName);
+        user.firstname = _.sample(RefData.firstNames);
+        user.lastname = _.sample(RefData.lastNames);
+        user.loginname = user.firstname + "_" + user.lastname;
+        user.password = window.btoa(user.loginname);
         user.age = _.random(20, 60);
 
         return user;
+    }
+
+    setUsers(users:IUser[]) {
+        var arr = this.dataBehaviorSubject.getValue();
+        arr.length = 0;
+        arr.push.apply(arr, users);
+        this.dataBehaviorSubject.next(arr);
     }
 
     getData():Observable<IUser[]> {
@@ -38,7 +51,7 @@ export class UserService {
     addData(data:IUser) {
         var arr = this.dataBehaviorSubject.getValue();
         data.id = uuid.v4().toString();
-        arr.push(data);
+        arr.unshift(data);
         this.dataBehaviorSubject.next(arr);
     }
 

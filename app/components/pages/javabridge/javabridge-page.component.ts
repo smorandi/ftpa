@@ -1,9 +1,10 @@
-import {Component, NgZone, OnInit} from 'angular2/core';
+import {Component, NgZone, OnInit, OnDestroy} from 'angular2/core';
 import {PageHeader} from "../../page-header/page-header.component";
 import {CalculatorService, ListService} from "../../../core/java.services";
 import {JSEventHandlerService} from "../../../core/services/events/js-event-handler.service";
 import {EventDto} from "../../../core/dto";
 import {WebsocketEventHandlerService} from "../../../core/services/websockets/websocket-event-handler.service";
+import {Subscription} from "rxjs/Rx";
 
 @Component({
     selector: 'ftpa-javabridge-page',
@@ -12,13 +13,15 @@ import {WebsocketEventHandlerService} from "../../../core/services/websockets/we
     styleUrls: ['javabridge-page.component.css'],
     directives: [PageHeader]
 })
-export class JavaBridgePageComponent implements OnInit {
+export class JavaBridgePageComponent implements OnInit, OnDestroy {
     list:string[] = ["entry1", "entry2"];
     number1:number = 0;
     number2:number = 2;
     sum:number = 0;
     javaEvents:EventDto[] = null;
     webSocketEvents:EventDto[] = null;
+    private webSocketSubscription:Subscription;
+    private javaSubscription:Subscription;
 
     constructor(private calculatorService:CalculatorService,
                 private listService:ListService,
@@ -40,15 +43,20 @@ export class JavaBridgePageComponent implements OnInit {
     }
 
     asString(object:Object):string {
-        return JSON.stringify(object);
+        return JSON.stringify(object, null, 2);
     }
 
     ngOnInit() {
-        this.eventHandlerService.getEvents().subscribe(events => {
+        this.javaSubscription = this.eventHandlerService.getEvents().subscribe(events => {
             this.javaEvents = events;
         });
-        this.webSocketEventHandlerService.getEvents().subscribe(events => {
+        this.webSocketSubscription = this.webSocketEventHandlerService.getEvents().subscribe(events => {
             this.webSocketEvents = events;
         });
+    }
+
+    ngOnDestroy() {
+        this.javaSubscription.unsubscribe();
+        this.webSocketSubscription.unsubscribe();
     }
 }

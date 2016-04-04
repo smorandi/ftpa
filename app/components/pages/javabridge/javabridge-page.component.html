@@ -4,8 +4,8 @@
             [subtitle]="'Showcase for cross java-javascript communication'">
     </page-header>
 </div>
-<div style="display: -webkit-flex; -webkit-flex-direction:column; -webkit-flex-grow: 1; -webkit-flex-shrink: 1;">
-    <div style="display: -webkit-flex; -webkit-flex: 1;">
+<div style="display: -webkit-flex; -webkit-flex-direction:column; -webkit-flex: 1;">
+    <div style="display: -webkit-flex; -webkit-flex: 1 0 0;">
         <div class="panel panel-default" style="-webkit-flex: 1;margin: 4px;overflow-y: auto;">
             <div class="panel-heading">
                 <h3 class="panel-title">Calculator (synchronous example)</h3>
@@ -51,10 +51,10 @@
         </div>
     </div>
 
-    <div style="display: -webkit-flex;-webkit-flex: 1;">
+    <div style="display: -webkit-flex;-webkit-flex: 1 0 0;">
         <div class="panel panel-default" style="-webkit-flex: 1;margin: 4px;overflow-y: auto;">
             <div class="panel-heading">
-                <h3 class="panel-title">Java Events</h3>
+                <h3 class="panel-title">Events (Java-JS)</h3>
             </div>
             <div class="panel-body">
                 <div [ngSwitch]="javaEvents === null || javaEvents.length === 0">
@@ -71,7 +71,7 @@
         </div>
         <div class="panel panel-default" style="-webkit-flex: 1;margin: 4px;overflow-y: auto;">
             <div class="panel-heading">
-                <h3 class="panel-title">WebSocket Events</h3>
+                <h3 class="panel-title">Events (Web-Socket)</h3>
             </div>
             <div class="panel-body">
                 <div [ngSwitch]="webSocketEvents === null || webSocketEvents.length === 0">
