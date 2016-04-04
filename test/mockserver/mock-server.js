@@ -60,21 +60,21 @@ app.get('/api/demo', function (req, res) {
 });
 
 io.on('connection', function (socket) {
-    socket.on(config.ws_channel_java_event, function (data, ack) {
-        console.log(config.ws_channel_java_event + " - received: " + data);
+    socket.on(config.ws_channel_java_events, function (data, ack) {
+        console.log(config.ws_channel_java_events + " - received: " + data);
         if (ack) {
             ack('suppi - java!');
         }
 
-        io.emit(config.ws_channel_java_event, data);
+        io.emit(config.ws_channel_java_events, data);
     });
-    socket.on(config.ws_channel_js_event, function (data, ack) {
-        console.log(config.ws_channel_js_event + " - received: " + data);
+    socket.on(config.ws_channel_js_events, function (data, ack) {
+        console.log(config.ws_channel_js_events + " - received: " + data);
         if (ack) {
             ack('suppi - js!');
         }
 
-        io.emit(config.ws_channel_js_event, data);
+        io.emit(config.ws_channel_js_events, data);
     });
 });
 
@@ -94,5 +94,5 @@ server.listen(config.port, function () {
 
 // setInterval(function () {
 //     console.log("broadcast")
-//     io.emit(config.ws_channel_global, "global broadcast");
-// }, 1000);
+//     io.emit(config.ws_channel_java_events, JSON.stringify({type: "test-event", payload: "broadcast"}));
+// }, 3000);

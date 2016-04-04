@@ -23,7 +23,7 @@ export abstract class ServiceBase<T> implements IJavaService {
 
 @Injectable()
 export class CalculatorService extends ServiceBase<ICalculatorService> implements ICalculatorService {
-    static SERVICE_NAME = "calculatorService";
+    static SERVICE_NAME = "ftpa-calculator-service";
 
     constructor() {
         super(CalculatorService.SERVICE_NAME);
@@ -46,7 +46,7 @@ interface IListService extends IJavaService {
 
 @Injectable()
 export class ListService extends ServiceBase<IListService> implements IListService {
-    static SERVICE_NAME = "listService";
+    static SERVICE_NAME = "ftpa-list-service";
 
     constructor(private zone:NgZone) {
         super(ListService.SERVICE_NAME);

@@ -40,7 +40,7 @@ export class JavaBridgePageComponent implements OnInit {
     }
 
     asString(object:Object):string {
-        return JSON.stringify(object, 2);
+        return JSON.stringify(object);
     }
 
     ngOnInit() {
