@@ -3,30 +3,79 @@
         [subtitle]="'Showcase'">
 </page-header>
 
-<div class="btn-group" role="group">
-    <button type="button" class="btn btn-success" (click)="addRow($event)">Add</button>
-    <button type="button" class="btn btn-info" (click)="changeRow($event)">Update</button>
-    <button type="button" class="btn btn-danger" (click)="deleteRow($event)">Delete</button>
-</div>
+<div style="display: -webkit-flex; -webkit-flex-direction:column; -webkit-flex: 1;">
 
-<div style="-webkit-flex: 1; position: relative;">
-    <ag-grid-ng2 class="ag-fresh"
-                 style="position: absolute; top: 0; bottom: 0; left: 0; right: 0;"
+    <div class="btn-group toolbar" role="group">
+        <button type="button" class="btn btn-default" (click)="addRow($event)">
+            <span class="glyphicon glyphicon-plus" style="color: green;"></span>
+            Add
+        </button>
+        <button type="button" class="btn btn-default" (click)="changeRow($event)">
+            <span class="glyphicon glyphicon-edit"></span>
+            Update
+        </button>
+        <button type="button" class="btn btn-default" (click)="deleteRow($event)">
+            <span class="glyphicon glyphicon-remove" style="color: red;"></span>
+            Delete
+        </button>
+    </div>
 
-                 [gridOptions]="gridOptions"
-                 [columnDefs]="columnDefs"
-                 [showToolPanel]=false
-                 [rowData]="rows"
+    <div style="-webkit-flex: 1; position: relative;">
+        <ag-grid-ng2 class="ag-fresh"
+                     style="position: absolute; top: 0; bottom: 0; left: 0; right: 0;"
 
-                 enableColResize
-                 enableSorting
-                 enableFilter
-                 groupHeaders
-                 toolPanelSuppressGroups
-                 toolPanelSuppressValues
-                 debug
-                 rowHeight="22"
+                     [gridOptions]="gridOptions"
+                     [columnDefs]="columnDefs"
+                     [showToolPanel]=false
+                     [rowData]="rows"
 
-                 (rowSelected)="onRowSelected($event)">
-    </ag-grid-ng2>
+                     enableColResize
+                     enableSorting
+                     enableFilter
+                     groupHeaders
+                     toolPanelSuppressGroups
+                     toolPanelSuppressValues
+                     debug
+                     rowHeight="22"
+
+                     (rowSelected)="onRowSelected($event)">
+        </ag-grid-ng2>
+    </div>
+
+    <div style="display: -webkit-flex;-webkit-flex: 1 0 0; margin: 4px 0 0 0;">
+        <div class="panel panel-info" style="-webkit-flex: 1;margin: 0 2px 0 0;overflow-y: auto;">
+            <div class="panel-heading">
+                <h3 class="panel-title">Events (Java-JS)</h3>
+            </div>
+            <div class="panel-body">
+                <div [ngSwitch]="javaEvents === null || javaEvents.length === 0">
+                    <div *ngSwitchDefault>No events received yet...</div>
+                    <div class="list-group" *ngSwitchWhen="false">
+                        <div class="list-group-item" *ngFor="#event of javaEvents">
+                            <h4 class="list-group-item-heading">{{event.type}}</h4>
+                            <p class="list-group-item-text" style="white-space: normal;word-wrap: break-word;"
+                               [textContent]="asString(event.payload)"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-info" style="-webkit-flex: 1;margin: 0 0 0 2px;overflow-y: auto;">
+            <div class="panel-heading">
+                <h3 class="panel-title">Events (Web-Socket)</h3>
+            </div>
+            <div class="panel-body">
+                <div [ngSwitch]="webSocketEvents === null || webSocketEvents.length === 0">
+                    <div *ngSwitchDefault>No events received yet...</div>
+                    <div class="list-group" *ngSwitchWhen="false">
+                        <div class="list-group-item" *ngFor="#event of webSocketEvents">
+                            <h4 class="list-group-item-heading">{{event.type}}</h4>
+                            <p class="list-group-item-text" style="white-space: normal;word-wrap: break-word;"
+                               [textContent]="asString(event.payload)"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

@@ -1,8 +1,6 @@
 export default class RefData {
-
     static IT_SKILLS = ['android', 'css', 'html5', 'mac', 'windows'];
     static IT_SKILLS_NAMES = ['Android', 'CSS', 'HTML 5', 'Mac', 'Windows'];
-
 
     static firstNames = ["Sophie", "Isabelle", "Emily", "Olivia", "Lily", "Chloe", "Isabella",
         "Amelia", "Jessica", "Sophia", "Ava", "Charlotte", "Mia", "Lucy", "Grace", "Ruby",

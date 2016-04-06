@@ -8,12 +8,14 @@ import {UserService} from "./core/services/data/user.service";
 import {JSEventHandlerService} from "./core/services/events/js-event-handler.service";
 import {EventDispatcherService} from "./core/services/events/event-dispatcher.service";
 import {WebsocketEventHandlerService} from "./core/services/websockets/websocket-event-handler.service";
+import {UserService_Big} from "./core/services/data/user-big.service";
 
 // bootstrap angular 2 app now!
 bootstrap(AppComponent, [
     ROUTER_PROVIDERS,
     HTTP_PROVIDERS,
     UserService,
+    UserService_Big,
     provide(LocationStrategy, {useClass: HashLocationStrategy}),
     provide(JS.CalculatorService, {useClass: JS.CalculatorService}),
     provide(JS.ListService, {useClass: JS.ListService}),

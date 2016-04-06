@@ -3,10 +3,20 @@
         [subtitle]="'Showcase for a grid component using Ag-Grid'">
 </page-header>
 
-<div class="btn-group" role="group">
-    <button type="button" class="btn btn-success" (click)="addRow($event)">Add</button>
-    <button type="button" class="btn btn-info" (click)="changeRow($event)">Update</button>
-    <button type="button" class="btn btn-danger" (click)="deleteRow($event)">Delete</button>
+
+<div class="btn-group toolbar" role="group">
+    <button type="button" class="btn btn-default" (click)="addRow($event)">
+        <span class="glyphicon glyphicon-plus" style="color: green;"></span>
+        Add
+    </button>
+    <button type="button" class="btn btn-default" (click)="changeRow($event)">
+        <span class="glyphicon glyphicon-edit"></span>
+        Update
+    </button>
+    <button type="button" class="btn btn-default" (click)="deleteRow($event)">
+        <span class="glyphicon glyphicon-remove" style="color: red;"></span>
+        Delete
+    </button>
 </div>
 
 <div style="-webkit-flex: 1; position: relative;">

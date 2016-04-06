@@ -5,10 +5,10 @@ import {GridOptions, Utils, SvgFactory} from 'ag-grid/main';
 // only import this if you are using the ag-Grid-Enterprise
 import 'ag-grid-enterprise/main';
 import {PageHeader} from "../../page-header/page-header.component";
-import {UserService} from "../../../core/services/data/user.service";
 import {IUser, User} from "../../../core/dto";
 import * as _ from 'lodash';
 import {Subscription} from "rxjs/Rx";
+import {UserService_Big} from "../../../core/services/data/user-big.service";
 
 @Component({
     selector: 'ftpa-ag-grid-page',
@@ -27,7 +27,7 @@ export class AgGridPageComponent implements AfterViewInit, OnInit, OnDestroy {
     private dataSource:any;
     private subscription:Subscription;
 
-    constructor(private userService:UserService) {
+    constructor(private userService:UserService_Big) {
         // this.gridOptions = <GridOptions>{
         //     enableColResize: true,
         //     virtualPaging: true, // this is important, if not set, normal paging will be done
@@ -74,7 +74,7 @@ export class AgGridPageComponent implements AfterViewInit, OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.userService.setUsers(this.userService.createRandomUsers(10000));
+        // this.userService.setUsers(this.userService.createRandomUsers(10000));
     }
 
     ngAfterViewInit() {
@@ -122,8 +122,8 @@ export class AgGridPageComponent implements AfterViewInit, OnInit, OnDestroy {
         var selectedNodes:any[] = this.gridOptions.api.getSelectedNodes();
         if (selectedNodes && selectedNodes.length > 0) {
             var users:IUser[] = _.map(selectedNodes, "data");
-            var clone = Object.assign(new User(), users[0]);
-            clone.firstName = "derFisch";
+            var clone:IUser = Object.assign(new User(), users[0]);
+            clone.firstname = "derFisch";
             this.userService.updateData(clone);
         }
     }

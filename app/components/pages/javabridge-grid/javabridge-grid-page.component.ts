@@ -2,14 +2,17 @@ import {Component, AfterViewInit, OnInit, OnDestroy} from "angular2/core";
 import {AgGridNg2} from 'ag-grid-ng2/main';
 import {GridOptions, Utils, SvgFactory} from 'ag-grid/main';
 
-// only import this if you are using the ag-Grid-Enterprise
-import 'ag-grid-enterprise/main';
 import {PageHeader} from "../../page-header/page-header.component";
 import {UserService} from "../../../core/services/data/user.service";
 import {IUser, User, EventDto} from "../../../core/dto";
 import * as _ from 'lodash';
 import {Subscription} from "rxjs/Rx";
 import {EventDispatcherService} from "../../../core/services/events/event-dispatcher.service";
+import {JSEventHandlerService} from "../../../core/services/events/js-event-handler.service";
+import {WebsocketEventHandlerService} from "../../../core/services/websockets/websocket-event-handler.service";
+
+// only import this if you are using the ag-Grid-Enterprise
+import 'ag-grid-enterprise/main';
 
 @Component({
     selector: 'ftpa-javabridge-grid-page',
@@ -25,10 +28,18 @@ export class JavabridgeGridPageComponent implements AfterViewInit, OnInit, OnDes
     private columnDefs:any[];
     private subscription:Subscription;
 
-    constructor(private userService:UserService, private eventDispatcherService:EventDispatcherService) {
+    private javaEvents:EventDto[] = null;
+    private webSocketEvents:EventDto[] = null;
+    private webSocketSubscription:Subscription;
+    private javaSubscription:Subscription;
+
+    constructor(private userService:UserService,
+                private eventDispatcherService:EventDispatcherService,
+                private eventHandlerService:JSEventHandlerService,
+                private webSocketEventHandlerService:WebsocketEventHandlerService) {
         this.gridOptions = <GridOptions>{
             suppressMenuHide: false,
-            rowSelection: 'single',
+            rowSelection: 'multiple',
             rowDeselection: true
         };
 
@@ -36,10 +47,19 @@ export class JavabridgeGridPageComponent implements AfterViewInit, OnInit, OnDes
     }
 
     ngOnInit() {
-        this.userService.setUsers(this.userService.createRandomUsers(10));
+        // this.userService.setUsers(this.userService.createRandomUsers(10));
+
+        this.javaSubscription = this.eventHandlerService.getEvents().subscribe(events => {
+            this.javaEvents = events;
+        });
+        this.webSocketSubscription = this.webSocketEventHandlerService.getEvents().subscribe(events => {
+            this.webSocketEvents = events;
+        });
     }
 
     ngOnDestroy() {
+        this.javaSubscription.unsubscribe();
+        this.webSocketSubscription.unsubscribe();
         this.subscription.unsubscribe();
     }
 
@@ -63,12 +83,16 @@ export class JavabridgeGridPageComponent implements AfterViewInit, OnInit, OnDes
         ];
     }
 
+    asString(object:Object):string {
+        return JSON.stringify(object, null, 2);
+    }
+
     changeRow(ev:Event) {
         var selectedNodes:any[] = this.gridOptions.api.getSelectedNodes();
         if (selectedNodes && selectedNodes.length > 0) {
             var users:IUser[] = _.map(selectedNodes, "data");
-            var clone = Object.assign(new User(), users[0]);
-            clone.firstName = "derFisch";
+            var clone:IUser = Object.assign(new User(), users[0]);
+            clone.firstname = "derFisch";
             this.userService.updateData(clone);
         }
     }

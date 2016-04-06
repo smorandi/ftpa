@@ -14,6 +14,11 @@ var app = express();
 var server = http.createServer(app);
 var io = require('socket.io')(server);
 
+
+var userService = require("./dto");
+var userList_small = userService.createRandomUsers(10);
+var userList_big = userService.createRandomUsers(10000);
+
 // common body parser as json..
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -48,15 +53,13 @@ app.use(function (err, req, res, next) {
     res.status(status).json(err);
 });
 
-
 // the actual route...
-app.get('/api/demo', function (req, res) {
-    var obj = {
-        name: "der fisch",
-        age: 22
-    };
+app.get('/api/users/small', function (req, res) {
+    res.json(userList_small);
+});
 
-    res.json(obj);
+app.get('/api/users/big', function (req, res) {
+    res.json(userList_big);
 });
 
 io.on('connection', function (socket) {

@@ -8,13 +8,12 @@ import * as uuid from 'node-uuid';
 import RefData from "../../refData";
 
 @Injectable()
-export class UserService {
-    static url:string = "http://localhost:3000/api/users/small";
+export class UserService_Big {
+    static url:string = "http://localhost:3000/api/users/big";
     private dataBehaviorSubject:BehaviorSubject<IUser[]> = new BehaviorSubject([]);
 
     constructor(private http:Http) {
-        // this.setUsers(this.createRandomUsers(10000));
-        this.http.get(UserService.url).map(res => {
+        this.http.get(UserService_Big.url).map(res => {
             return res.json();
         }).subscribe(data => {
             this.setUsers(data);

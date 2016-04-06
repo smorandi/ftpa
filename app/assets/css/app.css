@@ -13,3 +13,21 @@ app {
     display: -webkit-flex;
     display: flex;
 }
+
+.toolbar {
+    padding: 1px;
+    border: solid thin grey;
+    border-bottom: none;
+
+    background: linear-gradient(to bottom, lightgrey, dimgrey);
+}
+
+/*bootstrap override*/
+.btn {
+    border-radius: 0;
+    padding: 2px 4px;
+}
+
+.panel {
+    border-radius: 0;
+}
