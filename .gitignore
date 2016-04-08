@@ -11,5 +11,5 @@ node_modules
 *.map
 
 #we don't want to ignore js resources under this folder...
-!/test/**/*.js
+!/backend/**/*.js
 !/app/assets/**/*.js

@@ -23,6 +23,13 @@ export class User implements IUser {
     }
 }
 
+
+export interface IHobby extends IBaseDto {
+    name?:string;
+}
+
+
+
 export interface IEventDto {
     type:string;
     payload:Object;

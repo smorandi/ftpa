@@ -1,0 +1,67 @@
+<page-header
+        [title]="'User-Hobby Grid'"
+        [subtitle]="'Showcase'">
+</page-header>
+
+<div style="display: -webkit-flex; -webkit-flex-direction:column; -webkit-flex: 1;">
+    <div class="title">Users</div>
+    <div class="btn-group toolbar" role="group">
+        <button type="button" class="btn btn-default" (click)="addRow($event)">
+            <span class="glyphicon glyphicon-plus" style="color: green;"></span>
+            Add
+        </button>
+        <button type="button" class="btn btn-default" (click)="changeRow($event)">
+            <span class="glyphicon glyphicon-edit"></span>
+            Update
+        </button>
+        <button type="button" class="btn btn-default" (click)="deleteRow($event)">
+            <span class="glyphicon glyphicon-remove" style="color: red;"></span>
+            Delete
+        </button>
+    </div>
+
+    <div style="-webkit-flex: 1; position: relative;">
+        <ag-grid-ng2 class="ag-fresh"
+                     style="position: absolute; top: 0; bottom: 0; left: 0; right: 0;"
+
+                     [gridOptions]="userGridOptions"
+                     [columnDefs]="userColumnDefs"
+                     [showToolPanel]=false
+                     [rowData]="userRows"
+
+                     enableColResize
+                     enableSorting
+                     enableFilter
+                     groupHeaders
+                     toolPanelSuppressGroups
+                     toolPanelSuppressValues
+                     debug
+                     rowHeight="22"
+
+                     (rowSelected)="onRowSelected($event)">
+        </ag-grid-ng2>
+    </div>
+</div>
+<br>
+<div style="display: -webkit-flex; -webkit-flex-direction:column; -webkit-flex: 1;">
+    <div class="title">Hobbies</div>
+    <div style="-webkit-flex: 1; position: relative;">
+        <ag-grid-ng2 class="ag-fresh"
+                     style="position: absolute; top: 0; bottom: 0; left: 0; right: 0;"
+
+                     [gridOptions]="hobbyGridOptions"
+                     [columnDefs]="hobbyColumnDefs"
+                     [showToolPanel]=false
+                     [rowData]="hobbyRows"
+
+                     enableColResize
+                     enableSorting
+                     enableFilter
+                     groupHeaders
+                     toolPanelSuppressGroups
+                     toolPanelSuppressValues
+                     debug
+                     rowHeight="22">
+        </ag-grid-ng2>
+    </div>
+</div>

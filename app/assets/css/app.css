@@ -1,3 +1,8 @@
+@font-face {
+    font-family: bebas;
+    src: url(../fonts/BebasNeue.otf);
+}
+
 body,
 html {
     height: 100%;
@@ -15,11 +20,17 @@ app {
 }
 
 .toolbar {
-    padding: 1px;
-    border: solid thin grey;
+    padding: 4px;
+    border: solid thin black;
     border-bottom: none;
+    background: linear-gradient(to bottom, #545456, #211f22)
+}
 
-    background: linear-gradient(to bottom, lightgrey, dimgrey);
+.title {
+    font: 20px bebas;
+    background-color: #393939;
+    color: orange;
+    padding: 2px 6px 0 6px;
 }
 
 /*bootstrap override*/

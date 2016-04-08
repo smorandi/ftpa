@@ -8,6 +8,7 @@ import {Subject, Observable} from "rxjs/Rx"
 import {JSEventHandlerService} from "../../core/services/events/js-event-handler.service";
 import {WebsocketEventHandlerService} from "../../core/services/websockets/websocket-event-handler.service";
 import {JavabridgeGridPageComponent} from "../pages/javabridge-grid/javabridge-grid-page.component";
+import {HobbyGridPageComponent} from "../pages/hobby-grid/hobby-grid-page.component";
 
 @Component({
     selector: 'app',
@@ -22,6 +23,7 @@ import {JavabridgeGridPageComponent} from "../pages/javabridge-grid/javabridge-g
     {path: '/javabridge', component: JavaBridgePageComponent, as: 'JavaBridgePage'},
     {path: '/agGrid', component: AgGridPageComponent, as: 'AgGridPage'},
     {path: '/javabridgeGrid', component: JavabridgeGridPageComponent, as: 'JavabridgeGridPage'},
+    {path: '/hobbyGrid', component: HobbyGridPageComponent, as: 'HobbyGridPage'},
 ])
 
 export class AppComponent {

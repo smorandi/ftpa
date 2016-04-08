@@ -1,5 +1,8 @@
 "use strict";
 
+var fs = require("fs");
+var path = require("path");
+
 var config = require("./config");
 
 var cookieParser = require("cookie-parser");
@@ -13,11 +16,6 @@ var http = require('http');
 var app = express();
 var server = http.createServer(app);
 var io = require('socket.io')(server);
-
-
-var userService = require("./dto");
-var userList_small = userService.createRandomUsers(10);
-var userList_big = userService.createRandomUsers(10000);
 
 // common body parser as json..
 app.use(bodyParser.json());
@@ -46,20 +44,19 @@ app.use(function (req, res, next) {
 app.use(morgan('common'));
 app.use(express.static(config.publicDir));
 
+// Globbing routing files
+var routesPath = path.join(__dirname, "/routes/");
+var routesFiles = fs.readdirSync(routesPath);
+console.log("initializing routes...\n", routesFiles);
+routesFiles.forEach(function (routePath) {
+    return require(path.resolve(routesPath, routePath))(app);
+});
+
 // end of line...analyse what error we got and return any infos to the client...
 app.use(function (err, req, res, next) {
     var status = err.code || err.status || 500;
     console.log("application error: ", err);
     res.status(status).json(err);
-});
-
-// the actual route...
-app.get('/api/users/small', function (req, res) {
-    res.json(userList_small);
-});
-
-app.get('/api/users/big', function (req, res) {
-    res.json(userList_big);
 });
 
 io.on('connection', function (socket) {

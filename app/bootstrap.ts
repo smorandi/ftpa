@@ -4,11 +4,13 @@ import {ROUTER_PROVIDERS, APP_BASE_HREF, LocationStrategy, HashLocationStrategy}
 import {HTTP_PROVIDERS} from 'angular2/http';
 import {AppComponent} from './components/app/app.component';
 import * as JS from './core/java.services';
-import {UserService} from "./core/services/data/user.service";
 import {JSEventHandlerService} from "./core/services/events/js-event-handler.service";
 import {EventDispatcherService} from "./core/services/events/event-dispatcher.service";
 import {WebsocketEventHandlerService} from "./core/services/websockets/websocket-event-handler.service";
+import {TrdGuiService} from "./core/java.services";
+import {UserService} from "./core/services/data/user.service";
 import {UserService_Big} from "./core/services/data/user-big.service";
+import {HobbyService} from "./core/services/data/hobby.service";
 
 // bootstrap angular 2 app now!
 bootstrap(AppComponent, [
@@ -16,10 +18,12 @@ bootstrap(AppComponent, [
     HTTP_PROVIDERS,
     UserService,
     UserService_Big,
+    HobbyService,
     provide(LocationStrategy, {useClass: HashLocationStrategy}),
     provide(JS.CalculatorService, {useClass: JS.CalculatorService}),
     provide(JS.ListService, {useClass: JS.ListService}),
     provide(EventDispatcherService, {useClass: EventDispatcherService}),
     provide(JSEventHandlerService, {useClass: JSEventHandlerService}),
     provide(WebsocketEventHandlerService, {useClass: WebsocketEventHandlerService}),
+    provide(TrdGuiService, {useClass: TrdGuiService}),
 ]);

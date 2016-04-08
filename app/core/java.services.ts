@@ -4,11 +4,6 @@ export interface IJavaService {
 }
 
 
-// calculator services...
-interface ICalculatorService extends IJavaService {
-    sum(number1:number, number2:number):number;
-}
-
 export abstract class ServiceBase<T> implements IJavaService {
     public windowService:T;
     public hasWindowService:boolean;
@@ -20,6 +15,11 @@ export abstract class ServiceBase<T> implements IJavaService {
     }
 }
 
+
+// calculator services...
+interface ICalculatorService extends IJavaService {
+    sum(number1:number, number2:number):number;
+}
 
 @Injectable()
 export class CalculatorService extends ServiceBase<ICalculatorService> implements ICalculatorService {
@@ -67,6 +67,39 @@ export class ListService extends ServiceBase<IListService> implements IListServi
             setTimeout(() => {
                 cb.call(this, ["1", "2", "3"]);
             }, 1000);
+        }
+    }
+}
+
+// trdgui services...
+interface ITrdGuiService extends IJavaService {
+    getLoginName():string;
+    getLoginPassword():string;
+}
+
+@Injectable()
+export class TrdGuiService extends ServiceBase<ITrdGuiService> implements ITrdGuiService {
+    static SERVICE_NAME = "ftpa-trdgui-service";
+
+    constructor() {
+        super(TrdGuiService.SERVICE_NAME);
+    }
+
+    getLoginName():string {
+        if (this.hasWindowService) {
+            return this.windowService.getLoginName();
+        }
+        else {
+            return "";
+        }
+    }
+
+    getLoginPassword():string {
+        if (this.hasWindowService) {
+            return this.windowService.getLoginPassword();
+        }
+        else {
+            return "";
         }
     }
 }

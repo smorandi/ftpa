@@ -58,19 +58,16 @@ export class AgGridPageComponent implements AfterViewInit, OnInit, OnDestroy {
 
     getRows(params) {
         console.log('asking for ' + params.startRow + ' to ' + params.endRow);
-        // At this point in your code, you would call the server, using $http if in AngularJS.
-        // To make the demo look real, wait for 500ms before returning
-        setTimeout(() => {
-            // take a slice of the total rows
-            var rowsThisPage = this.rawData.slice(params.startRow, params.endRow);
-            // if on or after the last page, work out the last row.
-            var lastRow = -1;
-            if (this.rawData.length <= params.endRow) {
-                lastRow = this.rawData.length;
-            }
-            // call the success callback
-            params.successCallback(rowsThisPage, lastRow);
-        }, 5);
+        var rowsThisPage = this.rawData.slice(params.startRow, params.endRow);
+
+        // if on or after the last page, work out the last row.
+        var lastRow = -1;
+        if (this.rawData.length <= params.endRow) {
+            lastRow = this.rawData.length;
+        }
+
+        // call the success callback
+        params.successCallback(rowsThisPage, lastRow);
     }
 
     ngOnInit() {
@@ -129,7 +126,7 @@ export class AgGridPageComponent implements AfterViewInit, OnInit, OnDestroy {
     }
 
     addRow(ev:Event) {
-        this.userService.addData(this.userService.createRandomUser());
+        // this.userService.addData(this.userService.createRandomUser());
     }
 
     deleteRow(ev:Event) {
