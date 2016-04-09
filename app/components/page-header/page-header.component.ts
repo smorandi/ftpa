@@ -11,4 +11,7 @@ export class PageHeader {
     title: string;
     @Input()
     subtitle: string;
+
+    constructor(){
+    }
 }

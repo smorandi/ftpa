@@ -20,7 +20,7 @@ module.exports = function (app) {
     app.use(config.urls.users, router);
 
     // authentication middleware defaults for this router...
-    // router.use(requireLogin);
+    router.use(requireLogin);
 
     router.route("/")
         .get(function (req, res, next) {

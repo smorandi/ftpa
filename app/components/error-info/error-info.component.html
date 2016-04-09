@@ -1,0 +1,4 @@
+<div *ngIf="hasError()" id="myError" class="alert alert-danger" role="alert" style="max-height: 100px">
+    <button type="button" class="close" (click)="close()">&times;</button>
+    {{errorMessage}}
+</div>

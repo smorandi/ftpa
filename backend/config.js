@@ -17,6 +17,7 @@ exports.ws_channel_js_events = "ws-js-events";
 // URL configurations...
 //-----------------------------------------------------------------------------
 exports.urls = {
+    home: "/api/home",
     users: "/api/users",
     hobbies: "/api/hobbies",
     userHobbies: "/api/userHobbies"

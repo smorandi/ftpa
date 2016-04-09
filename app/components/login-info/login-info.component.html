@@ -1,0 +1,13 @@
+<div style="display: -webkit-flex; -webkit-justify-content: flex-end;background-color: lightgrey;">
+    <div [textContent]="'Username: ' + credentialsService.username"></div>
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    <div [textContent]="'Password: ' + credentialsService.password"></div>
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    <div [hidden]="!credentialsService.isLoggedIn">
+        <button class="btn btn-xs btn-info" (click)="logout($event)">Logout</button>
+    </div>
+</div>

@@ -9,7 +9,6 @@ var uuid = require("node-uuid");
 var config = require("../config");
 var User = require("../models/dto").User;
 
-
 var firstNames = ["Sophie", "Isabelle", "Emily", "Olivia", "Lily", "Chloe", "Isabella",
     "Amelia", "Jessica", "Sophia", "Ava", "Charlotte", "Mia", "Lucy", "Grace", "Ruby",
     "Ella", "Evie", "Freya", "Isla", "Poppy", "Daisy", "Layla"];
@@ -42,7 +41,8 @@ module.exports.createRandomUsers = function(nb) {
     return users;
 }
 
-var users = exports.createRandomUsers(10000);
+var users = exports.createRandomUsers(9999);
+users.unshift(new User(uuid.v4().toString(), "FTPA", "Tester", "ftpa", "test", "25"));
 
 module.exports.users = users;
 module.exports.users.big = users;

@@ -37,9 +37,11 @@ export class HobbyGridPageComponent implements AfterViewInit, OnInit, OnDestroy 
     private hobbyDataSubscription:Subscription;
 
     private javaEvents:EventDto[] = null;
-    private webSocketEvents:EventDto[] = null;
+    private wsJavaEvents:EventDto[] = null;
+    private wsJSEvents:EventDto[] = null;
 
-    private webSocketSubscription:Subscription;
+    private webSocketJavaSubscription:Subscription;
+    private webSocketJSSubscription:Subscription;
     private javaSubscription:Subscription;
 
     constructor(private userService:UserService,
@@ -81,19 +83,20 @@ export class HobbyGridPageComponent implements AfterViewInit, OnInit, OnDestroy 
     }
 
     ngOnInit() {
-        this.javaSubscription = this.eventHandlerService.getEvents().subscribe(events => {
-            this.javaEvents = events;
-        });
-        this.webSocketSubscription = this.webSocketEventHandlerService.getEvents().subscribe(events => {
-            this.webSocketEvents = events;
-        });
+        this.javaSubscription = this.eventHandlerService.getEvents().subscribe(events => this.javaEvents = events);
+        this.webSocketJavaSubscription = this.webSocketEventHandlerService.getJavaEvents().subscribe(event => this.wsJavaEvents.unshift(event));
+        this.webSocketJSSubscription = this.webSocketEventHandlerService.getJSEvents().subscribe(event => this.wsJSEvents.unshift(event));
     }
 
     ngOnDestroy() {
         this.javaSubscription.unsubscribe();
-        this.webSocketSubscription.unsubscribe();
+        this.webSocketJavaSubscription.unsubscribe();
+        this.webSocketJSSubscription.unsubscribe();
         this.userDataSubscription.unsubscribe();
-        this.hobbyDataSubscription.unsubscribe();
+
+        if (this.hobbyDataSubscription) {
+            this.hobbyDataSubscription.unsubscribe();
+        }
     }
 
     ngAfterViewInit() {
@@ -103,11 +106,6 @@ export class HobbyGridPageComponent implements AfterViewInit, OnInit, OnDestroy 
             this.userGridOptions.api.setRowData(this.userRows);
         });
 
-        this.hobbyDataSubscription = this.hobbyService.getData().subscribe(data => {
-            this.hobbyRows.splice(0, this.hobbyRows.length);
-            this.hobbyRows.push.apply(this.hobbyRows, data);
-            this.hobbyGridOptions.api.setRowData(this.hobbyRows);
-        });
     }
 
     asString(object:Object):string {
@@ -141,7 +139,11 @@ export class HobbyGridPageComponent implements AfterViewInit, OnInit, OnDestroy 
             let eventDto = new EventDto("ftpa-selection-event", $event.node.data);
             this.eventDispatcherService.dispatch(eventDto);
 
-            this.hobbyService.fetchDataForUser($event.node.data);
+            this.hobbyDataSubscription = this.hobbyService.fetchDataForUser($event.node.data).subscribe(data => {
+                this.hobbyRows.splice(0, this.hobbyRows.length);
+                this.hobbyRows.push.apply(this.hobbyRows, data);
+                this.hobbyGridOptions.api.setRowData(this.hobbyRows);
+            });
         }
     }
 }

@@ -9,7 +9,9 @@ export class WebsocketEventHandlerService {
     private wsJavaEventChannel:string = "ws-java-events";
     private wsJSEventChannel:string = "ws-js-events";
     private socket:any;
-    private eventsSubject:BehaviorSubject<IEventDto[]> = new BehaviorSubject<IEventDto[]>([]);
+
+    private javaEventsSubject:Subject<IEventDto> = new Subject<IEventDto>();
+    private jsEventsSubject:Subject<IEventDto> = new Subject<IEventDto>();
 
     constructor(private zone:NgZone) {
         console.log("registering websocket @ " + this.ws_url);
@@ -17,27 +19,35 @@ export class WebsocketEventHandlerService {
 
         console.log("listening on channel " + this.wsJavaEventChannel);
         this.socket.on(this.wsJavaEventChannel, json => {
-            this.handle(json);
+            this.handleJavaEvent(json);
+        });
+
+        console.log("listening on channel " + this.wsJSEventChannel);
+        this.socket.on(this.wsJSEventChannel, json => {
+            this.handleJSEvent(json);
         });
     }
 
-    getEvents():Observable<IEventDto[]> {
-        return this.eventsSubject.asObservable();
+    getJavaEvents():Observable<IEventDto> {
+        return this.javaEventsSubject.asObservable();
     }
 
-    handle(json:string) {
-        console.log("websocket-data received: " + json);
-        let eventDto:IEventDto = JSON.parse(json);
-
-        var arr = this.eventsSubject.getValue();
-        arr.length = 0;
-        arr.unshift(eventDto);
-
-        this.zone.run(() => this.eventsSubject.next(arr));
+    getJSEvents():Observable<IEventDto> {
+        return this.jsEventsSubject.asObservable();
     }
-    
-    dispatch(dto:IEventDto) {
-        console.log("dispatch to websocket: " + dto);
-        this.socket.emit(this.wsJSEventChannel, JSON.stringify(dto));
+
+    handleJavaEvent(json:string) {
+        console.log("ws-java-event received: " + json);
+        this.zone.run(() => this.javaEventsSubject.next(JSON.parse(json)));
+    }
+
+    handleJSEvent(json:string) {
+        console.log("ws-js-event received: " + json);
+        this.zone.run(() => this.jsEventsSubject.next(JSON.parse(json)));
+    }
+
+    dispatch(json:string) {
+        console.log("dispatch to websocket: " + json);
+        this.socket.emit(this.wsJSEventChannel, json);
     }
 }

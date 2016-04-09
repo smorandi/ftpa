@@ -19,10 +19,10 @@ module.exports = function (app) {
     app.use(config.urls.userHobbies, router);
 
     // authentication middleware defaults for this router...
-    // router.use(requireLogin);
+    router.use(requireLogin);
 
     router.route("/")
-        .get(requireLogin, function (req, res, next) {
+        .get(function (req, res, next) {
             res.json(service.userHobbies);
         });
 };

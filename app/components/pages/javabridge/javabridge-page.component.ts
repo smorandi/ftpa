@@ -18,9 +18,13 @@ export class JavaBridgePageComponent implements OnInit, OnDestroy {
     number1:number = 0;
     number2:number = 2;
     sum:number = 0;
-    javaEvents:EventDto[] = null;
-    webSocketEvents:EventDto[] = null;
-    private webSocketSubscription:Subscription;
+
+    private javaEvents:EventDto[] = [];
+    private wsJavaEvents:EventDto[] = [];
+    private wsJSEvents:EventDto[] = [];
+
+    private webSocketJavaSubscription:Subscription;
+    private webSocketJSSubscription:Subscription;
     private javaSubscription:Subscription;
 
     constructor(private calculatorService:CalculatorService,
@@ -47,16 +51,14 @@ export class JavaBridgePageComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.javaSubscription = this.eventHandlerService.getEvents().subscribe(events => {
-            this.javaEvents = events;
-        });
-        this.webSocketSubscription = this.webSocketEventHandlerService.getEvents().subscribe(events => {
-            this.webSocketEvents = events;
-        });
+        this.javaSubscription = this.eventHandlerService.getEvents().subscribe(events => this.javaEvents = events);
+        this.webSocketJavaSubscription = this.webSocketEventHandlerService.getJavaEvents().subscribe(event => this.wsJavaEvents.unshift(event));
+        this.webSocketJSSubscription = this.webSocketEventHandlerService.getJSEvents().subscribe(event => this.wsJSEvents.unshift(event));
     }
 
     ngOnDestroy() {
         this.javaSubscription.unsubscribe();
-        this.webSocketSubscription.unsubscribe();
+        this.webSocketJavaSubscription.unsubscribe();
+        this.webSocketJSSubscription.unsubscribe();
     }
 }

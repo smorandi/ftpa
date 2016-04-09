@@ -15,14 +15,14 @@ var requireMatchingUserId = require("../middleware/auth.middleware").requireMatc
 var service = require("../services/hobby.service.js");
 
 module.exports = function (app) {
-    console.log("initializing hobbies routes...");
-    app.use(config.urls.hobbies, router);
+    console.log("initializing home routes...");
+    app.use(config.urls.home, router);
 
     // authentication middleware defaults for this router...
     router.use(requireLogin);
 
     router.route("/")
         .get(function (req, res, next) {
-            res.json(service.hobbies);
+            res.json(req.user);
         });
 };

@@ -2,14 +2,13 @@ import {Injectable} from "angular2/core";
 import {Http} from "angular2/http";
 import {IUser, User} from "../../dto";
 import {BaseService} from "./base.service";
-import RefData from "../../refData";
-import uuid from "node-uuid";
+import {HttpClient} from "../../http/http.service";
 
 @Injectable()
 export class UserService extends BaseService<IUser>{
     static url:string = "http://localhost:3000/api/users/?size=small";
 
-    constructor(http:Http) {
+    constructor(http:HttpClient) {
         super(http, UserService.url);
     }
 

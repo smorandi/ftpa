@@ -1,26 +1,21 @@
-import {Subject} from "rxjs/Rx";
-import {Observable} from "rxjs/Observable";
 import {Injectable, NgZone} from "angular2/core";
-import {ServiceBase} from "../../java.services";
-import {JavaEventHandlerService} from "./java-event-handler.service";
+import {EventHandlerService} from "../../java.services";
 import {WebsocketEventHandlerService} from "../websockets/websocket-event-handler.service";
 import {IEventDto} from "../../dto";
 
 @Injectable()
-export class EventDispatcherService extends ServiceBase<EventDispatcherService>{
-    constructor(private zone:NgZone, private webSocketService:WebsocketEventHandlerService) {
-        super(JavaEventHandlerService.SERVICE_NAME);
+export class EventDispatcherService{
+    constructor(private webSocketService:WebsocketEventHandlerService,
+                private eventHandlerService:EventHandlerService) {
     }
 
     dispatch(dto:IEventDto) {
-        if (this.hasWindowService) {
-            let json = JSON.stringify(dto);
-            this.windowService[JavaEventHandlerService.SERVICE_METHOD](json);
-        }
-        else {
-            console.log("no window service available");
-        }
+        let json = JSON.stringify(dto);
 
-        this.webSocketService.dispatch(dto);
+        console.log("EventDispatcherService: dispatching on java-service");
+        this.eventHandlerService.handle(json);
+        
+        console.log("EventDispatcherService: dispatching on web-socket");
+        this.webSocketService.dispatch(json);
     }
 }

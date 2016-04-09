@@ -1,20 +1,19 @@
 import {Injectable, NgZone} from 'angular2/core';
 
-export interface IJavaService {
+interface IJavaService {
+    serviceName:string;
 }
-
 
 export abstract class ServiceBase<T> implements IJavaService {
     public windowService:T;
     public hasWindowService:boolean;
 
-    constructor(private serviceName:string) {
-        this.windowService = window[serviceName];
+    constructor(public serviceName:string) {
+        this.windowService = window[this.serviceName];
         this.hasWindowService = this.windowService ? true : false;
         console.log("hasWindowService for " + this.serviceName + " : " + this.hasWindowService);
     }
 }
-
 
 // calculator services...
 interface ICalculatorService extends IJavaService {
@@ -30,12 +29,7 @@ export class CalculatorService extends ServiceBase<ICalculatorService> implement
     }
 
     sum(number1:number, number2:number):number {
-        if (this.hasWindowService) {
-            return this.windowService.sum(number1, number2);
-        }
-        else {
-            return number1 + number2;
-        }
+        return this.hasWindowService ? this.windowService.sum(number1, number2) : number1 + number2;
     }
 }
 
@@ -55,7 +49,7 @@ export class ListService extends ServiceBase<IListService> implements IListServi
     loadList(cb:(data:string[])=>void):void {
         console.log("load list");
         if (this.hasWindowService) {
-            var wrap:any = {
+            let wrap:any = {
                 cb: json => {
                     this.zone.run(() => cb.call(this, JSON.parse(json)));
                 }
@@ -71,35 +65,76 @@ export class ListService extends ServiceBase<IListService> implements IListServi
     }
 }
 
-// trdgui services...
-interface ITrdGuiService extends IJavaService {
-    getLoginName():string;
-    getLoginPassword():string;
+
+// event-handler service...
+interface IEventHandlerService extends IJavaService {
+    handle(json:string):void;
 }
 
 @Injectable()
-export class TrdGuiService extends ServiceBase<ITrdGuiService> implements ITrdGuiService {
-    static SERVICE_NAME = "ftpa-trdgui-service";
+export class EventHandlerService extends ServiceBase<IEventHandlerService> implements IEventHandlerService {
+    static SERVICE_NAME:string = "ftpa-java-event-handler-service";
 
     constructor() {
-        super(TrdGuiService.SERVICE_NAME);
+        super(EventHandlerService.SERVICE_NAME);
     }
 
-    getLoginName():string {
+    handle(json:string):void {
         if (this.hasWindowService) {
-            return this.windowService.getLoginName();
+            this.windowService.handle(json);
         }
         else {
-            return "";
+            console.log("no window-service available");
         }
     }
+}
 
-    getLoginPassword():string {
-        if (this.hasWindowService) {
-            return this.windowService.getLoginPassword();
-        }
-        else {
-            return "";
-        }
+// credentials service...
+interface ICredentialsService extends IJavaService {
+    getUsername():string;
+    getPassword():string;
+}
+
+@Injectable()
+export class CredentialsService extends ServiceBase<ICredentialsService> implements ICredentialsService {
+    static SERVICE_NAME = "ftpa-credentials-service";
+    public username:string = "";
+    public password:string = "";
+    public isLoggedIn:boolean = false;
+
+    constructor() {
+        super(CredentialsService.SERVICE_NAME);
+    }
+
+    public getUsernameFromService():string {
+        if(this.hasWindowService) {
+            this.username = this.windowService.getUsername();
+        };
+
+        return this.username;
+    }
+
+    public getPasswordFromService():string {
+        if(this.hasWindowService) {
+            this.password = this.windowService.getPassword();
+        };
+
+        return this.password;
+    }
+
+    public getUsername():string {
+        return this.username;
+    }
+    
+    public getPassword():string {
+        return this.password;
+    }
+    
+    public setUsername(username:string) {
+        this.username = username;
+    }
+
+    public setPassword(password:string) {
+        this.password = password;
     }
 }

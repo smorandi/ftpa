@@ -28,9 +28,12 @@ export class JavabridgeGridPageComponent implements AfterViewInit, OnInit, OnDes
     private columnDefs:any[];
     private subscription:Subscription;
 
-    private javaEvents:EventDto[] = null;
-    private webSocketEvents:EventDto[] = null;
-    private webSocketSubscription:Subscription;
+    private javaEvents:EventDto[] = [];
+    private wsJavaEvents:EventDto[] = [];
+    private wsJSEvents:EventDto[] = [];
+
+    private webSocketJavaSubscription:Subscription;
+    private webSocketJSSubscription:Subscription;
     private javaSubscription:Subscription;
 
     constructor(private userService:UserService,
@@ -47,22 +50,19 @@ export class JavabridgeGridPageComponent implements AfterViewInit, OnInit, OnDes
     }
 
     ngOnInit() {
-        this.javaSubscription = this.eventHandlerService.getEvents().subscribe(events => {
-            this.javaEvents = events;
-        });
-        this.webSocketSubscription = this.webSocketEventHandlerService.getEvents().subscribe(events => {
-            this.webSocketEvents = events;
-        });
+        this.javaSubscription = this.eventHandlerService.getEvents().subscribe(events => this.javaEvents = events);
+        this.webSocketJavaSubscription = this.webSocketEventHandlerService.getJavaEvents().subscribe(event => this.wsJavaEvents.unshift(event));
+        this.webSocketJSSubscription = this.webSocketEventHandlerService.getJSEvents().subscribe(event => this.wsJSEvents.unshift(event));
     }
 
     ngOnDestroy() {
         this.javaSubscription.unsubscribe();
-        this.webSocketSubscription.unsubscribe();
+        this.webSocketJavaSubscription.unsubscribe();
+        this.webSocketJSSubscription.unsubscribe();
         this.subscription.unsubscribe();
     }
 
     ngAfterViewInit() {
-        console.log("after-view-init");
         this.subscription = this.userService.getData().subscribe(data => {
             this.rows.splice(0, this.rows.length);
             this.rows.push.apply(this.rows, data);

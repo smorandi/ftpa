@@ -1,0 +1,12 @@
+<page-header [title]="'Login'"></page-header>
+<form role="form">
+    <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" #username class="form-control" id="username" placeholder="Username">
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" #password class="form-control" id="password" placeholder="Password">
+    </div>
+    <button class="btn btn-lg btn-info" (click)="login($event, username.value, password.value)">Login</button>
+</form>

@@ -4,6 +4,9 @@
             <a [routerLink]="['/HomePage']"><i class="fa fa-home"></i><span>Home</span></a>
         </li>
         <li>
+            <a [routerLink]="['/LoginPage']"><i class="fa fa-sign-in"></i><span>Login</span></a>
+        </li>
+        <li>
             <a [routerLink]="['/DragAndDropPage']"><i class="fa fa-dropbox"></i><span>Drag & Drop</span></a>
         </li>
         <li>
@@ -21,6 +24,11 @@
     </ul>
 </div>
 
+
 <div id="page-wrapper">
-    <router-outlet></router-outlet>
+    <ftpa-login-info></ftpa-login-info>
+    <div class="page">
+        <router-outlet></router-outlet>
+    </div>
+    <ftpa-error-info></ftpa-error-info>
 </div>

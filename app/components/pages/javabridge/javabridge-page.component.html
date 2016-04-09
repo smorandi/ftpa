@@ -51,40 +51,57 @@
         </div>
     </div>
 
-    <!--<div style="display: -webkit-flex;-webkit-flex: 1 0 0;">-->
-        <!--<div class="panel panel-default" style="-webkit-flex: 1;margin: 4px;overflow-y: auto;">-->
-            <!--<div class="panel-heading">-->
-                <!--<h3 class="panel-title">Events (Java-JS)</h3>-->
-            <!--</div>-->
-            <!--<div class="panel-body">-->
-                <!--<div [ngSwitch]="javaEvents === null || javaEvents.length === 0">-->
-                    <!--<div *ngSwitchDefault>No events received yet...</div>-->
-                    <!--<div class="list-group" *ngSwitchWhen="false">-->
-                        <!--<div class="list-group-item" *ngFor="#event of javaEvents">-->
-                            <!--<h4 class="list-group-item-heading">{{event.type}}</h4>-->
-                            <!--<p class="list-group-item-text" style="white-space: normal;word-wrap: break-word;"-->
-                               <!--[textContent]="asString(event.payload)"></p>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-        <!--<div class="panel panel-default" style="-webkit-flex: 1;margin: 4px;overflow-y: auto;">-->
-            <!--<div class="panel-heading">-->
-                <!--<h3 class="panel-title">Events (Web-Socket)</h3>-->
-            <!--</div>-->
-            <!--<div class="panel-body">-->
-                <!--<div [ngSwitch]="webSocketEvents === null || webSocketEvents.length === 0">-->
-                    <!--<div *ngSwitchDefault>No events received yet...</div>-->
-                    <!--<div class="list-group" *ngSwitchWhen="false">-->
-                        <!--<div class="list-group-item" *ngFor="#event of webSocketEvents">-->
-                            <!--<h4 class="list-group-item-heading">{{event.type}}</h4>-->
-                            <!--<p class="list-group-item-text" style="white-space: normal;word-wrap: break-word;"-->
-                               <!--[textContent]="asString(event.payload)"></p>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
+    <div style="display: -webkit-flex;-webkit-flex: 1 0 0;">
+        <div class="panel panel-info" style="-webkit-flex: 1;margin: 4px;overflow-y: auto;">
+            <div class="panel-heading">
+                <h3 class="panel-title">Events (Java-JS)</h3>
+            </div>
+            <div class="panel-body">
+                <div [ngSwitch]="javaEvents === null || javaEvents.length === 0">
+                    <div *ngSwitchDefault>No events received yet...</div>
+                    <div class="list-group" *ngSwitchWhen="false">
+                        <div class="list-group-item" *ngFor="#event of javaEvents">
+                            <h4 class="list-group-item-heading">{{event.type}}</h4>
+                            <p class="list-group-item-text" style="white-space: normal;word-wrap: break-word;"
+                               [textContent]="asString(event.payload)"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-info" style="-webkit-flex: 1;margin: 4px;overflow-y: auto;">
+            <div class="panel-heading">
+                <h3 class="panel-title">Events (ws-Java)</h3>
+            </div>
+            <div class="panel-body">
+                <div [ngSwitch]="wsJavaEvents === null || wsJavaEvents.length === 0">
+                    <div *ngSwitchDefault>No events received yet...</div>
+                    <div class="list-group" *ngSwitchWhen="false">
+                        <div class="list-group-item" *ngFor="#event of wsJavaEvents">
+                            <h4 class="list-group-item-heading">{{event.type}}</h4>
+                            <p class="list-group-item-text" style="white-space: normal;word-wrap: break-word;"
+                               [textContent]="asString(event.payload)"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-info" style="-webkit-flex: 1;margin: 4px;overflow-y: auto;">
+            <div class="panel-heading">
+                <h3 class="panel-title">Events (ws-JS)</h3>
+            </div>
+            <div class="panel-body">
+                <div [ngSwitch]="wsJSEvents === null || wsJSEvents.length === 0">
+                    <div *ngSwitchDefault>No events received yet...</div>
+                    <div class="list-group" *ngSwitchWhen="false">
+                        <div class="list-group-item" *ngFor="#event of wsJSEvents">
+                            <h4 class="list-group-item-heading">{{event.type}}</h4>
+                            <p class="list-group-item-text" style="white-space: normal;word-wrap: break-word;"
+                               [textContent]="asString(event.payload)"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
