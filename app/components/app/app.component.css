@@ -140,6 +140,7 @@
     display: -webkit-flex;
     -webkit-flex-direction: column;
     -webkit-flex: 1;
+    overflow: auto;
 }
 
 .page {
@@ -148,5 +149,5 @@
     -webkit-flex: 1;
 
     padding: 0 1em;
-    overflow: auto;
+    /*overflow: auto;*/
 }

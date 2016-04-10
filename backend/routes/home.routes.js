@@ -13,6 +13,8 @@ var requireLogin = require("../middleware/auth.middleware").requireLogin;
 var requireMatchingUserId = require("../middleware/auth.middleware").requireMatchingUserId;
 
 var service = require("../services/hobby.service.js");
+var User = require("../models/dto").User;
+var uuid = require("node-uuid");
 
 module.exports = function (app) {
     console.log("initializing home routes...");
@@ -23,6 +25,10 @@ module.exports = function (app) {
 
     router.route("/")
         .get(function (req, res, next) {
+            // if (!req.user) {
+            //     req.user = new User(uuid.v4().toString(), "FTPA", "Tester", "ftpa", "test", "25");
+            // }
+
             res.json(req.user);
         });
 };

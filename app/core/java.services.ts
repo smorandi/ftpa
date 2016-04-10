@@ -98,28 +98,27 @@ interface ICredentialsService extends IJavaService {
 @Injectable()
 export class CredentialsService extends ServiceBase<ICredentialsService> implements ICredentialsService {
     static SERVICE_NAME = "ftpa-credentials-service";
-    public username:string = "";
-    public password:string = "";
-    public isLoggedIn:boolean = false;
+    public username:string = null;
+    public password:string = null;
 
     constructor() {
         super(CredentialsService.SERVICE_NAME);
+        this.initializeFromWindowService();
     }
 
-    public getUsernameFromService():string {
-        if(this.hasWindowService) {
-            this.username = this.windowService.getUsername();
-        };
-
-        return this.username;
+    public initializeFromWindowService():void {
+        if (this.hasWindowService) {
+           this.username =  this.windowService.getUsername();
+            this.password =  this.windowService.getPassword();
+        }
     }
 
-    public getPasswordFromService():string {
-        if(this.hasWindowService) {
-            this.password = this.windowService.getPassword();
-        };
+    public setUsername(username:string):void {
+        this.username = username;
+    }
 
-        return this.password;
+    public setPassword(password:string):void {
+        this.password = password;
     }
 
     public getUsername():string {
@@ -128,13 +127,5 @@ export class CredentialsService extends ServiceBase<ICredentialsService> impleme
     
     public getPassword():string {
         return this.password;
-    }
-    
-    public setUsername(username:string) {
-        this.username = username;
-    }
-
-    public setPassword(password:string) {
-        this.password = password;
     }
 }

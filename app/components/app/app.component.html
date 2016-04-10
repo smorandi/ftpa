@@ -1,24 +1,24 @@
 <div id="snav">
     <ul>
-        <li>
+        <li [hidden]="!loginService.isLoggedIn">
             <a [routerLink]="['/HomePage']"><i class="fa fa-home"></i><span>Home</span></a>
         </li>
-        <li>
+        <li [hidden]="loginService.isLoggedIn">
             <a [routerLink]="['/LoginPage']"><i class="fa fa-sign-in"></i><span>Login</span></a>
         </li>
-        <li>
+        <li [hidden]="!loginService.isLoggedIn">
             <a [routerLink]="['/DragAndDropPage']"><i class="fa fa-dropbox"></i><span>Drag & Drop</span></a>
         </li>
-        <li>
+        <li [hidden]="!loginService.isLoggedIn">
             <a [routerLink]="['/JavaBridgePage']"><i class="fa fa-exchange"></i><span>Java Bridge</span></a>
         </li>
-        <li>
+        <li [hidden]="!loginService.isLoggedIn">
             <a [routerLink]="['/AgGridPage']"><i class="fa fa-th"></i><span>Ag Grid</span></a>
         </li>
-        <li>
+        <li [hidden]="!loginService.isLoggedIn">
             <a [routerLink]="['/JavabridgeGridPage']"><i class="fa fa-th"></i><span>Javabridge Grid</span></a>
         </li>
-        <li>
+        <li [hidden]="!loginService.isLoggedIn">
             <a [routerLink]="['/HobbyGridPage']"><i class="fa fa-th"></i><span>User-Hobby Grid</span></a>
         </li>
     </ul>

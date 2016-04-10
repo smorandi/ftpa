@@ -1,4 +1,4 @@
-import {Component} from "angular2/core";
+import {Component, OnInit} from "angular2/core";
 import {RouteConfig, ROUTER_DIRECTIVES} from "angular2/router";
 import {HomePageComponent} from "../pages/home/home-page.component";
 import {DragAndDropPageComponent} from "../pages/dnd/dnd-page.component";
@@ -11,6 +11,8 @@ import {HobbyGridPageComponent} from "../pages/hobby-grid/hobby-grid-page.compon
 import {LoginPageComponent} from "../pages/login/login-page.component";
 import {LoginInfoComponent} from "../login-info/login-info.component";
 import {ErrorInfoComponent} from "../error-info/error-info.component";
+import {CredentialsService} from "../../core/java.services";
+import {LoginService} from "../../core/services/login/login.service";
 
 @Component({
     selector: 'app',
@@ -20,9 +22,9 @@ import {ErrorInfoComponent} from "../error-info/error-info.component";
     directives: [ROUTER_DIRECTIVES, LoginInfoComponent, ErrorInfoComponent]
 })
 @RouteConfig([
-    {path: '/', redirectTo: ['/HomePage'], useAsDefault: true},
-    {path: '/home', component: HomePageComponent, as: 'HomePage'},
+    {path: '/', redirectTo: ['/LoginPage']},
     {path: '/login', component: LoginPageComponent, as: 'LoginPage'},
+    {path: '/home', component: HomePageComponent, as: 'HomePage'},
     {path: '/dnd', component: DragAndDropPageComponent, as: 'DragAndDropPage'},
     {path: '/javabridge', component: JavaBridgePageComponent, as: 'JavaBridgePage'},
     {path: '/agGrid', component: AgGridPageComponent, as: 'AgGridPage'},
@@ -30,8 +32,15 @@ import {ErrorInfoComponent} from "../error-info/error-info.component";
     {path: '/hobbyGrid', component: HobbyGridPageComponent, as: 'HobbyGridPage'},
 ])
 
-export class AppComponent {
+export class AppComponent implements OnInit {
     constructor(private jsEventHandlerService:JSEventHandlerService,
-                private websocketEventHandlerService:WebsocketEventHandlerService) {
+                private websocketEventHandlerService:WebsocketEventHandlerService,
+                private credentialsService:CredentialsService,
+                private loginService:LoginService) {
+    }
+
+    ngOnInit() {
+        this.credentialsService.initializeFromWindowService();
+        this.loginService.login(this.credentialsService.getUsername(), this.credentialsService.getPassword());
     }
 }

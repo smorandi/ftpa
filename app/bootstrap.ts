@@ -13,10 +13,12 @@ import {HobbyService} from "./core/services/data/hobby.service";
 import {HttpClient} from "./core/http/http.service";
 import {CustomErrorHandler} from "./core/errorhandler/error-handler";
 import {HomeService} from "./core/services/data/home.service";
+import {LoginService} from "./core/services/login/login.service";
 
 bootstrap(AppComponent, [
     ROUTER_PROVIDERS,
     HTTP_PROVIDERS,
+    provide(LoginService, {useClass: LoginService}),
     provide(CustomErrorHandler, {useClass: CustomErrorHandler}),
     provide(HttpClient, {useClass: HttpClient}),
     provide(LocationStrategy, {useClass: HashLocationStrategy}),

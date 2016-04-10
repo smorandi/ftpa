@@ -1,2 +1,9 @@
 :host {
+    display: -webkit-flex;
+    -webkit-flex: 0 0 auto;
+    -webkit-flex-direction: column;
+
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column;
 }

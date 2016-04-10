@@ -2,8 +2,10 @@
 
 var fs = require("fs");
 var path = require("path");
+var _ = require("lodash");
 
 var config = require("./config");
+var userService = require("./services/user.service");
 
 var cookieParser = require("cookie-parser");
 var bodyParser = require("body-parser");
@@ -59,24 +61,63 @@ app.use(function (err, req, res, next) {
     res.status(status).json(err);
 });
 
-io.on('connection', function (socket) {
-    socket.on(config.ws_channel_java_events, function (data, ack) {
-        console.log(config.ws_channel_java_events + " - received: " + data);
-        if (ack) {
-            ack('suppi - java!');
-        }
 
-        io.emit(config.ws_channel_java_events, data);
-    });
-    socket.on(config.ws_channel_js_events, function (data, ack) {
-        console.log(config.ws_channel_js_events + " - received: " + data);
-        if (ack) {
-            ack('suppi - js!');
-        }
+require('socketio-auth')(io, {
+    authenticate: function (socket, data, callback) {
+        //get credentials sent by the client
+        var credentials = JSON.parse(data);
+        var username = credentials.username;
+        var password = credentials.password;
 
-        io.emit(config.ws_channel_js_events, data);
-    });
+        var foundUser = _.find(userService.users, function (e) {
+            return e.loginname === username;
+        });
+
+        if (!foundUser) {
+            callback(new Error("User not found"));
+        }
+        else {
+            callback(null, foundUser.password === password);
+        }
+    },
+    postAuthenticate: function (socket, data) {
+        socket.on(config.ws_channel_java_events, function (data, ack) {
+            console.log(config.ws_channel_java_events + " - received: " + data);
+            if (ack) {
+                ack('suppi - java!');
+            }
+
+            io.emit(config.ws_channel_java_events, data);
+        });
+        socket.on(config.ws_channel_js_events, function (data, ack) {
+            console.log(config.ws_channel_js_events + " - received: " + data);
+            if (ack) {
+                ack('suppi - js!');
+            }
+
+            io.emit(config.ws_channel_js_events, data);
+        });
+    },
 });
+
+// io.on('connection', function (socket) {
+//     socket.on(config.ws_channel_java_events, function (data, ack) {
+//         console.log(config.ws_channel_java_events + " - received: " + data);
+//         if (ack) {
+//             ack('suppi - java!');
+//         }
+//
+//         io.emit(config.ws_channel_java_events, data);
+//     });
+//     socket.on(config.ws_channel_js_events, function (data, ack) {
+//         console.log(config.ws_channel_js_events + " - received: " + data);
+//         if (ack) {
+//             ack('suppi - js!');
+//         }
+//
+//         io.emit(config.ws_channel_js_events, data);
+//     });
+// });
 
 // start up the server and listen on the port...
 server.listen(config.port, function () {
