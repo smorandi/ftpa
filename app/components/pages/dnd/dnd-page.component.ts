@@ -16,7 +16,8 @@ export class DragAndDropPageComponent {
     }
 
     onDragStart(ev:DragEvent, data:string) {
-        ev.dataTransfer.setData('Text', data);
+        // ev.dataTransfer.effectAllowed = 'move';
+        ev.dataTransfer.setData("text/plain", data);
     }
 
     onDragOver(ev:DragEvent) {
@@ -24,11 +25,12 @@ export class DragAndDropPageComponent {
             ev.preventDefault();
         }
 
-        ev.dataTransfer.dropEffect = "all";
+        // ev.dataTransfer.dropEffect = "move";
         return false;
     }
-
-    onDrop(ev:DragEvent) {
+    
+    onDragEnd(ev:DragEvent) {
+        console.log("drag end");
         if (ev.preventDefault) {
             ev.preventDefault();
         }
@@ -36,9 +38,21 @@ export class DragAndDropPageComponent {
         if (ev.stopPropagation) {
             ev.stopPropagation();
         }
+    }
 
-        var data:string = ev.dataTransfer.getData("text");
+    onDrop(ev:DragEvent) {
+        if (ev.preventDefault) {
+            ev.preventDefault();
+        }
+        if (ev.stopPropagation) {
+            ev.stopPropagation();
+        }
+
+        console.log("" + ev.dataTransfer.types);
+
+        var data:string = ev.dataTransfer.getData("text/plain");
         console.log(data);
         this.list.push(data);
+        ev.dataTransfer.clearData();
     }
 }

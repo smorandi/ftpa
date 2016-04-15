@@ -3,7 +3,6 @@ import {Observable} from "rxjs/Observable";
 import {Injectable, NgZone} from "angular2/core";
 import {IEventDto} from "../../dto";
 import {CredentialsService} from "../../java.services";
-import {LoginService} from "../login/login.service";
 
 @Injectable()
 export class WebsocketEventHandlerService {

@@ -23,12 +23,12 @@
     padding: 0;
     outline: 0;
     transition: all .5s ease;
-    -webkit-transition: all .5s ease;
-    -moz-transition: all .5s ease;
-    -o-transition: all .5s ease;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
+    /*-webkit-transition: all .5s ease;*/
+    /*-moz-transition: all .5s ease;*/
+    /*-o-transition: all .5s ease;*/
+    /*-webkit-box-sizing: border-box;*/
+    /*-moz-box-sizing: border-box;*/
+    /*box-sizing: border-box;*/
 }
 
 #snav li a {
@@ -137,13 +137,22 @@
 }
 
 #page-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
     display: -webkit-flex;
     -webkit-flex-direction: column;
     -webkit-flex: 1;
+
     overflow: auto;
 }
 
 .page {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
     display: -webkit-flex;
     -webkit-flex-direction: column;
     -webkit-flex: 1;

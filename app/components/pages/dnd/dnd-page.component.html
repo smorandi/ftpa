@@ -13,7 +13,7 @@
         <div class="panel-body">
             <div style="min-height: 200px;" (drop)="onDrop($event)" (dragover)="onDragOver($event)">
                 <label class="label-info" style="padding: 5px; margin: 2px;" *ngFor="#item of list"
-                       (dragstart)="onDragStart($event, item)" draggable="true">
+                       (dragend)="onDragEnd($event)" (dragstart)="onDragStart($event, item)" draggable="true">
                     {{item}}
                 </label>
             </div>

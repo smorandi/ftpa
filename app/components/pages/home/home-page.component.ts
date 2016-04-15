@@ -1,10 +1,8 @@
-import {Component, AfterViewInit, OnInit, OnDestroy} from "angular2/core";
+import {Component, OnInit, OnDestroy} from "angular2/core";
 import {PageHeader} from "../../page-header/page-header.component";
-import {IUser} from "../../../core/dto";
-import {HomeService} from "../../../core/services/data/home.service";
-import {Subscription} from "rxjs/Rx";
-import {CanReuse, ComponentInstruction} from 'angular2/router';
+import {ComponentInstruction, CanActivate} from 'angular2/router';
 import {LoginService} from "../../../core/services/login/login.service";
+import {checkLoggedIn} from "../../../core/services/login/check-logged-in";
 
 @Component({
     selector: 'ftpa-home-page',
@@ -13,17 +11,17 @@ import {LoginService} from "../../../core/services/login/login.service";
     styleUrls: ['home-page.component.css'],
     directives: [PageHeader]
 })
-export class HomePageComponent implements OnInit, OnDestroy, CanReuse {
+@CanActivate((next:ComponentInstruction, previous:ComponentInstruction) => checkLoggedIn(next, previous))
+export class HomePageComponent implements OnInit, OnDestroy {
     constructor(private loginService:LoginService) {
+        console.log(__moduleName + " constructor()");
     }
 
     ngOnInit() {
+        console.log(__moduleName + " ngOnInit()");
     }
 
     ngOnDestroy() {
-    }
-
-    routerCanReuse(nextInstruction:ComponentInstruction, prevInstruction:ComponentInstruction):any {
-        return true;
+        console.log(__moduleName + " ngOnDestroy()");
     }
 }

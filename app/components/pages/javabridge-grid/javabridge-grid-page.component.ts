@@ -1,6 +1,7 @@
 import {Component, AfterViewInit, OnInit, OnDestroy} from "angular2/core";
 import {AgGridNg2} from 'ag-grid-ng2/main';
-import {GridOptions, Utils, SvgFactory} from 'ag-grid/main';
+import {GridOptions, Utils, SvgFactory, IRowModel, RowNode, MouseEventService} from 'ag-grid/main';
+import {ComponentInstruction, CanActivate} from "angular2/router";
 
 import {PageHeader} from "../../page-header/page-header.component";
 import {UserService} from "../../../core/services/data/user.service";
@@ -13,6 +14,7 @@ import {WebsocketEventHandlerService} from "../../../core/services/websockets/we
 
 // only import this if you are using the ag-Grid-Enterprise
 import 'ag-grid-enterprise/main';
+import {checkLoggedIn} from "../../../core/services/login/check-logged-in";
 
 @Component({
     selector: 'ftpa-javabridge-grid-page',
@@ -21,7 +23,7 @@ import 'ag-grid-enterprise/main';
     styleUrls: ['javabridge-grid-page.component.css'],
     directives: [PageHeader, AgGridNg2],
 })
-
+@CanActivate((next:ComponentInstruction, previous:ComponentInstruction) => checkLoggedIn(next, previous))
 export class JavabridgeGridPageComponent implements AfterViewInit, OnInit, OnDestroy {
     private gridOptions:GridOptions;
     private rows:any[] = [];
@@ -43,7 +45,9 @@ export class JavabridgeGridPageComponent implements AfterViewInit, OnInit, OnDes
         this.gridOptions = <GridOptions>{
             suppressMenuHide: false,
             rowSelection: 'multiple',
-            rowDeselection: true
+            suppressRowClickSelection: true,
+            suppressCellSelection: false,
+            rowDeselection: false,
         };
 
         this.createColumnDefs();
@@ -103,6 +107,27 @@ export class JavabridgeGridPageComponent implements AfterViewInit, OnInit, OnDes
         var selectedNodes:any[] = this.gridOptions.api.getSelectedNodes();
         var ids:any[] = _.map(selectedNodes, "data.id");
         this.userService.deleteData(ids);
+    }
+
+    onMousedown($event:MouseEvent) {
+        let rowModel:IRowModel = this.gridOptions.api.getModel();
+        let mes:MouseEventService = this.gridOptions.api["gridPanel"].mouseEventService;
+        let index:number = mes.getCellForMouseEvent($event).rowIndex;
+
+        let rowNode:RowNode = rowModel.getRow(index);
+        if ($event.ctrlKey) {
+            if (rowNode.isSelected()) {
+                rowNode.setSelected(false, true);
+            }
+            else {
+                rowNode.setSelected(true, false);
+            }
+        }
+        else {
+            if (!rowNode.isSelected()) {
+                rowNode.setSelected(true, true);
+            }
+        }
     }
 
     private onRowSelected($event) {

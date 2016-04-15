@@ -36,7 +36,8 @@
                  toolPanelSuppressGroups
                  toolPanelSuppressValues
                  debug
-                 rowHeight="22"
+
+                 (mousedown)="onMousedown($event)"
 
                  (modelUpdated)="onModelUpdated()"
                  (cellClicked)="onCellClicked($event)"

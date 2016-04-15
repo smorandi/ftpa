@@ -1,4 +1,4 @@
-import {Component, View} from 'angular2/core';
+import {Component} from 'angular2/core';
 import {Router, RouterLink} from 'angular2/router';
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
 import {HttpClient} from "../../../core/http/http.service";
@@ -15,12 +15,14 @@ import {LoginService} from "../../../core/services/login/login.service";
 })
 export class LoginPageComponent {
     constructor(private loginService:LoginService) {
+        console.log(__moduleName + " constructor()");
     }
 
     public login(event, username, password) {
-        //prevents the router to reload the page...
-        event.preventDefault();
-        event.stopPropagation();
+        console.log(__moduleName + " login()");
+        // //prevents the router to reload the page...
+        // event.preventDefault();
+        // event.stopPropagation();
 
         this.loginService.login(username, password);
     }

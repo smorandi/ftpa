@@ -1,14 +1,17 @@
 import {Component, AfterViewInit, OnInit, OnDestroy} from "angular2/core";
 import {AgGridNg2} from 'ag-grid-ng2/main';
-import {GridOptions, Utils, SvgFactory} from 'ag-grid/main';
+import {GridOptions, Utils, SvgFactory, IRowModel, RowNode, MouseEventService} from 'ag-grid/main';
+import {ComponentInstruction, CanActivate} from "angular2/router";
 
 // only import this if you are using the ag-Grid-Enterprise
 import 'ag-grid-enterprise/main';
 import {PageHeader} from "../../page-header/page-header.component";
 import {IUser, User} from "../../../core/dto";
 import * as _ from 'lodash';
-import {Subscription} from "rxjs/Rx";
+import {Subscription, Observable, Subject} from "rxjs/Rx";
 import {UserService_Big} from "../../../core/services/data/user-big.service";
+import {LoginService} from "../../../core/services/login/login.service";
+import {checkLoggedIn} from "../../../core/services/login/check-logged-in";
 
 @Component({
     selector: 'ftpa-ag-grid-page',
@@ -17,7 +20,7 @@ import {UserService_Big} from "../../../core/services/data/user-big.service";
     styleUrls: ['ag-grid-page.component.css'],
     directives: [PageHeader, AgGridNg2],
 })
-
+@CanActivate((next:ComponentInstruction, previous:ComponentInstruction) => checkLoggedIn(next, previous))
 export class AgGridPageComponent implements AfterViewInit, OnInit, OnDestroy {
     private gridOptions:GridOptions;
     private rowData:any[] = [];
@@ -27,7 +30,10 @@ export class AgGridPageComponent implements AfterViewInit, OnInit, OnDestroy {
     private dataSource:any;
     private subscription:Subscription;
 
-    constructor(private userService:UserService_Big) {
+    constructor(private userService:UserService_Big,
+                private loginService:LoginService) {
+        console.log(__moduleName + " constructor()");
+
         // this.gridOptions = <GridOptions>{
         //     enableColResize: true,
         //     virtualPaging: true, // this is important, if not set, normal paging will be done
@@ -47,14 +53,17 @@ export class AgGridPageComponent implements AfterViewInit, OnInit, OnDestroy {
             enableFilter: true,
             suppressLoadingOverlay: true,
             debug: true,
-            rowSelection: 'multiple',
+            rowSelection: 'single',
             enableColResize: true,
-            rowModelType: 'pagination'
+            rowModelType: 'pagination',
+            rowHeight: 22,
+            suppressRowClickSelection: true,
+            suppressCellSelection: false,
+            rowDeselection: false,
         };
 
         this.createColumnDefs();
     }
-
 
     getRows(params) {
         console.log('asking for ' + params.startRow + ' to ' + params.endRow);
@@ -79,9 +88,7 @@ export class AgGridPageComponent implements AfterViewInit, OnInit, OnDestroy {
 
         this.dataSource = {
             pageSize: 10000,
-            getRows: (params) => {
-                this.getRows(params);
-            }
+            getRows: (params) => this.getRows(params)
         };
         this.gridOptions.api.setDatasource(this.dataSource);
 
@@ -92,7 +99,9 @@ export class AgGridPageComponent implements AfterViewInit, OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.subscription.unsubscribe();
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
     }
 
     private createColumnDefs() {
@@ -104,6 +113,27 @@ export class AgGridPageComponent implements AfterViewInit, OnInit, OnDestroy {
             {headerName: "Login Name", field: "loginname", width: 150, filter: 'text'},
             {headerName: "Password", field: "password", width: 150, filter: 'text'}
         ];
+    }
+
+    onMousedown($event:MouseEvent) {
+        let rowModel:IRowModel = this.gridOptions.api.getModel();
+        let mes:MouseEventService = this.gridOptions.api["gridPanel"].mouseEventService;
+        let index:number = mes.getCellForMouseEvent($event).rowIndex;
+
+        let rowNode:RowNode = rowModel.getRow(index);
+        if ($event.ctrlKey) {
+            if (rowNode.isSelected()) {
+                rowNode.setSelected(false, true);
+            }
+            else {
+                rowNode.setSelected(true, false);
+            }
+        }
+        else {
+            if (!rowNode.isSelected()) {
+                rowNode.setSelected(true, true);
+            }
+        }
     }
 
     private calculateRowCount() {

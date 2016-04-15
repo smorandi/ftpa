@@ -1,5 +1,5 @@
 import {Component, OnInit} from "angular2/core";
-import {RouteConfig, ROUTER_DIRECTIVES} from "angular2/router";
+import {RouteConfig, ROUTER_DIRECTIVES, OnActivate, ComponentInstruction} from "angular2/router";
 import {HomePageComponent} from "../pages/home/home-page.component";
 import {DragAndDropPageComponent} from "../pages/dnd/dnd-page.component";
 import {AgGridPageComponent} from "../pages/ag-grid/ag-grid-page.component";
@@ -22,7 +22,7 @@ import {LoginService} from "../../core/services/login/login.service";
     directives: [ROUTER_DIRECTIVES, LoginInfoComponent, ErrorInfoComponent]
 })
 @RouteConfig([
-    {path: '/', redirectTo: ['/LoginPage']},
+    {path: '/', redirectTo: ['/HomePage']},
     {path: '/login', component: LoginPageComponent, as: 'LoginPage'},
     {path: '/home', component: HomePageComponent, as: 'HomePage'},
     {path: '/dnd', component: DragAndDropPageComponent, as: 'DragAndDropPage'},
@@ -40,7 +40,12 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.credentialsService.initializeFromWindowService();
-        this.loginService.login(this.credentialsService.getUsername(), this.credentialsService.getPassword());
+        if (this.credentialsService.hasWindowService) {
+            this.credentialsService.initializeFromWindowService();
+        }
+        else {
+            this.credentialsService.setUsername("ftpa");
+            this.credentialsService.setPassword("test");
+        }
     }
 }

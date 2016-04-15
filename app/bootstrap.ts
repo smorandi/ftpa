@@ -1,4 +1,4 @@
-import {provide, ExceptionHandler} from 'angular2/core';
+import {provide, ExceptionHandler, ComponentRef} from 'angular2/core';
 import {bootstrap} from 'angular2/platform/browser';
 import {ROUTER_PROVIDERS, APP_BASE_HREF, LocationStrategy, HashLocationStrategy} from 'angular2/router';
 import {HTTP_PROVIDERS} from 'angular2/http';
@@ -14,6 +14,7 @@ import {HttpClient} from "./core/http/http.service";
 import {CustomErrorHandler} from "./core/errorhandler/error-handler";
 import {HomeService} from "./core/services/data/home.service";
 import {LoginService} from "./core/services/login/login.service";
+import {appInjector} from "./core/app-injector/app-injector";
 
 bootstrap(AppComponent, [
     ROUTER_PROVIDERS,
@@ -33,4 +34,9 @@ bootstrap(AppComponent, [
     provide(Java.ListService, {useClass: Java.ListService}),
     provide(Java.CredentialsService, {useClass: Java.CredentialsService}),
     provide(Java.EventHandlerService, {useClass: Java.EventHandlerService}),
-]).catch(err => console.error(err));
+])
+    .then((appRef: ComponentRef) => {
+        // store a reference to the application injector
+        appInjector(appRef.injector);
+    })
+    .catch(err => console.error(err));

@@ -21,7 +21,7 @@
         </button>
     </div>
 
-    <div style="-webkit-flex: 1; position: relative;">
+    <div style="-webkit-flex: 1 0 0; position: relative;">
         <ag-grid-ng2 class="ag-fresh"
                      style="position: absolute; top: 0; bottom: 0; left: 0; right: 0;"
 
@@ -39,6 +39,7 @@
                      debug
                      rowHeight="22"
 
+                     (mousedown)="onMousedown($event)"
                      (rowSelected)="onRowSelected($event)">
         </ag-grid-ng2>
     </div>
