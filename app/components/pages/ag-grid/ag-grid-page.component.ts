@@ -1,6 +1,6 @@
 import {Component, AfterViewInit, OnInit, OnDestroy} from "angular2/core";
 import {AgGridNg2} from 'ag-grid-ng2/main';
-import {GridOptions, Utils, SvgFactory, IRowModel, RowNode, MouseEventService} from 'ag-grid/main';
+import {GridOptions, GridCell, Utils, SvgFactory, IRowModel, RowNode, MouseEventService, GridPanel} from 'ag-grid/main';
 import {ComponentInstruction, CanActivate} from "angular2/router";
 
 // only import this if you are using the ag-Grid-Enterprise
@@ -10,15 +10,15 @@ import {IUser, User} from "../../../core/dto";
 import * as _ from 'lodash';
 import {Subscription, Observable, Subject} from "rxjs/Rx";
 import {UserService_Big} from "../../../core/services/data/user-big.service";
-import {LoginService} from "../../../core/services/login/login.service";
 import {checkLoggedIn} from "../../../core/services/login/check-logged-in";
+import {ContextMenuDirective} from "../../../directives/context-menu.directive";
 
 @Component({
     selector: 'ftpa-ag-grid-page',
     moduleId: __moduleName,
     templateUrl: 'ag-grid-page.component.html',
     styleUrls: ['ag-grid-page.component.css'],
-    directives: [PageHeader, AgGridNg2],
+    directives: [PageHeader, AgGridNg2, ContextMenuDirective],
 })
 @CanActivate((next:ComponentInstruction, previous:ComponentInstruction) => checkLoggedIn(next, previous))
 export class AgGridPageComponent implements AfterViewInit, OnInit, OnDestroy {
@@ -29,26 +29,19 @@ export class AgGridPageComponent implements AfterViewInit, OnInit, OnDestroy {
     private rowCount:string;
     private dataSource:any;
     private subscription:Subscription;
+    links;
+    private firstRightClick;
 
-    constructor(private userService:UserService_Big,
-                private loginService:LoginService) {
+    constructor(private userService:UserService_Big) {
         console.log(__moduleName + " constructor()");
 
-        // this.gridOptions = <GridOptions>{
-        //     enableColResize: true,
-        //     virtualPaging: true, // this is important, if not set, normal paging will be done
-        //     debug: true,
-        //     rowSelection: 'multiple',
-        //     rowDeselection: true,
-        //     rowModelType: 'virtual'
-        // };
-
-        // this.gridOptions = <GridOptions>{
-        //     rowSelection: 'multiple',
-        // };
+        this.links = [
+            {title: 'a', subject: new Subject()},
+            {title: 'b', subject: new Subject()},
+            {title: 'c', subject: new Subject()}
+        ];
 
         this.gridOptions = <GridOptions>{
-            // note - we do not set 'virtualPaging' here, so the grid knows we are doing standard paging
             enableSorting: true,
             enableFilter: true,
             suppressLoadingOverlay: true,
@@ -57,6 +50,7 @@ export class AgGridPageComponent implements AfterViewInit, OnInit, OnDestroy {
             enableColResize: true,
             rowModelType: 'pagination',
             rowHeight: 22,
+            headerHeight: 30,
             suppressRowClickSelection: true,
             suppressCellSelection: false,
             rowDeselection: false,
@@ -80,7 +74,12 @@ export class AgGridPageComponent implements AfterViewInit, OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.links.forEach(l => l.subject.subscribe(val=> this.firstCallback(val)));
         // this.userService.setUsers(this.userService.createRandomUsers(10000));
+    }
+
+    firstCallback(val) {
+        this.firstRightClick = val;
     }
 
     ngAfterViewInit() {
@@ -115,13 +114,31 @@ export class AgGridPageComponent implements AfterViewInit, OnInit, OnDestroy {
         ];
     }
 
-    onMousedown($event:MouseEvent) {
+    onMousedown(event:MouseEvent) {
         let rowModel:IRowModel = this.gridOptions.api.getModel();
-        let mes:MouseEventService = this.gridOptions.api["gridPanel"].mouseEventService;
-        let index:number = mes.getCellForMouseEvent($event).rowIndex;
+        let gridPanel:GridPanel = this.gridOptions.api["gridPanel"];
+        let mes:MouseEventService = gridPanel["mouseEventService"];
+        let cell:GridCell = mes.getCellForMouseEvent(event);
+        let index:number = cell.rowIndex;
+
+        let clientRect = gridPanel.getBodyViewportClientRect();
+        let bodyX = event.clientX - clientRect.left;
+        let bodyY = event.clientY - clientRect.top;
+        let clientWidth = gridPanel.getBodyViewport().clientWidth;
+        let clientHeight = gridPanel.getBodyViewport().clientHeight;
+
+        let elementMouseIsOver = document.elementFromPoint(event.clientX, event.clientY);
+
+        if (bodyY < 0 || bodyY - clientHeight > 0 || bodyX < 0 || bodyX - clientWidth > 0) {
+            return;
+        }
+
+        // let x = event.clientX;
+        // let y = event.clientY;
+        // let index2:number = mes["getBodyRowIndex"](event);
 
         let rowNode:RowNode = rowModel.getRow(index);
-        if ($event.ctrlKey) {
+        if (event.ctrlKey) {
             if (rowNode.isSelected()) {
                 rowNode.setSelected(false, true);
             }

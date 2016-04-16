@@ -13,13 +13,14 @@ import {LoginInfoComponent} from "../login-info/login-info.component";
 import {ErrorInfoComponent} from "../error-info/error-info.component";
 import {CredentialsService} from "../../core/java.services";
 import {LoginService} from "../../core/services/login/login.service";
+import {ContextMenuHolderComponent} from "../contextmenu/context-menu-holder.component";
 
 @Component({
     selector: 'app',
     moduleId: __moduleName,
     templateUrl: 'app.component.html',
     styleUrls: ['app.component.css'],
-    directives: [ROUTER_DIRECTIVES, LoginInfoComponent, ErrorInfoComponent]
+    directives: [ROUTER_DIRECTIVES, LoginInfoComponent, ErrorInfoComponent, ContextMenuHolderComponent]
 })
 @RouteConfig([
     {path: '/', redirectTo: ['/HomePage']},

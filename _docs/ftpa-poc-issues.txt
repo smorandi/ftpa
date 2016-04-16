@@ -46,3 +46,8 @@ performance
 - jx-browser's js engine is very fast in comparison, but lacks the speed of rendering as in the webview.
 - opening a browser within the Trading-GUI might take quite some time since all the files are hosted on the
   web-server and need to be downloaded in order to run the application.
+
+
+design hints
+============
+- minimize complexity: because it wil be rendered in an engine within the TradingGUI and then o

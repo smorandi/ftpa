@@ -42,33 +42,3 @@ app {
 .panel {
     border-radius: 0;
 }
-
-/*ag-grid overrides*/
-.ag-paging-panel {
-    display: none;
-}
-
-.ag-header-row {
-    background: linear-gradient(to bottom, #545456, #211f22);
-}
-
-.ag-header-cell {
-    background: linear-gradient(to bottom, #545456, #211f22);
-    /*border-color: #393a3e;*/
-    /*border-insets: 0;*/
-    /*background-insets: 0;*/
-    /*border-width: 0 1 1 0;*/
-    border: solid thin #393a3e;
-    border-top: none;
-    border-left: none;
-    color: #ebebeb;
-    font-size: 12px;
-    font-family: Arial;
-    font-weight: bold;
-    text-align: left;
-}
-
-.ag-header-cell:hover {
-    background: linear-gradient(to top, #545456, #211f22);
-    color: orange;
-}
