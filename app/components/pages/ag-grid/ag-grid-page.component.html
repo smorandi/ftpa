@@ -3,7 +3,7 @@
         [subtitle]="'Showcase for a grid component using Ag-Grid'">
 </page-header>
 
-<div [context-menu]="links" class="title">Users</div>
+<div class="title">Users</div>
 
 <div class="btn-group toolbar" role="group">
     <button type="button" class="btn btn-default" (click)="addRow($event)">
@@ -20,8 +20,26 @@
     </button>
 </div>
 
+<ftpa-contextMenu #cm>
+    <div class="ftpa-menu-item">
+        <div (click)="addRow($event)"><span class="glyphicon glyphicon-plus" style="color: green;"></span>
+        Add one row</div>
+    </div>
+    <div class="ftpa-menu-item">
+        <div (click)="changeRow($event)"><span class="glyphicon glyphicon-edit" style="color: whitesmoke;"></span> Update selected row</div>
+    </div>
+    <div class="ftpa-menu-item">
+        <div (click)="deleteRow($event)"><span class="glyphicon glyphicon-remove" style="color: red;"></span> Delete selected row</div>
+    </div>
+    <hr>
+    <div class="ftpa-menu-item">
+        <div (click)="copyRow($event)"><span class="glyphicon glyphicon-copy" style="color: whitesmoke;"></span> Copy</div>
+    </div>
+</ftpa-contextMenu>
+
 <div style="-webkit-flex: 1; position: relative;">
-    <ag-grid-ng2 class="ag-nesi-dark"
+    <ag-grid-ng2 [contextMenu]="cm"
+                 class="ag-nesi-dark"
                  style="position: absolute; top: 0; bottom: 0; left: 0; right: 0;"
 
                  [gridOptions]="gridOptions"

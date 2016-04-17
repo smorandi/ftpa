@@ -15,7 +15,6 @@ import {CustomErrorHandler} from "./core/errorhandler/error-handler";
 import {HomeService} from "./core/services/data/home.service";
 import {LoginService} from "./core/services/login/login.service";
 import {appInjector} from "./core/app-injector/app-injector";
-import {ContextMenuService} from "./core/services/contextmenu/context-menu.service";
 
 bootstrap(AppComponent, [
     ROUTER_PROVIDERS,
@@ -35,7 +34,6 @@ bootstrap(AppComponent, [
     provide(Java.ListService, {useClass: Java.ListService}),
     provide(Java.CredentialsService, {useClass: Java.CredentialsService}),
     provide(Java.EventHandlerService, {useClass: Java.EventHandlerService}),
-    provide(ContextMenuService, {useClass: ContextMenuService}),
 ])
     .then((appRef:ComponentRef) => {
         // store a reference to the application injector

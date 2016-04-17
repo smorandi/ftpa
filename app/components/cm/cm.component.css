@@ -1,0 +1,46 @@
+.cm-container {
+    display: -webkit-flex;
+    -webkit-flex-direction: column;
+
+    z-index: 3;
+    background-color: #595959;
+    padding: 4px;
+    cursor: default;
+    border: 1px solid black;
+}
+
+.cm-container ul {
+    list-style: none; /* Remove list bullets */
+    padding: 0;
+    margin: 0;
+}
+
+.cm-container li {
+}
+
+.cm-container hr {
+    padding: 0;
+    margin: 0;
+    color: black;
+    background-color: black;
+    border-color: black;
+}
+
+.cm-container .ftpa-menu-item {
+    -webkit-flex: 1;
+    color: #ffcc00;
+    font-size: 14px;
+    font-family: Arial;
+    font-weight: normal;
+    border: 1px solid transparent;
+    margin: 2px;
+}
+
+.cm-container .ftpa-menu-item:hover {
+    background-color: rgba(0, 59, 18, 1.0);
+    border: 1px solid rgba(0, 204, 61, 1.0);
+}
+
+.cm-container .ftpa-menu-item div {
+    padding: 2px 3px;
+}

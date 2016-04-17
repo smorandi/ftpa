@@ -12,13 +12,15 @@ import {Subscription, Observable, Subject} from "rxjs/Rx";
 import {UserService_Big} from "../../../core/services/data/user-big.service";
 import {checkLoggedIn} from "../../../core/services/login/check-logged-in";
 import {ContextMenuDirective} from "../../../directives/context-menu.directive";
+import {ContextMenuComponent} from "../../cm/cm.component";
+import {TieredMenu} from 'primeng/primeng';
 
 @Component({
     selector: 'ftpa-ag-grid-page',
     moduleId: __moduleName,
     templateUrl: 'ag-grid-page.component.html',
     styleUrls: ['ag-grid-page.component.css'],
-    directives: [PageHeader, AgGridNg2, ContextMenuDirective],
+    directives: [PageHeader, AgGridNg2, ContextMenuDirective, ContextMenuComponent, TieredMenu],
 })
 @CanActivate((next:ComponentInstruction, previous:ComponentInstruction) => checkLoggedIn(next, previous))
 export class AgGridPageComponent implements AfterViewInit, OnInit, OnDestroy {
@@ -29,17 +31,10 @@ export class AgGridPageComponent implements AfterViewInit, OnInit, OnDestroy {
     private rowCount:string;
     private dataSource:any;
     private subscription:Subscription;
-    links;
     private firstRightClick;
 
     constructor(private userService:UserService_Big) {
         console.log(__moduleName + " constructor()");
-
-        this.links = [
-            {title: 'a', subject: new Subject()},
-            {title: 'b', subject: new Subject()},
-            {title: 'c', subject: new Subject()}
-        ];
 
         this.gridOptions = <GridOptions>{
             enableSorting: true,
@@ -54,6 +49,11 @@ export class AgGridPageComponent implements AfterViewInit, OnInit, OnDestroy {
             suppressRowClickSelection: true,
             suppressCellSelection: false,
             rowDeselection: false,
+            suppressContextMenu: true,
+            suppressMenuFilterPanel: true,
+            suppressMenuMainPanel: true,
+            suppressMenuColumnPanel: true,
+            getHeaderCellTemplate: params => this.getHeaderCellTemplate(params),
         };
 
         this.createColumnDefs();
@@ -74,8 +74,6 @@ export class AgGridPageComponent implements AfterViewInit, OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.links.forEach(l => l.subject.subscribe(val=> this.firstCallback(val)));
-        // this.userService.setUsers(this.userService.createRandomUsers(10000));
     }
 
     firstCallback(val) {
@@ -163,6 +161,7 @@ export class AgGridPageComponent implements AfterViewInit, OnInit, OnDestroy {
     }
 
     changeRow(ev:Event) {
+        console.log("changeRow()");
         var selectedNodes:any[] = this.gridOptions.api.getSelectedNodes();
         if (selectedNodes && selectedNodes.length > 0) {
             var users:IUser[] = _.map(selectedNodes, "data");
@@ -173,10 +172,11 @@ export class AgGridPageComponent implements AfterViewInit, OnInit, OnDestroy {
     }
 
     addRow(ev:Event) {
-        // this.userService.addData(this.userService.createRandomUser());
+        console.log("addRow()");
     }
 
     deleteRow(ev:Event) {
+        console.log("deleteRow()");
         var selectedNodes:any[] = this.gridOptions.api.getSelectedNodes();
         var ids:any[] = _.map(selectedNodes, "data.id");
         this.userService.deleteData(ids);
@@ -262,5 +262,56 @@ export class AgGridPageComponent implements AfterViewInit, OnInit, OnDestroy {
     // the method just prints the event name
     private onColumnEvent($event) {
         console.log('onColumnEvent: ' + $event);
+    }
+
+
+    private addInIcon(eTemplate, gridOptionsWrapper, iconName, cssSelector, column, defaultIconFactory) {
+        var eIcon = Utils.createIconNoSpan(iconName, gridOptionsWrapper, column, defaultIconFactory);
+        eTemplate.querySelector(cssSelector).appendChild(eIcon);
+    };
+
+    private getHeaderCellTemplate(params:any) {
+        var template:string = '<div class="ag-header-cell">' +
+            '  <div id="agResizeBar" class="ag-header-cell-resize"></div>' +
+            '  <span id="agMenu" class="ag-header-icon ag-header-cell-menu-button"></span>' +
+            '  <div id="agHeaderCellLabel" class="ag-header-cell-label">' +
+            '    <div id="agText" class="ag-header-cell-text"></div>' +
+            '    <div id="agSortAsc"><i class="fa fa-caret-up"></i></div>' +
+            '    <div id="agSortDesc"><i class="fa fa-caret-down"></i></div>' +
+            '    <div id="agNoSort" class="ag-header-icon ag-sort-none-icon"></div>' +
+            '    <div id="agFilter" class="ag-header-icon ag-filter-icon"></div>' +
+            '  </div>' +
+            '</div>';
+        // var template:string = '<div class="ag-header-cell">' +
+        //     '  <div id="agResizeBar" class="ag-header-cell-resize"></div>' +
+        //     '  <span id="agMenu" class="ag-header-icon ag-header-cell-menu-button"></span>' +
+        //     '  <div id="agHeaderCellLabel" class="ag-header-cell-label">' +
+        //     '    <span id="agSortAsc" class="ag-header-icon ag-sort-ascending-icon"></span>' +
+        //     '    <span id="agSortDesc" class="ag-header-icon ag-sort-descending-icon"></span>' +
+        //     '    <span id="agNoSort" class="ag-header-icon ag-sort-none-icon"></span>' +
+        //     '    <span id="agFilter" class="ag-header-icon ag-filter-icon"></span>' +
+        //     '    <span id="agText" class="ag-header-cell-text"></span>' +
+        //     '  </div>' +
+        //     '</div>';
+
+        var eTemplate:HTMLElement = Utils.loadTemplate(template);
+        var column = params.column;
+        var svgFactory = SvgFactory.getInstance();
+        var gridOptionsWrapper = column.gridOptionsWrapper;
+
+        // this.addInIcon(eTemplate, gridOptionsWrapper, 'sortAscending', '#agSortAsc', column, svgFactory.createArrowUpSvg);
+        // this.addInIcon(eTemplate, gridOptionsWrapper, 'sortDescending', '#agSortDesc', column, svgFactory.createArrowDownSvg);
+        this.addInIcon(eTemplate, gridOptionsWrapper, 'sortUnSort', '#agNoSort', column, svgFactory.createArrowUpDownSvg);
+        this.addInIcon(eTemplate, gridOptionsWrapper, 'menu', '#agMenu', column, svgFactory.createMenuSvg);
+        this.addInIcon(eTemplate, gridOptionsWrapper, 'filter', '#agFilter', column, svgFactory.createFilterSvg);
+
+        var eMenu:any = eTemplate.querySelector('#agMenu');
+        eTemplate.addEventListener("contextmenu", function (ev:Event) {
+            ev.stopPropagation();
+            ev.preventDefault();
+            eMenu.click();
+        });
+
+        return eTemplate;
     }
 }

@@ -189,11 +189,18 @@
 }
 
 .ag-nesi-dark .ag-header-cell-label {
-    padding: 4px 2px 4px 2px;
+    padding: 4px;
+    display: -webkit-flex;
+    -webkit-justify-content: space-between;
+    min-width: 0;
 }
 
 .ag-nesi-dark .ag-header-cell-text {
-    padding-left: 2px;
+    /*padding-left: 2px;*/
+    min-width: 0;
+    text-overflow: ellipsis;
+    -webkit-flex: 0 1 auto;
+    overflow: hidden;
 }
 
 .ag-nesi-dark .ag-header-group-cell-label {
@@ -433,4 +440,9 @@
 /*//*/
 .ag-header-cell-resize {
     border-right: 1px solid black;
+}
+
+#agSortAsc, #agSortDesc {
+    font-size: 16px;
+    color: whitesmoke;
 }

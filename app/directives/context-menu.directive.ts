@@ -1,17 +1,19 @@
-import {Directive, Input} from 'angular2/core';
-import {ContextMenuService} from "../core/services/contextmenu/context-menu.service";
+import {Directive, Input, HostListener, ViewChild, Dependency} from 'angular2/core';
+import {ContextMenuComponent} from "../components/cm/cm.component";
 @Directive({
-    selector: '[context-menu]',
-    host: {'(contextmenu)': 'rightClicked($event)'}
+    selector: '[contextMenu]'
 })
 export class ContextMenuDirective {
-    @Input('context-menu') links;
+    @Input("contextMenu")
+    cm:ContextMenuComponent;
 
-    constructor(private contextMenuService:ContextMenuService) {
+    constructor() {
     }
 
-    rightClicked(event:MouseEvent) {
-        this.contextMenuService.show.next({event: event, obj: this.links});
+    @HostListener('contextmenu', ['$event'])
+    public rightClicked(event:MouseEvent) {
+        console.log("rightClicked()");
+        this.cm.showMenu(event);
         event.preventDefault(); // to prevent the browser contextmenu
     }
 }
