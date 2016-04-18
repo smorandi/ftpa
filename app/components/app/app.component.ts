@@ -1,4 +1,4 @@
-import {Component, OnInit} from "angular2/core";
+import {Component, OnInit, OnDestroy, HostBinding} from "angular2/core";
 import {RouteConfig, ROUTER_DIRECTIVES, OnActivate, ComponentInstruction} from "angular2/router";
 import {HomePageComponent} from "../pages/home/home-page.component";
 import {DragAndDropPageComponent} from "../pages/dnd/dnd-page.component";
@@ -14,6 +14,8 @@ import {ErrorInfoComponent} from "../error-info/error-info.component";
 import {CredentialsService} from "../../core/java.services";
 import {LoginService} from "../../core/services/login/login.service";
 import {PopupsPageComponent} from "../pages/popups/popups.component";
+import {Subscription, Observable} from "rxjs/Rx";
+import {IEventDto} from "../../core/dto";
 
 @Component({
     selector: 'app',
@@ -34,9 +36,23 @@ import {PopupsPageComponent} from "../pages/popups/popups.component";
     {path: '/popupsGrid', component: PopupsPageComponent, as: 'PopupsPage'},
 ])
 
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
+    private wsEventsSubscription:Subscription;
+
+    private theme_dark = {
+        app: "app/assets/css/theme/dark/theme-app.css",
+        scrollbar: "app/assets/css/theme/dark/theme-scrollbar.css",
+        grid: "app/assets/css/theme/dark/theme-ag-ftpa.css"
+    };
+    private theme_default = {
+        app: "app/assets/css/theme/default/theme-app.css",
+        scrollbar: "app/assets/css/theme/default/theme-scrollbar.css",
+        grid: "app/assets/css/theme/default/theme-ag-ftpa.css"
+    };
+    private currentTheme = this.theme_dark;
+
     constructor(private jsEventHandlerService:JSEventHandlerService,
-                private websocketEventHandlerService:WebsocketEventHandlerService,
+                private webSocketEventHandlerService:WebsocketEventHandlerService,
                 private credentialsService:CredentialsService,
                 private loginService:LoginService) {
     }
@@ -49,5 +65,18 @@ export class AppComponent implements OnInit {
             this.credentialsService.setUsername("ftpa");
             this.credentialsService.setPassword("test");
         }
+
+        let wsJsEvents:Observable<IEventDto> = this.webSocketEventHandlerService.getJSEvents();
+        let wsJavaEvents:Observable<IEventDto> = this.webSocketEventHandlerService.getJavaEvents();
+
+        this.wsEventsSubscription = wsJsEvents.merge(wsJavaEvents).subscribe(event => {
+            if (event.type === "ftpa-theme-event") {
+                this.currentTheme = this.currentTheme === this.theme_dark ? this.theme_default : this.theme_dark;
+            }
+        });
+    }
+
+    ngOnDestroy() {
+        this.wsEventsSubscription.unsubscribe();
     }
 }

@@ -1,0 +1,28 @@
+app {
+    background-color: white;
+    color: black;
+}
+
+.toolbar {
+    padding: 4px;
+    border: 1px solid black;
+    border-bottom: none;
+    background: linear-gradient(to bottom, lightgrey, grey)
+}
+
+.title {
+    font: 20px bebas;
+    background-color: cornflowerblue;
+    color: yellow;
+    padding: 2px 6px 0 6px;
+}
+
+/*bootstrap override*/
+.btn {
+    border-radius: 0;
+    padding: 2px 4px;
+}
+
+.panel {
+    border-radius: 0;
+}

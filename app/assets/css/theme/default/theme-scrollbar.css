@@ -1,0 +1,60 @@
+/*::-webkit-scrollbar {*/
+    /*width: 16px;*/
+    /*height: 16px;*/
+/*}*/
+
+/*::-webkit-scrollbar-button {*/
+    /*background-color: #999999;*/
+    /*-webkit-box-shadow:*/
+            /*inset 0px 0px 0px 1px #666666,*/
+            /*inset 0px 0px 0px 2px black;*/
+    /*width: 14px;*/
+    /*height: 14px;*/
+    /*background-position: center;*/
+/*}*/
+/*::-webkit-scrollbar-button:hover {*/
+    /*background-color: white;*/
+/*}*/
+/*::-webkit-scrollbar-button:horizontal:increment {*/
+    /*background-image: url(../../../icons/arrow-right.png);*/
+/*}*/
+/*::-webkit-scrollbar-button:horizontal:decrement {*/
+    /*background-image: url(../../../icons/arrow-left.png);*/
+/*}*/
+/*::-webkit-scrollbar-button:vertical:increment {*/
+    /*background-image: url(../../../icons/arrow-down.png);*/
+/*}*/
+/*::-webkit-scrollbar-button:vertical:decrement {*/
+    /*background-image: url(../../../icons/arrow-up.png);*/
+/*}*/
+
+
+/*::-webkit-scrollbar-track {*/
+    /*background-color: #666666;*/
+/*}*/
+
+/*::-webkit-scrollbar-track-piece {*/
+    /*background-color: #666666;*/
+/*}*/
+
+/*::-webkit-scrollbar-thumb {*/
+    /*background-color: #999999;*/
+    /*-webkit-box-shadow:*/
+            /*inset 0px 0px 0px 2px #666666,*/
+            /*inset 0px 0px 0px 3px black;*/
+/*}*/
+
+/*::-webkit-scrollbar-thumb:hover {*/
+    /*background-color: #999999;*/
+    /*-webkit-box-shadow:*/
+            /*inset 0px 0px 0px 2px #666666,*/
+            /*inset 0px 0px 0px 4px black;*/
+/*}*/
+
+
+/*::-webkit-scrollbar-corner {*/
+    /*background-color: black;*/
+/*}*/
+
+/*::-webkit-resizer {*/
+/*}*/

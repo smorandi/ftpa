@@ -6,7 +6,7 @@ import {ComponentInstruction, CanActivate} from "angular2/router";
 // only import this if you are using the ag-Grid-Enterprise
 import 'ag-grid-enterprise/main';
 import {PageHeader} from "../../page-header/page-header.component";
-import {IUser, User} from "../../../core/dto";
+import {IUser, User, IEventDto} from "../../../core/dto";
 import * as _ from 'lodash';
 import {Subscription, Observable, Subject} from "rxjs/Rx";
 import {UserService_Big} from "../../../core/services/data/user-big.service";
@@ -14,6 +14,7 @@ import {checkLoggedIn} from "../../../core/services/login/check-logged-in";
 import {ContextMenuDirective} from "../../../directives/context-menu.directive";
 import {ContextMenuComponent} from "../../cm/cm.component";
 import {TieredMenu} from 'primeng/primeng';
+import {WebsocketEventHandlerService} from "../../../core/services/websockets/websocket-event-handler.service";
 
 @Component({
     selector: 'ftpa-ag-grid-page',
@@ -30,8 +31,8 @@ export class AgGridPageComponent implements AfterViewInit, OnInit, OnDestroy {
     private columnDefs:any[];
     private rowCount:string;
     private dataSource:any;
-    private subscription:Subscription;
-    private firstRightClick;
+    private dataSubscription:Subscription;
+
 
     @ViewChild("headercm")
     private headerCm:ContextMenuComponent;
@@ -80,9 +81,10 @@ export class AgGridPageComponent implements AfterViewInit, OnInit, OnDestroy {
 
     ngOnInit() {
     }
-
-    firstCallback(val) {
-        this.firstRightClick = val;
+    ngOnDestroy() {
+        if (this.dataSubscription) {
+            this.dataSubscription.unsubscribe();
+        }
     }
 
     ngAfterViewInit() {
@@ -94,16 +96,10 @@ export class AgGridPageComponent implements AfterViewInit, OnInit, OnDestroy {
         };
         this.gridOptions.api.setDatasource(this.dataSource);
 
-        this.subscription = this.userService.getData().subscribe(data => {
+        this.dataSubscription = this.userService.getData().subscribe(data => {
             this.rawData = data;
             this.gridOptions.api.setDatasource(this.dataSource);
         });
-    }
-
-    ngOnDestroy() {
-        if (this.subscription) {
-            this.subscription.unsubscribe();
-        }
     }
 
     private createColumnDefs() {
@@ -136,8 +132,8 @@ export class AgGridPageComponent implements AfterViewInit, OnInit, OnDestroy {
         let isHeaderArea:boolean = elementMouseIsOver.className.indexOf("header-cell") >= 0;
         let isBodyArea:boolean = !(bodyY < 0 || bodyY - clientHeight > 0 || bodyX < 0 || bodyX - clientWidth > 0);
 
-        this.bodyCm.closeMenu();
-        this.headerCm.closeMenu();
+        this.bodyCm.closeMenu(null);
+        this.headerCm.closeMenu(null);
         
         if (isBodyArea) {
             this.bodyCm.showMenu(event);

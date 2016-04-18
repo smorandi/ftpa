@@ -5,15 +5,15 @@ import {ComponentInstruction, CanActivate} from "angular2/router";
 
 import {PageHeader} from "../../page-header/page-header.component";
 import {UserService} from "../../../core/services/data/user.service";
-import {Subscription} from "rxjs/Rx";
+import {Subscription, Observable} from "rxjs/Rx";
 
 // only import this if you are using the ag-Grid-Enterprise
 import 'ag-grid-enterprise/main';
 import {checkLoggedIn} from "../../../core/services/login/check-logged-in";
 import {ContextMenuComponent} from "../../cm/cm.component";
 import {ContextMenuDirective} from "../../../directives/context-menu.directive";
-import {JSEventHandlerService} from "../../../core/services/events/js-event-handler.service";
 import {WebsocketEventHandlerService} from "../../../core/services/websockets/websocket-event-handler.service";
+import {IEventDto} from "../../../core/dto";
 
 @Component({
     selector: 'ftpa-popups-page',
@@ -27,16 +27,12 @@ export class PopupsPageComponent implements OnInit, OnDestroy {
     private gridOptions:GridOptions;
     private rows:any[] = [];
     private columnDefs:any[];
-    private subscription:Subscription;
-    private cssClass:string = "ag-nesi-dark";
-    private webSocketJSSubscription:Subscription;
-    private webSocketJavaSubscription:Subscription;
+    private dataSubscription:Subscription;
 
     @ViewChild("bodycm")
     private bodyCm:ContextMenuComponent;
 
-    constructor(private userService:UserService,
-                private webSocketEventHandlerService:WebsocketEventHandlerService) {
+    constructor(private userService:UserService) {
         this.gridOptions = <GridOptions>{
             enableSorting: true,
             enableFilter: true,
@@ -61,28 +57,16 @@ export class PopupsPageComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.webSocketJSSubscription = this.webSocketEventHandlerService.getJSEvents().subscribe(event => {
-            if (event.type === "ftpa-theme-event") {
-                this.cssClass = this.cssClass === "ag-blue" ? "ag-nesi-dark" : "ag-blue";
-            }
-        });
-        this.webSocketJavaSubscription = this.webSocketEventHandlerService.getJavaEvents().subscribe(event => {
-            if (event.type === "ftpa-theme-event") {
-                this.cssClass = this.cssClass === "ag-blue" ? "ag-nesi-dark" : "ag-blue";
-            }
-        });
     }
 
     ngOnDestroy() {
-        if (this.subscription) {
-            this.subscription.unsubscribe();
+        if (this.dataSubscription) {
+            this.dataSubscription.unsubscribe();
         }
-        this.webSocketJSSubscription.unsubscribe();
-        this.webSocketJavaSubscription.unsubscribe();
     }
 
     ngAfterViewInit() {
-        this.subscription = this.userService.getData().subscribe(data => {
+        this.dataSubscription = this.userService.getData().subscribe(data => {
             this.rows.splice(0, this.rows.length);
             this.rows.push.apply(this.rows, data);
             this.gridOptions.api.setRowData(this.rows);

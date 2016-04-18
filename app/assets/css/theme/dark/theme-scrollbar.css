@@ -16,16 +16,16 @@
     background-color: white;
 }
 ::-webkit-scrollbar-button:horizontal:increment {
-    background-image: url(../icons/arrow-right.png);
+    background-image: url(../../../icons/arrow-right.png);
 }
 ::-webkit-scrollbar-button:horizontal:decrement {
-    background-image: url(../icons/arrow-left.png);
+    background-image: url(../../../icons/arrow-left.png);
 }
 ::-webkit-scrollbar-button:vertical:increment {
-    background-image: url(../icons/arrow-down.png);
+    background-image: url(../../../icons/arrow-down.png);
 }
 ::-webkit-scrollbar-button:vertical:decrement {
-    background-image: url(../icons/arrow-up.png);
+    background-image: url(../../../icons/arrow-up.png);
 }
 
 

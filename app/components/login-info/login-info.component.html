@@ -3,30 +3,30 @@
             -webkit-align-items: center;
             background-color: gold;
             height: 30px">
-    <div [textContent]="'Username: ' + credentialsService.username"></div>
+    <div class="small"
+         style="text-overflow: ellipsis; min-width: 0; overflow: hidden; white-space: nowrap;color: black;"
+         [textContent]="'un: ' + credentialsService.username"></div>
     &nbsp;
-    &nbsp;
-    <div [textContent]="'Password: ' + credentialsService.password"></div>
-    &nbsp;
+    <div class="small"
+         style="text-overflow: ellipsis; min-width: 0; overflow: hidden; white-space: nowrap;color: black;"
+         [textContent]="'pw: ' + credentialsService.password"></div>
     &nbsp;
     <div class="label"
+         style="text-overflow: ellipsis; min-width: 0; overflow: hidden; white-space: nowrap;"
          [ngClass]="{'label-success': wsService.socket.connected, 'label-danger': !wsService.socket.connected}"
          [textContent]="wsService.socket.connected ? 'WS-Connected' : 'WS-Disconnected'">
     </div>
     &nbsp;
-    &nbsp;
     <div class="label"
+         style="text-overflow: ellipsis; min-width: 0; overflow: hidden; white-space: nowrap;"
          [ngClass]="{'label-success': wsService.socket.authenticated, 'label-danger': !wsService.socket.authenticated}">
         WS-Authentication
     </div>
     &nbsp;
+    <button class="btn btn-xs btn-info" (click)="switchTheme()">Switch Theme</button>
     &nbsp;
     <div [hidden]="!loginService.isLoggedIn">
-        <button class="btn btn-xs btn-info" (click)="logout($event)">Logout</button>
+        <button class="btn btn-xs btn-danger" (click)="logout($event)">Logout</button>
     </div>
-    &nbsp;
-    &nbsp;
-    <button class="btn btn-xs btn-default" (click)="switchTheme()">Switch Theme</button>
-    &nbsp;
     &nbsp;
 </div>

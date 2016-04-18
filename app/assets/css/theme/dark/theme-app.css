@@ -1,0 +1,72 @@
+app {
+    background-color: black;
+    color: white;
+}
+
+.toolbar {
+    padding: 4px;
+    border: 1px solid dimgrey;
+    border-bottom: none;
+    background: linear-gradient(to bottom, #545456, #211f22)
+}
+
+.title {
+    font: 20px bebas;
+    background-color: #393939;
+    color: orange;
+    padding: 2px 6px 0 6px;
+}
+
+.page-header-title {
+    color: orange;
+}
+
+.page-header-subtitle {
+    color: lightgrey;
+}
+
+/*bootstrap override*/
+.btn {
+    border-radius: 0;
+    padding: 2px 4px;
+}
+
+.panel {
+    border-radius: 0;
+    border-color: lightgrey;
+    color: black;
+}
+
+.panel-body {
+    padding: 15px;
+}
+
+.panel-heading {
+    padding: 4px 5px;
+    border-bottom: 1px solid transparent;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+.panel-heading > .dropdown .dropdown-toggle {
+    color: inherit;
+}
+
+.panel-info {
+    border-color: lightgrey;
+}
+
+.panel-info > .panel-heading {
+    color: white;
+    background-color: cornflowerblue;
+    border-color: black;
+}
+
+.panel-title {
+    margin-top: 0;
+    margin-bottom: 0;
+    text-align: center;
+    font-size: 12px;
+    color: inherit;
+}
+
