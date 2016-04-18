@@ -1,46 +1,42 @@
 import {Component, AfterViewInit, OnInit, OnDestroy, ViewChild} from "angular2/core";
 import {AgGridNg2} from 'ag-grid-ng2/main';
-import {GridOptions, GridCell, Utils, SvgFactory, IRowModel, RowNode, MouseEventService, GridPanel} from 'ag-grid/main';
+import {GridOptions, Utils, SvgFactory, IRowModel, RowNode, MouseEventService, GridCell, GridPanel} from 'ag-grid/main';
 import {ComponentInstruction, CanActivate} from "angular2/router";
+
+import {PageHeader} from "../../page-header/page-header.component";
+import {UserService} from "../../../core/services/data/user.service";
+import {Subscription} from "rxjs/Rx";
 
 // only import this if you are using the ag-Grid-Enterprise
 import 'ag-grid-enterprise/main';
-import {PageHeader} from "../../page-header/page-header.component";
-import {IUser, User} from "../../../core/dto";
-import * as _ from 'lodash';
-import {Subscription, Observable, Subject} from "rxjs/Rx";
-import {UserService_Big} from "../../../core/services/data/user-big.service";
 import {checkLoggedIn} from "../../../core/services/login/check-logged-in";
-import {ContextMenuDirective} from "../../../directives/context-menu.directive";
 import {ContextMenuComponent} from "../../cm/cm.component";
-import {TieredMenu} from 'primeng/primeng';
+import {ContextMenuDirective} from "../../../directives/context-menu.directive";
+import {JSEventHandlerService} from "../../../core/services/events/js-event-handler.service";
+import {WebsocketEventHandlerService} from "../../../core/services/websockets/websocket-event-handler.service";
 
 @Component({
-    selector: 'ftpa-ag-grid-page',
+    selector: 'ftpa-popups-page',
     moduleId: __moduleName,
-    templateUrl: 'ag-grid-page.component.html',
-    styleUrls: ['ag-grid-page.component.css'],
-    directives: [PageHeader, AgGridNg2, ContextMenuDirective, ContextMenuComponent],
+    templateUrl: 'popups.component.html',
+    styleUrls: ['popups.component.css'],
+    directives: [PageHeader, AgGridNg2, ContextMenuDirective, ContextMenuComponent]
 })
 @CanActivate((next:ComponentInstruction, previous:ComponentInstruction) => checkLoggedIn(next, previous))
-export class AgGridPageComponent implements AfterViewInit, OnInit, OnDestroy {
+export class PopupsPageComponent implements OnInit, OnDestroy {
     private gridOptions:GridOptions;
-    private rowData:any[] = [];
-    private rawData:any[] = [];
+    private rows:any[] = [];
     private columnDefs:any[];
-    private rowCount:string;
-    private dataSource:any;
     private subscription:Subscription;
-    private firstRightClick;
+    private cssClass:string = "ag-nesi-dark";
+    private webSocketJSSubscription:Subscription;
+    private webSocketJavaSubscription:Subscription;
 
-    @ViewChild("headercm")
-    private headerCm:ContextMenuComponent;
     @ViewChild("bodycm")
     private bodyCm:ContextMenuComponent;
 
-    constructor(private userService:UserService_Big) {
-        console.log(__moduleName + " constructor()");
-
+    constructor(private userService:UserService,
+                private webSocketEventHandlerService:WebsocketEventHandlerService) {
         this.gridOptions = <GridOptions>{
             enableSorting: true,
             enableFilter: true,
@@ -64,39 +60,16 @@ export class AgGridPageComponent implements AfterViewInit, OnInit, OnDestroy {
         this.createColumnDefs();
     }
 
-    getRows(params) {
-        console.log('asking for ' + params.startRow + ' to ' + params.endRow);
-        var rowsThisPage = this.rawData.slice(params.startRow, params.endRow);
-
-        // if on or after the last page, work out the last row.
-        var lastRow = -1;
-        if (this.rawData.length <= params.endRow) {
-            lastRow = this.rawData.length;
-        }
-
-        // call the success callback
-        params.successCallback(rowsThisPage, lastRow);
-    }
-
     ngOnInit() {
-    }
-
-    firstCallback(val) {
-        this.firstRightClick = val;
-    }
-
-    ngAfterViewInit() {
-        console.log("after-view-init");
-
-        this.dataSource = {
-            pageSize: 10000,
-            getRows: (params) => this.getRows(params)
-        };
-        this.gridOptions.api.setDatasource(this.dataSource);
-
-        this.subscription = this.userService.getData().subscribe(data => {
-            this.rawData = data;
-            this.gridOptions.api.setDatasource(this.dataSource);
+        this.webSocketJSSubscription = this.webSocketEventHandlerService.getJSEvents().subscribe(event => {
+            if (event.type === "ftpa-theme-event") {
+                this.cssClass = this.cssClass === "ag-blue" ? "ag-nesi-dark" : "ag-blue";
+            }
+        });
+        this.webSocketJavaSubscription = this.webSocketEventHandlerService.getJavaEvents().subscribe(event => {
+            if (event.type === "ftpa-theme-event") {
+                this.cssClass = this.cssClass === "ag-blue" ? "ag-nesi-dark" : "ag-blue";
+            }
         });
     }
 
@@ -104,6 +77,16 @@ export class AgGridPageComponent implements AfterViewInit, OnInit, OnDestroy {
         if (this.subscription) {
             this.subscription.unsubscribe();
         }
+        this.webSocketJSSubscription.unsubscribe();
+        this.webSocketJavaSubscription.unsubscribe();
+    }
+
+    ngAfterViewInit() {
+        this.subscription = this.userService.getData().subscribe(data => {
+            this.rows.splice(0, this.rows.length);
+            this.rows.push.apply(this.rows, data);
+            this.gridOptions.api.setRowData(this.rows);
+        });
     }
 
     private createColumnDefs() {
@@ -132,18 +115,13 @@ export class AgGridPageComponent implements AfterViewInit, OnInit, OnDestroy {
 
         let elementMouseIsOver:Element = document.elementFromPoint(event.clientX, event.clientY);
 
-        let isContextMenu:boolean = event.button === 2;
         let isHeaderArea:boolean = elementMouseIsOver.className.indexOf("header-cell") >= 0;
         let isBodyArea:boolean = !(bodyY < 0 || bodyY - clientHeight > 0 || bodyX < 0 || bodyX - clientWidth > 0);
 
-        this.bodyCm.closeMenu();
-        this.headerCm.closeMenu();
-        
+        this.bodyCm.closeMenu(null);
+
         if (isBodyArea) {
             this.bodyCm.showMenu(event);
-        }
-        else if (isHeaderArea) {
-            this.headerCm.showMenu(event);
         }
     }
 
@@ -160,10 +138,6 @@ export class AgGridPageComponent implements AfterViewInit, OnInit, OnDestroy {
         let clientWidth = gridPanel.getBodyViewport().clientWidth;
         let clientHeight = gridPanel.getBodyViewport().clientHeight;
 
-        let elementMouseIsOver:Element = document.elementFromPoint(event.clientX, event.clientY);
-
-        let isContextMenu:boolean = event.button === 2;
-        let isHeaderArea:boolean = elementMouseIsOver.className.indexOf("header-cell") >= 0;
         let isBodyArea:boolean = !(bodyY < 0 || bodyY - clientHeight > 0 || bodyX < 0 || bodyX - clientWidth > 0);
 
         if (isBodyArea) {
@@ -183,116 +157,6 @@ export class AgGridPageComponent implements AfterViewInit, OnInit, OnDestroy {
             }
         }
     }
-
-    private calculateRowCount() {
-        if (this.gridOptions.api && this.rowData) {
-            var model = this.gridOptions.api.getModel();
-            var totalRows = this.rowData.length;
-            var processedRows = model.getRowCount();
-            this.rowCount = processedRows.toLocaleString() + ' / ' + totalRows.toLocaleString();
-        }
-    }
-
-    changeRow(ev:Event) {
-        console.log("changeRow()");
-        var selectedNodes:any[] = this.gridOptions.api.getSelectedNodes();
-        if (selectedNodes && selectedNodes.length > 0) {
-            var users:IUser[] = _.map(selectedNodes, "data");
-            var clone:IUser = Object.assign(new User(), users[0]);
-            clone.firstname = "derFisch";
-            this.userService.updateData(clone);
-        }
-    }
-
-    addRow(ev:Event) {
-        console.log("addRow()");
-    }
-
-    deleteRow(ev:Event) {
-        console.log("deleteRow()");
-        var selectedNodes:any[] = this.gridOptions.api.getSelectedNodes();
-        var ids:any[] = _.map(selectedNodes, "data.id");
-        this.userService.deleteData(ids);
-    }
-
-    private onModelUpdated() {
-        console.log('onModelUpdated');
-        this.calculateRowCount();
-    }
-
-    private onReady() {
-        console.log('onReady');
-        this.calculateRowCount();
-    }
-
-    private onCellClicked($event) {
-        console.log('onCellClicked: ' + $event.rowIndex + ' ' + $event.colDef.field);
-    }
-
-    private onCellValueChanged($event) {
-        console.log('onCellValueChanged: ' + $event.oldValue + ' to ' + $event.newValue);
-    }
-
-    private onCellDoubleClicked($event) {
-        console.log('onCellDoubleClicked: ' + $event.rowIndex + ' ' + $event.colDef.field);
-    }
-
-    private onCellContextMenu($event) {
-        console.log('onCellContextMenu: ' + $event.rowIndex + ' ' + $event.colDef.field);
-    }
-
-    private onCellFocused($event) {
-        console.log('onCellFocused: (' + $event.rowIndex + ',' + $event.colIndex + ')');
-    }
-
-    private onRowSelected($event) {
-        console.log('onRowSelected: ' + $event.node.data.id);
-    }
-
-    private onSelectionChanged() {
-        console.log('selectionChanged');
-    }
-
-    private onBeforeFilterChanged() {
-        console.log('beforeFilterChanged');
-    }
-
-    private onAfterFilterChanged() {
-        console.log('afterFilterChanged');
-    }
-
-    private onFilterModified() {
-        console.log('onFilterModified');
-    }
-
-    private onBeforeSortChanged() {
-        console.log('onBeforeSortChanged');
-    }
-
-    private onAfterSortChanged() {
-        console.log('onAfterSortChanged');
-    }
-
-    private onVirtualRowRemoved($event) {
-        // because this event gets fired LOTS of times, we don't print it to the
-        // console. if you want to see it, just uncomment out this line
-        // console.log('onVirtualRowRemoved: ' + $event.rowIndex);
-    }
-
-    private onRowClicked($event) {
-        console.log('onRowClicked: ' + $event.node);
-    }
-
-    private onQuickFilterChanged($event) {
-        this.gridOptions.api.setQuickFilter($event.target.value);
-    }
-
-    // here we use one generic event to handle all the column type events.
-    // the method just prints the event name
-    private onColumnEvent($event) {
-        console.log('onColumnEvent: ' + $event);
-    }
-
 
     // custom handling for the header stuff...
     private addInIcon(eTemplate, gridOptionsWrapper, iconName, cssSelector, column, defaultIconFactory) {

@@ -1,4 +1,8 @@
-<div style="display: -webkit-flex; -webkit-justify-content: flex-end; -webkit-align-items: center;background-color: gold; height: 30px">
+<div style="display: -webkit-flex;
+            -webkit-justify-content: flex-end;
+            -webkit-align-items: center;
+            background-color: gold;
+            height: 30px">
     <div [textContent]="'Username: ' + credentialsService.username"></div>
     &nbsp;
     &nbsp;
@@ -19,7 +23,10 @@
     &nbsp;
     <div [hidden]="!loginService.isLoggedIn">
         <button class="btn btn-xs btn-info" (click)="logout($event)">Logout</button>
-        &nbsp;
-        &nbsp;
     </div>
+    &nbsp;
+    &nbsp;
+    <button class="btn btn-xs btn-default" (click)="switchTheme()">Switch Theme</button>
+    &nbsp;
+    &nbsp;
 </div>

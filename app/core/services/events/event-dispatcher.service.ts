@@ -1,12 +1,14 @@
-import {Injectable, NgZone} from "angular2/core";
+import {Injectable} from "angular2/core";
 import {EventHandlerService} from "../../java.services";
 import {WebsocketEventHandlerService} from "../websockets/websocket-event-handler.service";
 import {IEventDto} from "../../dto";
+import {JSEventHandlerService} from "./js-event-handler.service";
 
 @Injectable()
 export class EventDispatcherService{
     constructor(private webSocketService:WebsocketEventHandlerService,
-                private eventHandlerService:EventHandlerService) {
+                private eventHandlerService:EventHandlerService,
+                private jsEventHandlerService:JSEventHandlerService) {
     }
 
     dispatch(dto:IEventDto) {
@@ -17,5 +19,8 @@ export class EventDispatcherService{
         
         console.log("EventDispatcherService: dispatching on web-socket");
         this.webSocketService.dispatch(json);
+
+        console.log("EventDispatcherService: dispatching on web-socket");
+        this.jsEventHandlerService.handle(json);
     }
 }

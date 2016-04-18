@@ -29,15 +29,15 @@ export class ContextMenuComponent implements OnInit,OnDestroy {
     }
 
     ngOnInit() {
-        this.listener = () => this.closeMenu();
-        
+        this.listener = () => this.closeMenu(null);
+
         window.addEventListener("blur", this.listener);
-        window.addEventListener("focus", this.listener);
+        // window.addEventListener("focus", this.listener);
     }
 
     ngOnDestroy() {
         window.removeEventListener("blur", this.listener)
-        window.removeEventListener("focus", this.listener);
+        // window.removeEventListener("focus", this.listener);
     }
 
     get locationCss() {
@@ -49,9 +49,9 @@ export class ContextMenuComponent implements OnInit,OnDestroy {
         };
     }
 
-    @HostListener('document:click')
-    closeMenu() {
-        console.log("closeMenu");
+    @HostListener('document:mouseup', ['$event'])
+    closeMenu(event:MouseEvent) {
+        console.log("closeMenu()");
         this.isShown = false;
     }
 

@@ -438,11 +438,11 @@
 /*//*/
 /*//*/
 /*//*/
-.ag-header-cell-resize {
+.ag-nesi-dark .ag-header-cell-resize {
     border-right: 1px solid black;
 }
 
-#agSortAsc, #agSortDesc {
+.ag-nesi-dark #agSortAsc, .ag-nesi-dark #agSortDesc {
     font-size: 16px;
     color: whitesmoke;
 }

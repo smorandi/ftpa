@@ -13,6 +13,7 @@ import {LoginInfoComponent} from "../login-info/login-info.component";
 import {ErrorInfoComponent} from "../error-info/error-info.component";
 import {CredentialsService} from "../../core/java.services";
 import {LoginService} from "../../core/services/login/login.service";
+import {PopupsPageComponent} from "../pages/popups/popups.component";
 
 @Component({
     selector: 'app',
@@ -30,6 +31,7 @@ import {LoginService} from "../../core/services/login/login.service";
     {path: '/agGrid', component: AgGridPageComponent, as: 'AgGridPage'},
     {path: '/javabridgeGrid', component: JavabridgeGridPageComponent, as: 'JavabridgeGridPage'},
     {path: '/hobbyGrid', component: HobbyGridPageComponent, as: 'HobbyGridPage'},
+    {path: '/popupsGrid', component: PopupsPageComponent, as: 'PopupsPage'},
 ])
 
 export class AppComponent implements OnInit {
