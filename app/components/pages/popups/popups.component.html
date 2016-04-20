@@ -45,6 +45,20 @@
     </ftpa-contextMenu>
 
 
+    <div class="btn-group toolbar" role="group">
+        <button type="button" class="btn btn-default" (click)="addRow($event)">
+            <span class="glyphicon glyphicon-plus" style="color: green;"></span>
+            Add
+        </button>
+        <button type="button" class="btn btn-default" (click)="changeRow($event)">
+            <span class="glyphicon glyphicon-edit"></span>
+            Update
+        </button>
+        <button type="button" class="btn btn-default" (click)="deleteRow($event)">
+            <span class="glyphicon glyphicon-remove" style="color: red;"></span>
+            Delete
+        </button>
+    </div>
     <div style="-webkit-flex: 1 0 0; position: relative;">
         <ag-grid-ng2 class="ag-ftpa"
                      style="position: absolute; top: 0; bottom: 0; left: 0; right: 0;"

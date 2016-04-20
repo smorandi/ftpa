@@ -10,6 +10,16 @@ app {
     background: linear-gradient(to bottom, #545456, #211f22)
 }
 
+.toolbar .btn {
+    background-color: transparent;
+    border:none;
+    color: white;
+}
+
+.toolbar .btn:hover {
+    background-color: orange;
+}
+
 .title {
     font: 20px bebas;
     background-color: #393939;
@@ -71,3 +81,12 @@ app {
     color: inherit;
 }
 
+.toolbar .btn:focus,
+.toolbar .btn:active:focus,
+.toolbar .btn.active:focus,
+.toolbar .btn.focus,
+.toolbar .btn:active.focus,
+.toolbar .btn.active.focus {
+    outline: thin solid orange;
+    outline-offset: -2px;
+}
