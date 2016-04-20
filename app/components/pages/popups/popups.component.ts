@@ -14,6 +14,7 @@ import {ContextMenuComponent} from "../../cm/cm.component";
 import {ContextMenuDirective} from "../../../directives/context-menu.directive";
 import {WebsocketEventHandlerService} from "../../../core/services/websockets/websocket-event-handler.service";
 import {IEventDto} from "../../../core/dto";
+import {ContextMenuService} from "../../../core/java.services";
 
 @Component({
     selector: 'ftpa-popups-page',
@@ -29,10 +30,13 @@ export class PopupsPageComponent implements OnInit, OnDestroy {
     private columnDefs:any[];
     private dataSubscription:Subscription;
 
+    private isFxContextMenu:boolean;
+
     @ViewChild("bodycm")
     private bodyCm:ContextMenuComponent;
 
-    constructor(private userService:UserService) {
+    constructor(private userService:UserService,
+                private contextMenuService:ContextMenuService) {
         this.gridOptions = <GridOptions>{
             enableSorting: true,
             enableFilter: true,
@@ -105,7 +109,16 @@ export class PopupsPageComponent implements OnInit, OnDestroy {
         this.bodyCm.closeMenu(null);
 
         if (isBodyArea) {
-            this.bodyCm.showMenu(event);
+            if (this.isFxContextMenu) {
+                this.contextMenuService.showContextMenu({
+                    screenX: event.screenX,
+                    screenY: event.screenY,
+                    items: [{data: "der"}, {data: "fisch"}]
+                });
+            }
+            else {
+                this.bodyCm.showMenu(event);
+            }
         }
     }
 

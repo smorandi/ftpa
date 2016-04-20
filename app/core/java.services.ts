@@ -1,4 +1,4 @@
-import {Injectable, NgZone} from 'angular2/core';
+import {Injectable, NgZone} from "angular2/core";
 
 interface IJavaService {
     serviceName:string;
@@ -129,9 +129,31 @@ export class CredentialsService extends ServiceBase<ICredentialsService> impleme
     public getPassword():string {
         return this.password;
     }
-    
+
     public clear():void {
         this.username = null;
         this.password = null;
+    }
+}
+
+
+// context-menu services...
+interface IContextMenuService extends IJavaService {
+    showContextMenu(params:any):void;
+}
+
+@Injectable()
+export class ContextMenuService extends ServiceBase<IContextMenuService> implements IContextMenuService {
+    static SERVICE_NAME = "ftpa-contextmenu-service";
+
+    constructor() {
+        super(ContextMenuService.SERVICE_NAME);
+    }
+
+    showContextMenu(ctx:any):void {
+        console.log("showContextMenu() - called");
+        if (this.hasWindowService) {
+            this.windowService.showContextMenu(ctx);
+        }
     }
 }

@@ -29,6 +29,7 @@ app {
 .btn {
     border-radius: 0;
     padding: 2px 4px;
+    color: black;
 }
 
 .panel {

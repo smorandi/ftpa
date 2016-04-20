@@ -32,12 +32,10 @@ export class ContextMenuComponent implements OnInit,OnDestroy {
         this.listener = () => this.closeMenu(null);
 
         window.addEventListener("blur", this.listener);
-        // window.addEventListener("focus", this.listener);
     }
 
     ngOnDestroy() {
         window.removeEventListener("blur", this.listener)
-        // window.removeEventListener("focus", this.listener);
     }
 
     get locationCss() {
@@ -49,7 +47,7 @@ export class ContextMenuComponent implements OnInit,OnDestroy {
         };
     }
 
-    @HostListener('document:mouseup', ['$event'])
+    @HostListener('document:mousedown', ['$event'])
     closeMenu(event:MouseEvent) {
         console.log("closeMenu()");
         this.isShown = false;

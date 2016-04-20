@@ -49,7 +49,7 @@ export class AppComponent implements OnInit, OnDestroy {
         scrollbar: "app/assets/css/theme/default/theme-scrollbar.css",
         grid: "app/assets/css/theme/default/theme-ag-ftpa.css"
     };
-    private currentTheme = this.theme_dark;
+    private currentTheme = this.theme_default;
 
     constructor(private jsEventHandlerService:JSEventHandlerService,
                 private webSocketEventHandlerService:WebsocketEventHandlerService,
