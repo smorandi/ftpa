@@ -14,14 +14,15 @@ import {ContextMenuComponent} from "../../cm/cm.component";
 import {ContextMenuDirective} from "../../../directives/context-menu.directive";
 import {WebsocketEventHandlerService} from "../../../core/services/websockets/websocket-event-handler.service";
 import {IEventDto} from "../../../core/dto";
-import {ContextMenuService} from "../../../core/java.services";
+import {ContextMenuService, DialogService} from "../../../core/java.services";
+import {Dialog, Button} from 'primeng/primeng';
 
 @Component({
     selector: 'ftpa-popups-page',
     moduleId: __moduleName,
     templateUrl: 'popups.component.html',
     styleUrls: ['popups.component.css'],
-    directives: [PageHeader, AgGridNg2, ContextMenuDirective, ContextMenuComponent]
+    directives: [PageHeader, AgGridNg2, ContextMenuDirective, ContextMenuComponent, Dialog, Button]
 })
 @CanActivate((next:ComponentInstruction, previous:ComponentInstruction) => checkLoggedIn(next, previous))
 export class PopupsPageComponent implements OnInit, OnDestroy {
@@ -30,13 +31,17 @@ export class PopupsPageComponent implements OnInit, OnDestroy {
     private columnDefs:any[];
     private dataSubscription:Subscription;
 
-    private isFxContextMenu:boolean;
+    private isFxContextMenu:boolean = false;
+    private isFxDialog:boolean = false;
+
+    private displayDialog:boolean = false;
 
     @ViewChild("bodycm")
     private bodyCm:ContextMenuComponent;
 
     constructor(private userService:UserService,
-                private contextMenuService:ContextMenuService) {
+                private contextMenuService:ContextMenuService,
+                private dialogService:DialogService) {
         this.gridOptions = <GridOptions>{
             enableSorting: true,
             enableFilter: true,
@@ -191,5 +196,19 @@ export class PopupsPageComponent implements OnInit, OnDestroy {
         });
 
         return eTemplate;
+    }
+
+    showDialog() {
+        if (this.isFxDialog) {
+            this.dialogService.showDialog({
+                title: "Ftpa Dialog",
+                message: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor\n " +
+                "invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et\n " +
+                "justo duo dolores et ea rebum."
+            });
+        }
+        else {
+            this.displayDialog = true;
+        }
     }
 }

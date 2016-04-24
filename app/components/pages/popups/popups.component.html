@@ -3,20 +3,47 @@
         [subtitle]="''">
 </page-header>
 
+
+<p-dialog id="dlgelement" header="FTPA Dialog" [(visible)]="displayDialog" modal="true">
+    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
+        dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>
+    <footer>
+        <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+            <button type="button" pButton (click)="displayDialog=false" label="OK"></button>
+        </div>
+    </footer>
+</p-dialog>
+
 <div>
-    Context Menu Style:
+    Context-Menu Strategy:
     <div class="btn-group btn-group-xs" role="group">
         <button type="button" class="btn"
                 [class.btn-info]="!isFxContextMenu"
-                (click)="isFxContextMenu = false">Web-App Context Menues
+                (click)="isFxContextMenu = false">Web-App
         </button>
         <button type="button" class="btn"
                 [class.btn-info]="isFxContextMenu"
-                (click)="isFxContextMenu = true">FX Context Menues
+                (click)="isFxContextMenu = true">FX
         </button>
     </div>
 </div>
 
+<br>
+<div>
+    Dialog Strategy:
+    <div class="btn-group btn-group-xs" role="group">
+        <button type="button" class="btn"
+                [class.btn-info]="!isFxDialog"
+                (click)="isFxDialog = false">Web-App
+        </button>
+        <button type="button" class="btn"
+                [class.btn-info]="isFxDialog"
+                (click)="isFxDialog = true">FX
+        </button>
+    </div>
+
+    <button type="text" (click)="showDialog()" pButton icon="fa-external-link-square" label="Show"></button>
+</div>
 <br>
 
 <div style="display: -webkit-flex; -webkit-flex-direction:column; -webkit-flex: 1;">

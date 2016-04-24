@@ -139,7 +139,7 @@ export class CredentialsService extends ServiceBase<ICredentialsService> impleme
 
 // context-menu services...
 interface IContextMenuService extends IJavaService {
-    showContextMenu(params:any):void;
+    showContextMenu(ctx:any):void;
 }
 
 @Injectable()
@@ -154,6 +154,27 @@ export class ContextMenuService extends ServiceBase<IContextMenuService> impleme
         console.log("showContextMenu() - called");
         if (this.hasWindowService) {
             this.windowService.showContextMenu(ctx);
+        }
+    }
+}
+
+// context-menu services...
+interface IDialogService extends IJavaService {
+    showDialog(ctx:any):void;
+}
+
+@Injectable()
+export class DialogService extends ServiceBase<IDialogService> implements IDialogService {
+    static SERVICE_NAME = "ftpa-dialog-service";
+
+    constructor() {
+        super(DialogService.SERVICE_NAME);
+    }
+
+    showDialog(ctx:any):void {
+        console.log("showDialog() - called");
+        if (this.hasWindowService) {
+            this.windowService.showDialog(ctx);
         }
     }
 }
