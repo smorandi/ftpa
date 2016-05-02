@@ -1,0 +1,16 @@
+<page-header
+        [title]="'Logging'"
+        [subtitle]="'in Java'">
+</page-header>
+
+<p>
+    Click on any button to trigger a logging message sent to Java which actually does the logging into a file (or
+    whatever is set up there).
+</p>
+<br>
+<div>
+    <button type="button" class="btn btn-default" (click)="doDebugLog($event)">Debug</button>
+    <button type="button" class="btn btn-info" (click)="doInfoLog($event)">Info</button>
+    <button type="button" class="btn btn-warning" (click)="doWarnLog($event)">Warning</button>
+    <button type="button" class="btn btn-danger" (click)="doErrorLog($event)">Error</button>
+</div>

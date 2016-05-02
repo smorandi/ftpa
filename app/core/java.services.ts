@@ -178,3 +178,51 @@ export class DialogService extends ServiceBase<IDialogService> implements IDialo
         }
     }
 }
+
+// logging-service as provided by java...
+interface ILoggingService extends IJavaService {
+    trace(message:string):void;
+    debug(message:string):void;
+    info(message:string):void;
+    warn(message:string):void;
+    error(message:string):void;
+}
+
+@Injectable()
+export class LoggingService extends ServiceBase<ILoggingService> implements ILoggingService {
+    static SERVICE_NAME = "ftpa-logging-service";
+
+    constructor() {
+        super(LoggingService.SERVICE_NAME);
+    }
+
+    trace(message:string):void {
+        if (this.hasWindowService) {
+            this.windowService.trace(message);
+        }
+    }
+
+    debug(message:string):void {
+        if (this.hasWindowService) {
+            this.windowService.debug(message);
+        }
+    }
+
+    info(message:string):void {
+        if (this.hasWindowService) {
+            this.windowService.info(message);
+        }
+    }
+
+    warn(message:string):void {
+        if (this.hasWindowService) {
+            this.windowService.warn(message);
+        }
+    }
+
+    error(message:string):void {
+        if (this.hasWindowService) {
+            this.windowService.error(message);
+        }
+    }
+}

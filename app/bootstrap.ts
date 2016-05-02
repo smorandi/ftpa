@@ -36,6 +36,7 @@ bootstrap(AppComponent, [
     provide(Java.EventHandlerService, {useClass: Java.EventHandlerService}),
     provide(Java.ContextMenuService, {useClass: Java.ContextMenuService}),
     provide(Java.DialogService, {useClass: Java.DialogService}),
+    provide(Java.LoggingService, {useClass: Java.LoggingService}),
 ])
     .then((appRef:ComponentRef) => {
         // store a reference to the application injector

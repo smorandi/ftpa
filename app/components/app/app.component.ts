@@ -16,6 +16,7 @@ import {LoginService} from "../../core/services/login/login.service";
 import {PopupsPageComponent} from "../pages/popups/popups.component";
 import {Subscription, Observable} from "rxjs/Rx";
 import {IEventDto} from "../../core/dto";
+import {LoggingPageComponent} from "../pages/logging/logging.component";
 
 @Component({
     selector: 'app',
@@ -34,6 +35,7 @@ import {IEventDto} from "../../core/dto";
     {path: '/javabridgeGrid', component: JavabridgeGridPageComponent, as: 'JavabridgeGridPage'},
     {path: '/hobbyGrid', component: HobbyGridPageComponent, as: 'HobbyGridPage'},
     {path: '/popupsGrid', component: PopupsPageComponent, as: 'PopupsPage'},
+    {path: '/logging', component: LoggingPageComponent, as: 'LoggingPage'},
 ])
 
 export class AppComponent implements OnInit, OnDestroy {

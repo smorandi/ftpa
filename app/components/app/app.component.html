@@ -29,6 +29,9 @@
         <li [hidden]="!loginService.isLoggedIn">
             <a [routerLink]="['/PopupsPage']"><i class="fa fa-th"></i><span>Popups & Styling</span></a>
         </li>
+        <li [hidden]="!loginService.isLoggedIn">
+            <a [routerLink]="['/LoggingPage']"><i class="fa fa-th"></i><span>Logging</span></a>
+        </li>
     </ul>
 </div>
 
